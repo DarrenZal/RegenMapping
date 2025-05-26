@@ -1,0 +1,507 @@
+{
+  "@context": {
+    "schema":  "http://schema.org/",
+    "rdf":     "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs":    "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd":     "http://www.w3.org/2001/XMLSchema#",
+    "ex":      "https://kg.example.org/ontology/",
+
+    "domainIncludes": {"@id":"schema:domainIncludes","@type":"@id"},
+    "rangeIncludes":  {"@id":"schema:rangeIncludes","@type":"@id"},
+    "cluster":        "ex:cluster",
+    "storageType":    "ex:storageType",
+    "uxValue":        "ex:uxValue",
+
+    /* ---------- Identity ---------- */
+    "orgName":         "schema:name",
+    "aka":            { "@id":"schema:alternateName", "@container":"@set" },
+    "legalType":       "ex:legalType",
+    "brandLogo":      { "@id":"schema:logo", "@type":"@id" },
+
+    /* ---------- Mission, Vision, Values ---------- */
+    "tagline":         "schema:slogan",
+    "missionStmt":     "ex:missionStatement",
+    "visionStmt":      "ex:visionStatement",
+    "coreValues":     { "@id":"ex:coreValues", "@container":"@set" },
+
+    /* ---------- Sector & Scope ---------- */
+    "industryCodes":  { "@id":"schema:naics", "@container":"@set" },
+    "regionScope":     "ex:regionScope",
+
+    /* ---------- Operational Scale ---------- */
+    "employeeRange":   "ex:employeeRange",
+    "revenueRangeUSD": "ex:revenueRangeUSD",
+    "assetsUSD":       "ex:assetsUSD",
+    "volunteerCount":  "ex:volunteerCount",
+
+    /* ---------- Financial Lineage ---------- */
+    "fundingRounds":  { "@id":"ex:fundingRounds", "@container":"@set" },
+    "grantsReceived": { "@id":"ex:grantsReceived", "@container":"@set" },
+    "grantsGiven":    { "@id":"ex:grantsGiven", "@container":"@set" },
+
+    /* ---------- Impact Metrics ---------- */
+    "impactKPIs":     { "@id":"ex:impactKPIs", "@container":"@set" },
+    "sdgContribution":{ "@id":"ex:sdgContribution", "@container":"@set" },
+
+    /* ---------- Certifications ---------- */
+    "bcorpScore":      "ex:bcorpScore",
+    "iso14k":          "ex:iso14k",
+    "fairTrade":       "ex:fairTrade",
+    "scienceBasedTargets":"ex:scienceBasedTargets",
+
+    /* ---------- Programs & Products ---------- */
+    "flagshipProjects":{ "@id":"ex:flagshipProjects", "@container":"@set" },
+
+    /* ---------- Org Structure ---------- */
+    "parentOrgId":    { "@id":"schema:parentOrganization", "@type":"@id" },
+    "subsidiaryIds":  { "@id":"schema:subOrganization", "@type":"@id", "@container":"@set" },
+    "daoTokenContract":"ex:daoTokenContract",
+    "boardMembers":   { "@id":"schema:member", "@type":"@id", "@container":"@set" },
+    "execTeam":       { "@id":"ex:execTeam", "@type":"@id", "@container":"@set" },
+
+    /* ---------- Community Presence ---------- */
+    "followersX":      "ex:followersX",
+    "followersLinkedIn":"ex:followersLinkedIn",
+    "newsletterSubs":  "ex:newsletterSubs",
+    "eventSeries":    { "@id":"ex:eventSeries", "@container":"@set" },
+
+    /* ---------- Repositories & IP ---------- */
+    "openSourceRepos":{ "@id":"ex:openSourceRepos", "@container":"@set" },
+    "patentIds":      { "@id":"ex:patentIds", "@container":"@set" },
+    "datasets":       { "@id":"ex:datasets", "@container":"@set" },
+
+    /* ---------- Contact & Channels ---------- */
+    "hqLat":          { "@id":"schema:latitude",  "@type":"xsd:decimal" },
+    "hqLon":          { "@id":"schema:longitude", "@type":"xsd:decimal" },
+    "locality":        "schema:addressLocality",
+    "urls":           { "@id":"schema:url", "@type":"@id", "@container":"@set" },
+
+    /* ---------- Meta ---------- */
+    "dataSources":    { "@id":"ex:dataSources", "@container":"@set" },
+    "lastScraped":    { "@id":"ex:lastScraped", "@type":"xsd:dateTime" },
+    "confidenceScore":"ex:confidenceScore"
+  },
+
+  "@graph": [
+    /* ========== CLASS DEFINITION ========== */
+    {
+      "@id": "schema:Organization",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Organization Node",
+      "rdfs:comment": "Extended organization schema covering identity, scale, finance, impact, certifications and more."
+    },
+
+    /* ================== Identity ================== */
+    {
+      "@id": "schema:name",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "Identity",
+      "storageType":    "xsd:string",
+      "uxValue":        "Primary label"
+    },
+    {
+      "@id": "schema:alternateName",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "Identity",
+      "storageType":    "array",
+      "uxValue":        "Search / dedup"
+    },
+    {
+      "@id": "ex:legalType",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "Identity",
+      "storageType":    "enum",
+      "uxValue":        "Governance analysis"
+    },
+    {
+      "@id": "schema:logo",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "Identity",
+      "storageType":    "xsd:anyURI",
+      "uxValue":        "Pin icon"
+    },
+
+    /* ========== Mission, Vision, Values ========== */
+    {
+      "@id": "schema:slogan",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "xsd:string",
+      "uxValue":        "Tooltip blurb"
+    },
+    {
+      "@id": "ex:missionStatement",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "xsd:string",
+      "uxValue":        "Tooltip blurb"
+    },
+    {
+      "@id": "ex:visionStatement",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "xsd:string",
+      "uxValue":        "Tooltip blurb"
+    },
+    {
+      "@id": "ex:coreValues",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "array",
+      "uxValue":        "Cultural compatibility edges"
+    },
+
+    /* ========== Sector & Scope ========== */
+    {
+      "@id": "schema:naics",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "SectorScope",
+      "storageType":    "array",
+      "uxValue":        "Sector filtering"
+    },
+    {
+      "@id": "ex:regionScope",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "SectorScope",
+      "storageType":    "enum",
+      "uxValue":        "Map zoom presets"
+    },
+
+    /* ========== Operational Scale ========== */
+    {
+      "@id": "ex:employeeRange",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "OperationalScale",
+      "storageType":    "xsd:string",
+      "uxValue":        "Node radius"
+    },
+    {
+      "@id": "ex:revenueRangeUSD",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:MonetaryAmount",
+      "cluster":        "OperationalScale",
+      "storageType":    "xsd:string",
+      "uxValue":        "Node radius"
+    },
+    {
+      "@id": "ex:assetsUSD",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:MonetaryAmount",
+      "cluster":        "OperationalScale",
+      "storageType":    "xsd:string",
+      "uxValue":        "Node radius"
+    },
+    {
+      "@id": "ex:volunteerCount",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "OperationalScale",
+      "storageType":    "xsd:integer",
+      "uxValue":        "Civil-society heft"
+    },
+
+    /* ========== Financial Lineage ========== */
+    {
+      "@id": "ex:fundingRounds",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:FundingRound",
+      "cluster":        "FinancialLineage",
+      "storageType":    "array",
+      "uxValue":        "Investor-startup graph"
+    },
+    {
+      "@id": "ex:grantsReceived",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:Grant",
+      "cluster":        "FinancialLineage",
+      "storageType":    "array",
+      "uxValue":        "Grant network"
+    },
+    {
+      "@id": "ex:grantsGiven",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:Grant",
+      "cluster":        "FinancialLineage",
+      "storageType":    "array",
+      "uxValue":        "Philanthropy map"
+    },
+
+    /* ========== Impact Metrics ========== */
+    {
+      "@id": "ex:impactKPIs",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:ImpactKPI",
+      "cluster":        "ImpactMetrics",
+      "storageType":    "array",
+      "uxValue":        "Scaled bubbles"
+    },
+    {
+      "@id": "ex:sdgContribution",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:SDGContribution",
+      "cluster":        "ImpactMetrics",
+      "storageType":    "array",
+      "uxValue":        "Global goal overlay"
+    },
+
+    /* ========== Certifications ========== */
+    {
+      "@id": "ex:bcorpScore",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "Certifications",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Trust filters"
+    },
+    {
+      "@id": "ex:iso14k",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Boolean",
+      "cluster":        "Certifications",
+      "storageType":    "xsd:boolean",
+      "uxValue":        "Trust filters"
+    },
+    {
+      "@id": "ex:fairTrade",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Boolean",
+      "cluster":        "Certifications",
+      "storageType":    "xsd:boolean",
+      "uxValue":        "Trust filters"
+    },
+    {
+      "@id": "ex:scienceBasedTargets",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Boolean",
+      "cluster":        "Certifications",
+      "storageType":    "xsd:boolean",
+      "uxValue":        "Trust filters"
+    },
+
+    /* ========== Programs & Products ========== */
+    {
+      "@id": "ex:flagshipProjects",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:FlagshipProject",
+      "cluster":        "ProgramsProducts",
+      "storageType":    "array",
+      "uxValue":        "Content drill-down"
+    },
+
+    /* ========== Org Structure ========== */
+    {
+      "@id": "schema:parentOrganization",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "OrgStructure",
+      "storageType":    "xsd:string",
+      "uxValue":        "Corporate tree"
+    },
+    {
+      "@id": "schema:subOrganization",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "OrgStructure",
+      "storageType":    "array",
+      "uxValue":        "Corporate tree"
+    },
+    {
+      "@id": "ex:daoTokenContract",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "OrgStructure",
+      "storageType":    "xsd:anyURI",
+      "uxValue":        "Corporate tree"
+    },
+    {
+      "@id": "schema:member",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Person",
+      "cluster":        "OrgStructure",
+      "storageType":    "array",
+      "uxValue":        "Force-graph bipartite"
+    },
+    {
+      "@id": "ex:execTeam",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Person",
+      "cluster":        "OrgStructure",
+      "storageType":    "array",
+      "uxValue":        "Force-graph bipartite"
+    },
+
+    /* ========== Community Presence ========== */
+    {
+      "@id": "ex:followersX",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "CommunityPresence",
+      "storageType":    "xsd:integer",
+      "uxValue":        "Influence sizing"
+    },
+    {
+      "@id": "ex:followersLinkedIn",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "CommunityPresence",
+      "storageType":    "xsd:integer",
+      "uxValue":        "Influence sizing"
+    },
+    {
+      "@id": "ex:newsletterSubs",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "CommunityPresence",
+      "storageType":    "xsd:integer",
+      "uxValue":        "Influence sizing"
+    },
+    {
+      "@id": "ex:eventSeries",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:EventSeries",
+      "cluster":        "CommunityPresence",
+      "storageType":    "array",
+      "uxValue":        "Temporal pulse"
+    },
+
+    /* ========== Repositories & IP ========== */
+    {
+      "@id": "ex:openSourceRepos",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "RepositoriesIP",
+      "storageType":    "array",
+      "uxValue":        "Innovation lens"
+    },
+    {
+      "@id": "ex:patentIds",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "ex:Patent",
+      "cluster":        "RepositoriesIP",
+      "storageType":    "array",
+      "uxValue":        "Innovation lens"
+    },
+    {
+      "@id": "ex:datasets",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "RepositoriesIP",
+      "storageType":    "array",
+      "uxValue":        "Innovation lens"
+    },
+
+    /* ========== Contact & Channels ========== */
+    {
+      "@id": "schema:latitude",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "ContactChannels",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Globe anchor"
+    },
+    {
+      "@id": "schema:longitude",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "ContactChannels",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Globe anchor"
+    },
+    {
+      "@id": "schema:addressLocality",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "ContactChannels",
+      "storageType":    "xsd:string",
+      "uxValue":        "Globe anchor"
+    },
+    {
+      "@id": "schema:url",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "ContactChannels",
+      "storageType":    "array",
+      "uxValue":        "Outreach"
+    },
+
+    /* ========== Meta ========== */
+    {
+      "@id": "ex:dataSources",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:URL",
+      "cluster":        "Meta",
+      "storageType":    "array",
+      "uxValue":        "Bookkeeping"
+    },
+    {
+      "@id": "ex:lastScraped",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:DateTime",
+      "cluster":        "Meta",
+      "storageType":    "xsd:dateTime",
+      "uxValue":        "Bookkeeping"
+    },
+    {
+      "@id": "ex:confidenceScore",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "Meta",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Bookkeeping"
+    }
+  ]
+}

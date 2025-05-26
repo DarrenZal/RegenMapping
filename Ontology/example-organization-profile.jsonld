@@ -1,0 +1,215 @@
+{
+  "@context": "https://cascadia-mapping.org/unified-organization-schema.jsonld",
+  "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
+  "@id": "https://example-coop.org",
+  
+  "name": "Cascadia Regenerative Cooperative",
+  "legalName": "Cascadia Regenerative Cooperative LLC",
+  "nickname": "CRC",
+  "aka": ["Cascadia Regen", "CRC Co-op"],
+  "legalType": "Cooperative",
+  
+  "tagline": "Building resilient communities through regenerative practices",
+  "mission": "To foster ecological restoration and community resilience through cooperative ownership and regenerative agriculture practices across the Cascadia bioregion",
+  "vision": "A thriving Cascadia where communities and ecosystems flourish together",
+  "coreValues": ["Cooperation", "Ecological Stewardship", "Social Justice", "Transparency"],
+  "description": "A worker-owned cooperative focused on regenerative agriculture, renewable energy, and community resilience in the Pacific Northwest",
+  
+  "tags": [
+    "regenerative agriculture",
+    "worker cooperative",
+    "renewable energy",
+    "permaculture",
+    "community resilience",
+    "bioregional",
+    "social enterprise"
+  ],
+  "keywords": ["regenerative", "cooperative", "cascadia", "sustainability"],
+  "industryCodes": ["111998", "221119"],
+  
+  "geolocation": {
+    "lat": 47.6062,
+    "lon": -122.3321
+  },
+  "address": {
+    "@type": "schema:PostalAddress",
+    "streetAddress": "123 Regenerative Way",
+    "addressLocality": "Seattle",
+    "addressRegion": "WA",
+    "postalCode": "98101",
+    "addressCountry": "US"
+  },
+  "fullAddress": "123 Regenerative Way, Seattle, WA 98101, USA",
+  "countryCode": "US",
+  "geographicScope": "regional",
+  "areaServed": ["Washington", "Oregon", "British Columbia"],
+  
+  "relationships": [
+    {
+      "predicate_url": "https://schema.org/member",
+      "object_url": "https://cascadia-bioregion.org"
+    },
+    {
+      "predicate_url": "https://schema.org/partner",
+      "object_url": "https://regenerative-organic-alliance.org"
+    },
+    {
+      "predicate_url": "https://schema.org/funder",
+      "object_url": "https://sustainable-northwest.org"
+    }
+  ],
+  "memberOf": ["https://usworker.coop", "https://bcca.coop"],
+  "parentOrganization": null,
+  "subOrganization": ["https://cascadia-farm.example.org", "https://cascadia-energy.example.org"],
+  
+  "status": "active",
+  "foundingDate": "2019-03-15",
+  "startsAt": 1552608000,
+  
+  "employeeRange": "11-50",
+  "numberOfEmployees": 28,
+  "volunteerCount": 150,
+  "revenueRange": "$1M-$5M",
+  
+  "impactKPIs": [
+    {
+      "@type": "ex:ImpactKPI",
+      "name": "Acres Restored",
+      "value": 450,
+      "unit": "acres",
+      "year": 2024
+    },
+    {
+      "@type": "ex:ImpactKPI",
+      "name": "Carbon Sequestered",
+      "value": 2500,
+      "unit": "tons CO2e",
+      "year": 2024
+    },
+    {
+      "@type": "ex:ImpactKPI",
+      "name": "Community Members Served",
+      "value": 3200,
+      "unit": "individuals",
+      "year": 2024
+    }
+  ],
+  
+  "sdgContribution": [
+    {
+      "@type": "ex:SDGContribution",
+      "sdgNumber": 2,
+      "sdgName": "Zero Hunger",
+      "contributionLevel": "high"
+    },
+    {
+      "@type": "ex:SDGContribution",
+      "sdgNumber": 13,
+      "sdgName": "Climate Action",
+      "contributionLevel": "high"
+    },
+    {
+      "@type": "ex:SDGContribution",
+      "sdgNumber": 15,
+      "sdgName": "Life on Land",
+      "contributionLevel": "high"
+    }
+  ],
+  
+  "hasCertification": [
+    {
+      "@type": "schema:Certification",
+      "name": "B Corporation",
+      "issuedBy": "B Lab",
+      "dateIssued": "2021-06-01",
+      "url": "https://bcorporation.net/directory/cascadia-regenerative-cooperative"
+    },
+    {
+      "@type": "schema:Certification",
+      "name": "Regenerative Organic Certified",
+      "issuedBy": "Regenerative Organic Alliance",
+      "dateIssued": "2022-09-15"
+    }
+  ],
+  "bcorpScore": 127.5,
+  "nonprofitStatus": "501c12",
+  
+  "fundingRounds": [
+    {
+      "@type": "ex:FundingRound",
+      "roundType": "seed",
+      "amount": 500000,
+      "currency": "USD",
+      "date": "2019-06-01",
+      "investors": ["Sustainable Northwest", "RSF Social Finance"]
+    }
+  ],
+  "funding": [
+    {
+      "@type": "schema:Grant",
+      "name": "USDA Rural Cooperative Development Grant",
+      "amount": 200000,
+      "funder": "USDA"
+    }
+  ],
+  "taxID": "83-1234567",
+  
+  "primaryUrl": "https://cascadia-regenerative.coop",
+  "url": "https://cascadia-regenerative.coop",
+  "urls": [
+    "https://facebook.com/cascadiaregen",
+    "https://instagram.com/cascadia_regen",
+    "https://linkedin.com/company/cascadia-regenerative-cooperative"
+  ],
+  "rss": "https://cascadia-regenerative.coop/feed",
+  "socialMedia": [
+    {
+      "@type": "ex:SocialMediaAccount",
+      "platform": "Twitter",
+      "handle": "@CascadiaRegen",
+      "followers": 4500
+    },
+    {
+      "@type": "ex:SocialMediaAccount",
+      "platform": "Instagram",
+      "handle": "@cascadia_regen",
+      "followers": 8200
+    }
+  ],
+  
+  "email": "info@cascadia-regenerative.coop",
+  "telephone": "+1-206-555-0123",
+  "contactPoint": {
+    "@type": "schema:ContactPoint",
+    "contactType": "general inquiries",
+    "email": "info@cascadia-regenerative.coop",
+    "telephone": "+1-206-555-0123",
+    "availableLanguage": ["en", "es"]
+  },
+  
+  "knowsAbout": [
+    "Regenerative Agriculture",
+    "Permaculture Design",
+    "Cooperative Governance",
+    "Renewable Energy Systems",
+    "Bioregional Economics"
+  ],
+  "skills": [
+    "Soil Health Assessment",
+    "Community Organizing",
+    "Renewable Energy Installation",
+    "Cooperative Development"
+  ],
+  "openSourceRepos": [
+    "https://github.com/cascadia-regen/soil-monitoring-app",
+    "https://github.com/cascadia-regen/coop-governance-toolkit"
+  ],
+  
+  "dataSources": [
+    "https://cascadia-regenerative.coop/api/profile",
+    "https://bcorporation.net/api/company/cascadia-regenerative-cooperative",
+    "Manual entry 2024-12-15"
+  ],
+  "lastUpdated": "2024-12-15T10:30:00Z",
+  "confidenceScore": 0.95
+}

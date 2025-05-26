@@ -1,0 +1,170 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://cascadia-mapping.org/ontology/",
+    "murm": "https://murmurations.network/fields/",
+    
+    "domainIncludes": {"@id": "schema:domainIncludes", "@type": "@id"},
+    "rangeIncludes": {"@id": "schema:rangeIncludes", "@type": "@id"},
+    "cluster": "ex:cluster",
+    "required": "ex:required",
+    "murmurationsField": "ex:murmurationsField",
+    
+    "name": "schema:name",
+    "legalName": "schema:legalName",
+    "nickname": "murm:nickname",
+    "aka": {"@id": "schema:alternateName", "@container": "@set"},
+    "legalType": "ex:legalType",
+    "logo": {"@id": "schema:logo", "@type": "@id"},
+    
+    "tagline": "schema:slogan",
+    "mission": "murm:mission",
+    "vision": "ex:visionStatement",
+    "coreValues": {"@id": "ex:coreValues", "@container": "@set"},
+    "description": "schema:description",
+    
+    "tags": {"@id": "murm:tags", "@container": "@set"},
+    "keywords": {"@id": "schema:keywords", "@container": "@set"},
+    "industryCodes": {"@id": "schema:naics", "@container": "@set"},
+    
+    "geolocation": "murm:geolocation",
+    "address": "schema:address",
+    "fullAddress": "murm:full_address",
+    "countryCode": "murm:country_iso_3166",
+    "geographicScope": "murm:geographic_scope",
+    "areaServed": "schema:areaServed",
+    
+    "relationships": {"@id": "murm:relationships", "@container": "@set"},
+    "memberOf": {"@id": "schema:memberOf", "@type": "@id"},
+    "parentOrganization": {"@id": "schema:parentOrganization", "@type": "@id"},
+    "subOrganization": {"@id": "schema:subOrganization", "@type": "@id", "@container": "@set"},
+    
+    "status": "murm:status",
+    "foundingDate": "schema:foundingDate",
+    "dissolutionDate": "schema:dissolutionDate",
+    "startsAt": {"@id": "murm:starts_at", "@type": "xsd:integer"},
+    "endsAt": {"@id": "murm:ends_at", "@type": "xsd:integer"},
+    
+    "employeeRange": "ex:employeeRange",
+    "numberOfEmployees": "schema:numberOfEmployees",
+    "revenueRange": "ex:revenueRangeUSD",
+    "volunteerCount": "ex:volunteerCount",
+    
+    "impactKPIs": {"@id": "ex:impactKPIs", "@container": "@set"},
+    "sdgContribution": {"@id": "ex:sdgContribution", "@container": "@set"},
+    "hasCertification": {"@id": "schema:hasCertification", "@container": "@set"},
+    "bcorpScore": "ex:bcorpScore",
+    "nonprofitStatus": "schema:nonprofitStatus",
+    
+    "fundingRounds": {"@id": "ex:fundingRounds", "@container": "@set"},
+    "funding": "schema:funding",
+    "funder": "schema:funder",
+    "taxID": "schema:taxID",
+    
+    "primaryUrl": "murm:primary_url",
+    "url": {"@id": "schema:url", "@type": "@id"},
+    "urls": {"@id": "murm:urls", "@container": "@set"},
+    "rss": "murm:rss",
+    "socialMedia": {"@id": "ex:socialMedia", "@container": "@set"},
+    
+    "email": "schema:email",
+    "telephone": "schema:telephone",
+    "contactPoint": "schema:contactPoint",
+    "contactDetails": "murm:contact_details",
+    
+    "knowsAbout": {"@id": "schema:knowsAbout", "@container": "@set"},
+    "skills": {"@id": "schema:skills", "@container": "@set"},
+    "openSourceRepos": {"@id": "ex:openSourceRepos", "@container": "@set"},
+    
+    "dataSources": {"@id": "ex:dataSources", "@container": "@set"},
+    "lastUpdated": {"@id": "ex:lastUpdated", "@type": "xsd:dateTime"},
+    "confidenceScore": "ex:confidenceScore"
+  },
+  
+  "@graph": [
+    {
+      "@id": "ex:RegenerativeOrganization",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Regenerative Organization",
+      "rdfs:comment": "An organization focused on regenerative practices and positive impact",
+      "rdfs:subClassOf": "schema:Organization"
+    },
+    
+    {
+      "@id": "schema:name",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Identity",
+      "required": true,
+      "murmurationsField": "name",
+      "rdfs:comment": "The name of the organization (max 200 characters)"
+    },
+    
+    {
+      "@id": "murm:tags",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Discovery",
+      "murmurationsField": "tags",
+      "rdfs:comment": "Keywords for categorization in regenerative economy networks"
+    },
+    
+    {
+      "@id": "murm:geographic_scope",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["local", "regional", "national", "international"]},
+      "cluster": "Geographic",
+      "murmurationsField": "geographic_scope",
+      "rdfs:comment": "The geographic scope of the organization's activities"
+    },
+    
+    {
+      "@id": "murm:relationships",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "ex:Relationship",
+      "cluster": "Network",
+      "murmurationsField": "relationships",
+      "rdfs:comment": "Formal relationships with other organizations"
+    },
+    
+    {
+      "@id": "ex:Relationship",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Relationship",
+      "rdfs:comment": "A relationship between organizations"
+    },
+    
+    {
+      "@id": "ex:impactKPIs",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "ex:ImpactKPI",
+      "cluster": "Impact",
+      "rdfs:comment": "Key performance indicators for measuring impact"
+    },
+    
+    {
+      "@id": "ex:ImpactKPI",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Impact KPI",
+      "rdfs:comment": "A measurable impact indicator"
+    },
+    
+    {
+      "@id": "murm:status",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["active", "completed", "cancelled", "on_hold", "in_planning"]},
+      "cluster": "Status",
+      "murmurationsField": "status",
+      "rdfs:comment": "Current operational status of the organization"
+    }
+  ]
+}
