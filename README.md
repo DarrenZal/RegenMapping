@@ -31,16 +31,20 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ## 📁 Project Structure
 
 ```
-/Regen Mapping/
+/RegenMapping/
 ├── README.md                                    # This file
-├── overview.md                                  # Detailed project specifications and UI mockups
-├── Organizations to add to knowledge graph.md   # Seed organizations from Cascadia Conference
+├── .gitignore                                   # Git ignore patterns
 │
-└── Ontology/                                   # Schema definitions and analysis
-    ├── unified-organization-schema-comparison.md    # Comprehensive schema analysis
+├── docs/                                        # Documentation
+│   ├── project-specifications.md               # Detailed project specs and UI mockups
+│   ├── seed-organizations.md                   # Organizations from Cascadia Conference
+│   └── schemas/                                 # Schema documentation
+│       ├── unified-organization-schema-comparison.md  # Comprehensive schema analysis
+│       └── schema-mapping-guide.md             # Transformation rules between schemas
+│
+└── Ontology/                                   # Schema definitions (JSON-LD files)
     ├── unified-organization-schema.jsonld          # Practical unified implementation
     ├── example-organization-profile.jsonld         # Complete usage example
-    ├── schema-mapping-guide.md                     # Transformation rules between schemas
     ├── schemaorganizationDyllanTull.jsonld        # Dylan Tull's regenerative schema
     │
     ├── Murmurations/                               # Murmurations Network schemas
@@ -52,6 +56,16 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
         ├── schemaorganizationschemaorg.jsonld
         └── schemaorganizationschemaorg-complete.jsonld
 ```
+
+## 📚 Documentation
+
+### Core Documentation
+- **[Project Specifications](docs/project-specifications.md)** - Detailed technical specifications, UI mockups, and implementation guidelines
+- **[Seed Organizations](docs/seed-organizations.md)** - Initial dataset from Cascadia Bioregional Financing Conference
+
+### Schema Documentation
+- **[Schema Comparison](docs/schemas/unified-organization-schema-comparison.md)** - Comprehensive analysis of Schema.org, Murmurations, and Dylan Tull's approaches
+- **[Schema Mapping Guide](docs/schemas/schema-mapping-guide.md)** - Transformation rules and conversion utilities between different schema formats
 
 ## 🏗️ Work Completed
 
@@ -189,6 +203,7 @@ By creating this comprehensive mapping platform, we aim to:
 
 This project is part of the broader Cascadia bioregional organizing movement. For collaboration opportunities or questions:
 
+- **GitHub Repository**: https://github.com/DarrenZal/RegenMapping
 - **Project Lead**: [Contact information]
 - **Technical Lead**: [Contact information]
 - **Community Coordinator**: [Contact information]
