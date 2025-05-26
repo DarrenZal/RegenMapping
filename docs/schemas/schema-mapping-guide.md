@@ -257,6 +257,25 @@ function dylansToUnified(dylansData) {
    - Schema.org: sameAs property
    - Dylan's: specific follower counts per platform
 
+## Alternative Approaches
+
+### Cambria Project
+For more complex schema transformation needs, consider the [Cambria project](https://github.com/inkandswitch/cambria-project) - a JavaScript/TypeScript library for converting JSON data between related schemas using bidirectional "lenses."
+
+**When Cambria might be useful:**
+- **Bidirectional transformations**: Need to edit data in the unified format and sync changes back to source schemas
+- **Schema evolution**: Managing multiple versions of schemas with backwards compatibility requirements
+- **Complex transformation pipelines**: Composing multiple transformation steps
+- **API versioning**: Maintaining compatibility across different API versions
+- **Database migrations**: Evolving data structures over time
+
+**Current limitations:**
+- Still experimental software (not production-ready as of 2024)
+- Requires learning lens theory and YAML/JSON lens definitions
+- More complex than direct transformation functions for simple use cases
+
+For our current regenerative organization mapping needs, the direct transformation approach documented here is more appropriate, but Cambria could be valuable for future evolution of the unified schema.
+
 ## Best Practices
 
 1. **Preserve Original Data**
