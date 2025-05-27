@@ -58,6 +58,35 @@
               "rdfs:label": "Pronouns",
               "rdfs:comment": "she/her",
               "regen:purpose": "ethical UX"
+            },
+            "displayHandle": {
+              "@id": "regen:displayHandle",
+              "@type": "schema:Text",
+              "rdfs:label": "Display Handle",
+              "rdfs:comment": "@handle on X, Mastodon",
+              "regen:purpose": "mention parsing / handle hover"
+            },
+            "profileImage": {
+              "@id": "schema:image",
+              "@type": "schema:URL",
+              "rdfs:label": "Profile Image",
+              "rdfs:comment": "LinkedIn, X avatar URL",
+              "regen:purpose": "quick-ID thumbnail"
+            },
+            "birthYear": {
+              "@id": "regen:birthYear",
+              "@type": "schema:Integer",
+              "rdfs:label": "Birth Year",
+              "rdfs:comment": "Age cohort analytics",
+              "regen:purpose": "age cohort analytics"
+            },
+            "citizenship": {
+              "@id": "regen:citizenship",
+              "@type": "schema:Text",
+              "rdfs:label": "Citizenship",
+              "rdfs:comment": "FB 'from', LinkedIn 'location'",
+              "regen:purpose": "diaspora patterns",
+              "schema:isArray": true
             }
           }
         },
@@ -67,12 +96,33 @@
           "rdfs:label": "Position & Affiliation",
           "regen:cluster": "Position & Affiliation",
           "schema:properties": {
+            "headline": {
+              "@id": "regen:headline",
+              "@type": "schema:Text",
+              "rdfs:label": "Headline",
+              "rdfs:comment": "LinkedIn headline",
+              "regen:purpose": "one-line tooltip"
+            },
             "primaryRole": {
               "@id": "schema:jobTitle",
               "@type": "schema:Text",
               "rdfs:label": "Primary Role",
               "rdfs:comment": "Professor of Human Geography",
               "regen:purpose": "quick glance"
+            },
+            "currentTitle": {
+              "@id": "regen:currentTitle",
+              "@type": "schema:Text",
+              "rdfs:label": "Current Title",
+              "rdfs:comment": "LinkedIn Experience[0]",
+              "regen:purpose": "role inference"
+            },
+            "currentOrgId": {
+              "@id": "regen:currentOrgId",
+              "@type": "schema:Text",
+              "rdfs:label": "Current Organization ID",
+              "rdfs:comment": "LinkedIn current employer",
+              "regen:purpose": "employment edge"
             },
             "affiliations": {
               "@id": "regen:affiliations",
@@ -128,6 +178,13 @@
               "rdfs:label": "Locality",
               "rdfs:comment": "Oslo, Norway",
               "regen:purpose": "hover-text"
+            },
+            "timeZone": {
+              "@id": "regen:timeZone",
+              "@type": "schema:Text",
+              "rdfs:label": "Time Zone",
+              "rdfs:comment": "Time zone information",
+              "regen:purpose": "coordination scheduling"
             }
           }
         },
@@ -171,6 +228,19 @@
                 "Permaculture", "Doughnut Economics", "Active Inference", "TEAL-Organization", 
                 "Biomimicry", "Holonic Finance", "Community Land Trust", "Web3/DAO", 
                 "AI-augmented Research", "Citizen Science", "Adaptive Management"
+              ]
+            },
+            "theoryTags": {
+              "@id": "regen:theoryTags",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Theory Tags",
+              "rdfs:comment": "Metamodernism, Integral Theory",
+              "regen:purpose": "theoretical frameworks",
+              "schema:isArray": true,
+              "schema:valueSet": [
+                "Complexity Science", "Metamodernism", "Integral Theory", "Game B", 
+                "Indigenous Cosmology", "Systems Poetics", "Deep Adaptation", 
+                "Cybernetics", "Polymathic Futures"
               ]
             }
           }

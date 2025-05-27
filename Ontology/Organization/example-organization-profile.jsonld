@@ -11,9 +11,12 @@
   
   "tagline": "Building resilient communities through regenerative practices",
   "mission": "To foster ecological restoration and community resilience through cooperative ownership and regenerative agriculture practices globally",
+  "missionStatement": "To foster ecological restoration and community resilience through cooperative ownership and regenerative agriculture practices globally",
   "vision": "A thriving world where communities and ecosystems flourish together",
   "coreValues": ["Cooperation", "Ecological Stewardship", "Social Justice", "Transparency"],
   "description": "A worker-owned cooperative focused on regenerative agriculture, renewable energy, and community resilience globally",
+  "foundedYear": 2019,
+  "programAreas": ["Regenerative Agriculture", "Renewable Energy", "Community Development", "Cooperative Education"],
   
   "tags": [
     "regenerative agriculture",
@@ -25,7 +28,12 @@
     "social enterprise"
   ],
   "keywords": ["regenerative", "cooperative", "global", "sustainability"],
+  "keyWords": ["regenerative", "cooperative", "global", "sustainability", "bioregional", "resilience"],
   "industryCodes": ["111998", "221119"],
+  "sdgFocus": ["SDG02", "SDG07", "SDG08", "SDG13", "SDG15"],
+  "keyActivities": ["Regenerative farming", "Renewable energy projects", "Cooperative education", "Community resilience programs"],
+  "structureType": "Worker Cooperative",
+  "beneficiaryType": "Communities and Ecosystems",
   
   "geolocation": {
     "lat": 47.6062,
@@ -40,6 +48,8 @@
     "addressCountry": "US"
   },
   "fullAddress": "123 Regenerative Way, Seattle, WA 98101, USA",
+  "headquarters": "Seattle, WA, USA",
+  "operatingRegions": ["North America", "Europe", "Latin America", "Asia-Pacific"],
   "countryCode": "US",
   "geographicScope": "global",
   "areaServed": ["Global"],
@@ -68,8 +78,10 @@
   
   "employeeRange": "11-50",
   "numberOfEmployees": 28,
+  "numEmployees": 28,
   "volunteerCount": 150,
   "revenueRange": "$1M-$5M",
+  "annualRevenue": 3200000,
   
   "impactKPIs": [
     {
@@ -94,6 +106,33 @@
       "year": 2024
     }
   ],
+  
+  "impactMetrics": [
+    {
+      "metric": "Carbon Footprint Reduction",
+      "value": "75%",
+      "baseline": "2019",
+      "year": 2024
+    },
+    {
+      "metric": "Local Food Production",
+      "value": "2.3 million lbs",
+      "year": 2024
+    }
+  ],
+  
+  "impactAssessments": [
+    {
+      "assessor": "Triple Impact Assessment",
+      "score": "A+",
+      "date": "2024-06-01",
+      "url": "https://tripleimpact.org/assessments/global-regen-coop-2024"
+    }
+  ],
+  
+  "socialApproach": "Worker-owned cooperative model with democratic governance and profit-sharing",
+  "environmentalApproach": "Regenerative agriculture practices, renewable energy, and ecosystem restoration",
+  "economicApproach": "Cooperative economics, shared ownership, and community-centered value creation",
   
   "sdgContribution": [
     {
@@ -144,6 +183,7 @@
       "investors": ["Sustainable Northwest", "RSF Social Finance"]
     }
   ],
+  "fundingModel": "Mixed: Cooperative investment, grants, and earned revenue",
   "funding": [
     {
       "@type": "schema:Grant",
@@ -203,6 +243,25 @@
   "openSourceRepos": [
     "https://github.com/global-regen/soil-monitoring-app",
     "https://github.com/global-regen/coop-governance-toolkit"
+  ],
+  
+  "flagshipProjects": [
+    {
+      "name": "Regenerative Farm Network",
+      "description": "Network of 25 regenerative farms across 4 bioregions",
+      "launched": "2020-01-01",
+      "status": "active"
+    },
+    {
+      "name": "Community Solar Cooperative",
+      "description": "Distributed solar energy system serving 500+ households",
+      "launched": "2021-06-01",
+      "status": "active"
+    }
+  ],
+  
+  "patentIds": [
+    "US11234567B2"
   ],
   
   "dataSources": [

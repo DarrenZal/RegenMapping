@@ -13,7 +13,15 @@
     "type": "@type",
     
     "latitude": {"@id": "geo:lat", "@type": "xsd:decimal"},
-    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"}
+    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"},
+    
+    "displayHandle": "regen:displayHandle",
+    "headline": "regen:headline",
+    "currentTitle": "regen:currentTitle",
+    "currentOrgId": "regen:currentOrgId",
+    "timeZone": "regen:timeZone",
+    "birthYear": "regen:birthYear",
+    "citizenship": "regen:citizenship"
   },
   "@graph": [
     {

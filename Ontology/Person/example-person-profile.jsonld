@@ -19,6 +19,11 @@
       "schema:honorificPrefix": "Dr.",
       "regen:pronouns": "she/her",
       "regen:alsoKnownAs": ["Karen OBrien", "@karenobri"],
+      "regen:displayHandle": "@karenobri",
+      "regen:headline": "Leading researcher in human dimensions of climate change and transformative capacity",
+      "regen:birthYear": 1965,
+      "regen:citizenship": "US/Norwegian dual",
+      "regen:timeZone": "Europe/Oslo",
       "schema:image": {
         "@type": "schema:ImageObject",
         "schema:url": "https://example.com/photos/karen-obrien.jpg",
@@ -26,6 +31,8 @@
       },
 
       "schema:jobTitle": "Professor of Human Geography",
+      "regen:currentTitle": "Professor of Human Geography",
+      "regen:currentOrgId": "https://regen-map.org/organizations/university-of-oslo",
       "schema:worksFor": {
         "@type": "schema:EducationalOrganization",
         "@id": "https://regen-map.org/organizations/university-of-oslo",

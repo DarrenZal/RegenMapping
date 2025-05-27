@@ -28,10 +28,13 @@ The unified organization schema combines the best elements from three different 
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
 | Tagline | `schema:slogan` | - | `tagline` | `schema:slogan` | Quick descriptor |
-| Mission | - | `mission` | `missionStmt` | `murm:mission` | Purpose statement |
+| Mission | - | `mission` | `mission` | `murm:mission` | Purpose statement |
+| Mission Statement | - | - | `missionStmt` | `ex:missionStatement` | Formal mission |
 | Vision | - | - | `visionStmt` | `ex:visionStatement` | Future goals |
 | Core Values | - | - | `coreValues[]` | `ex:coreValues[]` | Cultural compatibility |
 | Description | `schema:description` | `description` | - | `schema:description` | General description |
+| Founded Year | `schema:foundingDate` | - | `foundedYear` | `ex:foundedYear` | Establishment year |
+| Program Areas | - | - | `programAreas[]` | `ex:programAreas[]` | Focus areas |
 
 ### Geographic Information
 
@@ -42,6 +45,8 @@ The unified organization schema combines the best elements from three different 
 | Locality | `schema:addressLocality` | - | `locality` | `schema:addressLocality` | Display name |
 | Country Code | - | `country_iso_3166` | - | `murm:country_iso_3166` | Geographic context |
 | Geographic Scope | `schema:areaServed` | `geographic_scope` | `regionScope` | `murm:geographic_scope` | Operation scale |
+| Headquarters | `schema:address` | - | `headquarters` | `ex:headquarters` | Main office location |
+| Operating Regions | - | - | `operatingRegions[]` | `ex:operatingRegions[]` | Geographic presence |
 
 ### Categorization & Discovery
 
@@ -49,7 +54,11 @@ The unified organization schema combines the best elements from three different 
 |-------|------------|--------------|------------|----------------|---------|
 | Tags | `schema:keywords` | `tags[]` (required) | - | `murm:tags[]` | Search keywords |
 | Industry Codes | `schema:naics` | - | `industryCodes[]` | `schema:naics[]` | Sector classification |
-| Keywords | `schema:keywords` | - | - | `schema:keywords[]` | General keywords |
+| Keywords | `schema:keywords` | - | `keyWords[]` | `schema:keywords[]` | General keywords |
+| SDG Focus | - | - | `sdgFocus[]` | `ex:sdgFocus[]` | Sustainability goals |
+| Key Activities | - | - | `keyActivities[]` | `ex:keyActivities[]` | Primary activities |
+| Structure Type | - | - | `structureType` | `ex:structureType` | Organizational form |
+| Beneficiary Type | - | - | `beneficiaryType` | `ex:beneficiaryType` | Who benefits |
 
 ### Relationships & Network
 
@@ -80,9 +89,10 @@ The unified organization schema combines the best elements from three different 
 
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
-| Employee Count | `schema:numberOfEmployees` | - | - | `schema:numberOfEmployees` | Exact count |
+| Employee Count | `schema:numberOfEmployees` | - | `numEmployees` | `schema:numberOfEmployees` | Exact count |
 | Employee Range | - | - | `employeeRange` | `ex:employeeRange` | Size category |
 | Revenue Range | - | - | `revenueRangeUSD` | `ex:revenueRangeUSD` | Financial scale |
+| Annual Revenue | - | - | `annualRevenue` | `ex:annualRevenue` | Yearly income |
 | Volunteer Count | - | - | `volunteerCount` | `ex:volunteerCount` | Community engagement |
 
 ### Impact & Certifications
@@ -94,12 +104,18 @@ The unified organization schema combines the best elements from three different 
 | Certifications | `schema:hasCertification` | - | - | `schema:hasCertification[]` | Third-party validation |
 | B-Corp Score | - | - | `bcorpScore` | `ex:bcorpScore` | B-Corp assessment |
 | Nonprofit Status | `schema:nonprofitStatus` | - | - | `schema:nonprofitStatus` | Tax classification |
+| Impact Metrics | - | - | `impactMetrics[]` | `ex:impactMetrics[]` | Performance indicators |
+| Impact Assessments | - | - | `impactAssessments[]` | `ex:impactAssessments[]` | Evaluation reports |
+| Social Approach | - | - | `socialApproach` | `ex:socialApproach` | Social methodology |
+| Environmental Approach | - | - | `environmentalApproach` | `ex:environmentalApproach` | Environmental strategy |
+| Economic Approach | - | - | `economicApproach` | `ex:economicApproach` | Economic model |
 
 ### Financial Information
 
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
 | Funding Rounds | - | - | `fundingRounds[]` | `ex:fundingRounds[]` | Investment history |
+| Funding Model | - | - | `fundingModel` | `ex:fundingModel` | Revenue approach |
 | Funding | `schema:funding` | - | - | `schema:funding` | General funding |
 | Funder | `schema:funder` | - | - | `schema:funder` | Funding source |
 | Tax ID | `schema:taxID` | - | - | `schema:taxID` | Legal identifier |
@@ -129,6 +145,8 @@ The unified organization schema combines the best elements from three different 
 | Expertise Areas | `schema:knowsAbout` | - | - | `schema:knowsAbout[]` | Knowledge domains |
 | Skills | `schema:skills` | - | - | `schema:skills[]` | Organizational capabilities |
 | Open Source Repos | - | - | `openSourceRepos[]` | `ex:openSourceRepos[]` | Innovation sharing |
+| Flagship Projects | - | - | `flagshipProjects[]` | `ex:flagshipProjects[]` | Key initiatives |
+| Patent IDs | - | - | `patentIds[]` | `ex:patentIds[]` | Intellectual property |
 
 ### Collaboration Features (Unified Innovation)
 

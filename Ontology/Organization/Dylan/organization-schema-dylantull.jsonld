@@ -18,9 +18,12 @@
     "brandLogo":      { "@id":"schema:logo", "@type":"@id" },
 
     "tagline":         "schema:slogan",
+    "mission":         "ex:mission",
     "missionStmt":     "ex:missionStatement",
     "visionStmt":      "ex:visionStatement",
     "coreValues":     { "@id":"ex:coreValues", "@container":"@set" },
+    "foundedYear":     "ex:foundedYear",
+    "programAreas":   { "@id":"ex:programAreas", "@container":"@set" },
 
     "industryCodes":  { "@id":"schema:naics", "@container":"@set" },
     "regionScope":     "ex:regionScope",
@@ -30,6 +33,7 @@
     "assetsUSD":       "ex:assetsUSD",
     "volunteerCount":  "ex:volunteerCount",
 
+    "fundingModel":   "ex:fundingModel",
     "fundingRounds":  { "@id":"ex:fundingRounds", "@container":"@set" },
     "grantsReceived": { "@id":"ex:grantsReceived", "@container":"@set" },
     "grantsGiven":    { "@id":"ex:grantsGiven", "@container":"@set" },
@@ -146,6 +150,15 @@
       "uxValue":        "Tooltip blurb"
     },
     {
+      "@id": "ex:mission",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "xsd:string",
+      "uxValue":        "One-sentence statement"
+    },
+    {
       "@id": "ex:missionStatement",
       "@type": "rdf:Property",
       "domainIncludes": "schema:Organization",
@@ -171,6 +184,24 @@
       "cluster":        "MissionVisionValues",
       "storageType":    "array",
       "uxValue":        "Cultural compatibility edges"
+    },
+    {
+      "@id": "ex:foundedYear",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Date",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "xsd:integer",
+      "uxValue":        "Timeline"
+    },
+    {
+      "@id": "ex:programAreas",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "MissionVisionValues",
+      "storageType":    "array",
+      "uxValue":        "Tag-based legend"
     },
 
     {
@@ -229,6 +260,15 @@
       "uxValue":        "Civil-society heft"
     },
 
+    {
+      "@id": "ex:fundingModel",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "FinancialLineage",
+      "storageType":    "enum",
+      "uxValue":        "Edge heuristics"
+    },
     {
       "@id": "ex:fundingRounds",
       "@type": "rdf:Property",

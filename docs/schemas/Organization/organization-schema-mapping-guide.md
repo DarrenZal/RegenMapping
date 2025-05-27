@@ -13,10 +13,13 @@ This guide provides mapping tables and transformation rules for converting betwe
 | legalType | - | - | legalType |
 | logo | logo | image | brandLogo |
 | tagline | slogan | - | tagline |
-| mission | - | mission | missionStmt |
+| mission | - | mission | mission |
+| missionStatement | - | - | missionStmt |
 | vision | - | - | visionStmt |
 | coreValues | - | - | coreValues |
 | description | description | description | - |
+| foundedYear | foundingDate | - | foundedYear |
+| programAreas | - | - | programAreas |
 | tags | - | tags | - |
 | keywords | keywords | - | - |
 | industryCodes | naics | - | industryCodes |
@@ -82,6 +85,22 @@ This guide provides mapping tables and transformation rules for converting betwe
 | dataSources | - | - | dataSources |
 | lastUpdated | - | - | lastScraped |
 | confidenceScore | - | - | confidenceScore |
+| flagshipProjects | - | - | flagshipProjects |
+| patentIds | - | - | patentIds |
+| sdgFocus | - | - | sdgFocus |
+| keyActivities | - | - | keyActivities |
+| headquarters | address | - | headquarters |
+| operatingRegions | - | - | operatingRegions |
+| numEmployees | numberOfEmployees | - | numEmployees |
+| annualRevenue | - | - | annualRevenue |
+| structureType | - | - | structureType |
+| beneficiaryType | - | - | beneficiaryType |
+| keyWords | - | - | keyWords |
+| impactMetrics | - | - | impactMetrics |
+| impactAssessments | - | - | impactAssessments |
+| socialApproach | - | - | socialApproach |
+| environmentalApproach | - | - | environmentalApproach |
+| economicApproach | - | - | economicApproach |
 
 ## Transformation Rules
 
@@ -229,6 +248,26 @@ function dylansToUnified(dylansData) {
     clusterId: dylansData.clusterId,
     bridgingScore: dylansData.bridgingScore,
     influenceScore: dylansData.influenceScore,
+    
+    // Additional organizational details
+    flagshipProjects: dylansData.flagshipProjects,
+    patentIds: dylansData.patentIds,
+    sdgFocus: dylansData.sdgFocus,
+    keyActivities: dylansData.keyActivities,
+    headquarters: dylansData.headquarters,
+    operatingRegions: dylansData.operatingRegions,
+    numEmployees: dylansData.numEmployees,
+    annualRevenue: dylansData.annualRevenue,
+    structureType: dylansData.structureType,
+    beneficiaryType: dylansData.beneficiaryType,
+    keyWords: dylansData.keyWords,
+    
+    // Impact and approach
+    impactMetrics: dylansData.impactMetrics,
+    impactAssessments: dylansData.impactAssessments,
+    socialApproach: dylansData.socialApproach,
+    environmentalApproach: dylansData.environmentalApproach,
+    economicApproach: dylansData.economicApproach,
     
     // Geolocation conversion
     geolocation: {
