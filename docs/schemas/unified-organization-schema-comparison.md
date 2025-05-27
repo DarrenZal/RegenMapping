@@ -142,7 +142,7 @@ Based on the analysis, here's a unified schema that combines the best of all thr
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "https://cascadia-mapping.org/ontology/",
+    "ex": "https://regen-mapping.org/ontology/",
     "murm": "https://murmurations.network/fields/",
     
     /* Core Identity (combines all three) */

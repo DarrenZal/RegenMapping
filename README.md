@@ -1,6 +1,6 @@
 # Regen Mapping Project
 
-A comprehensive knowledge graph and visualization platform for mapping regenerative organizations, people, and relationships across the Cascadia bioregion and beyond.
+A comprehensive knowledge graph and visualization platform for mapping regenerative organizations, people, and relationships across the globe.
 
 ## 🌱 Project Vision
 
@@ -87,7 +87,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **Technical architecture** recommendations (Neo4j, Deck.gl, Three.js)
 
 ### Phase 3: Seed Data Collection 🔄
-- **Identified 20+ organizations** from Cascadia Bioregional Financing Conference
+- **Identified 20+ organizations** from various regenerative finance conferences and networks
 - **Categorized by focus areas**: Economic Justice, Housing, Food Systems/Land Use, Environmental Justice, Mutual Aid
 - **Documented key relationships** and event connections
 
@@ -100,7 +100,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
    - Create basic web application framework
 
 2. **Import seed data**
-   - Convert Cascadia Conference organizations to unified schema
+   - Convert regenerative organizations to unified schema
    - Add basic relationship mappings
    - Implement data validation
 
@@ -201,9 +201,9 @@ By creating this comprehensive mapping platform, we aim to:
 
 ## 📞 Contact & Collaboration
 
-This project is part of the broader Cascadia bioregional organizing movement. For collaboration opportunities or questions:
+This project is part of the broader regenerative movement. For collaboration opportunities or questions:
 
-- **GitHub Repository**: https://github.com/DarrenZal/RegenMapping
+- **GitHub Repository**: https://github.com/DarrenZal/RegenMap
 - **Project Lead**: [Contact information]
 - **Technical Lead**: [Contact information]
 - **Community Coordinator**: [Contact information]

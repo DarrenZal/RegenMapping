@@ -71,7 +71,7 @@ This guide provides mapping tables and transformation rules for converting betwe
 ```javascript
 function murmurationsToUnified(murmData) {
   return {
-    "@context": "https://cascadia-mapping.org/unified-organization-schema.jsonld",
+    "@context": "https://regenmap.org/unified-organization-schema.jsonld",
     "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
     
     // Direct mappings
@@ -113,7 +113,7 @@ function murmurationsToUnified(murmData) {
 ```javascript
 function schemaOrgToUnified(schemaData) {
   return {
-    "@context": "https://cascadia-mapping.org/unified-organization-schema.jsonld",
+    "@context": "https://regenmap.org/unified-organization-schema.jsonld",
     "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
     
     // Direct mappings
@@ -158,7 +158,7 @@ function schemaOrgToUnified(schemaData) {
 ```javascript
 function dylansToUnified(dylansData) {
   return {
-    "@context": "https://cascadia-mapping.org/unified-organization-schema.jsonld",
+    "@context": "https://regenmap.org/unified-organization-schema.jsonld",
     "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
     
     // Direct mappings

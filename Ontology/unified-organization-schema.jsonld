@@ -4,7 +4,7 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "https://cascadia-mapping.org/ontology/",
+    "ex": "https://regenmap.org/ontology/",
     "murm": "https://murmurations.network/fields/",
     
     "domainIncludes": {"@id": "schema:domainIncludes", "@type": "@id"},
@@ -94,6 +94,41 @@
     },
     
     {
+      "@id": "ex:Relationship",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Relationship",
+      "rdfs:comment": "A relationship between organizations"
+    },
+    
+    {
+      "@id": "ex:ImpactKPI",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Impact KPI",
+      "rdfs:comment": "A measurable impact indicator with name, value, unit, and year"
+    },
+    
+    {
+      "@id": "ex:SDGContribution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SDG Contribution",
+      "rdfs:comment": "Contribution to a specific UN Sustainable Development Goal"
+    },
+    
+    {
+      "@id": "ex:SocialMediaAccount",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Social Media Account",
+      "rdfs:comment": "A social media account with platform and metrics"
+    },
+    
+    {
+      "@id": "ex:FundingRound",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Funding Round",
+      "rdfs:comment": "A funding round with type, amount, date, and investors"
+    },
+    
+    {
       "@id": "schema:name",
       "@type": "rdf:Property",
       "domainIncludes": "ex:RegenerativeOrganization",
@@ -102,6 +137,62 @@
       "required": true,
       "murmurationsField": "name",
       "rdfs:comment": "The name of the organization (max 200 characters)"
+    },
+    
+    {
+      "@id": "schema:legalName",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Identity",
+      "rdfs:comment": "The official legal name of the organization"
+    },
+    
+    {
+      "@id": "murm:nickname",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Identity",
+      "murmurationsField": "nickname",
+      "rdfs:comment": "A familiar name or nickname for the organization"
+    },
+    
+    {
+      "@id": "ex:legalType",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Identity",
+      "rdfs:comment": "Legal structure type (e.g., LLC, Corporation, Cooperative, Non-profit)"
+    },
+    
+    {
+      "@id": "ex:visionStatement",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Mission",
+      "rdfs:comment": "The organization's vision statement"
+    },
+    
+    {
+      "@id": "ex:coreValues",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Mission",
+      "rdfs:comment": "Array of core organizational values"
+    },
+    
+    {
+      "@id": "murm:mission",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Mission",
+      "murmurationsField": "mission",
+      "rdfs:comment": "The organization's mission or purpose statement"
     },
     
     {
@@ -115,10 +206,40 @@
     },
     
     {
+      "@id": "murm:geolocation",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:GeoCoordinates",
+      "cluster": "Geographic",
+      "murmurationsField": "geolocation",
+      "rdfs:comment": "Geographic coordinates (lat, lon) for the organization's location"
+    },
+    
+    {
+      "@id": "murm:full_address",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Geographic",
+      "murmurationsField": "full_address",
+      "rdfs:comment": "Complete address as a single text field"
+    },
+    
+    {
+      "@id": "murm:country_iso_3166",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Geographic",
+      "murmurationsField": "country_iso_3166",
+      "rdfs:comment": "Two-letter ISO 3166 country code"
+    },
+    
+    {
       "@id": "murm:geographic_scope",
       "@type": "rdf:Property",
       "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["local", "regional", "national", "international"]},
+      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["local", "regional", "national", "global", "international"]},
       "cluster": "Geographic",
       "murmurationsField": "geographic_scope",
       "rdfs:comment": "The geographic scope of the organization's activities"
@@ -135,10 +256,60 @@
     },
     
     {
-      "@id": "ex:Relationship",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Relationship",
-      "rdfs:comment": "A relationship between organizations"
+      "@id": "murm:status",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["active", "completed", "cancelled", "on_hold", "in_planning"]},
+      "cluster": "Status",
+      "murmurationsField": "status",
+      "rdfs:comment": "Current operational status of the organization"
+    },
+    
+    {
+      "@id": "murm:starts_at",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "xsd:integer",
+      "cluster": "Temporal",
+      "murmurationsField": "starts_at",
+      "rdfs:comment": "Unix timestamp for when the organization was founded"
+    },
+    
+    {
+      "@id": "murm:ends_at",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "xsd:integer",
+      "cluster": "Temporal",
+      "murmurationsField": "ends_at",
+      "rdfs:comment": "Unix timestamp for when the organization was dissolved"
+    },
+    
+    {
+      "@id": "ex:employeeRange",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Scale",
+      "rdfs:comment": "Employee count range (e.g., '1-10', '11-50', '51-200')"
+    },
+    
+    {
+      "@id": "ex:revenueRangeUSD",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Scale",
+      "rdfs:comment": "Annual revenue range in USD (e.g., '$100K-$1M', '$1M-$10M')"
+    },
+    
+    {
+      "@id": "ex:volunteerCount",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Integer",
+      "cluster": "Scale",
+      "rdfs:comment": "Number of active volunteers"
     },
     
     {
@@ -151,20 +322,116 @@
     },
     
     {
-      "@id": "ex:ImpactKPI",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Impact KPI",
-      "rdfs:comment": "A measurable impact indicator"
+      "@id": "ex:sdgContribution",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "ex:SDGContribution",
+      "cluster": "Impact",
+      "rdfs:comment": "Contributions to UN Sustainable Development Goals"
     },
     
     {
-      "@id": "murm:status",
+      "@id": "ex:bcorpScore",
       "@type": "rdf:Property",
       "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["active", "completed", "cancelled", "on_hold", "in_planning"]},
-      "cluster": "Status",
-      "murmurationsField": "status",
-      "rdfs:comment": "Current operational status of the organization"
+      "rangeIncludes": "schema:Number",
+      "cluster": "Certifications",
+      "rdfs:comment": "B Corporation assessment score (0-200)"
+    },
+    
+    {
+      "@id": "ex:fundingRounds",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "ex:FundingRound",
+      "cluster": "Financial",
+      "rdfs:comment": "Investment or funding rounds received"
+    },
+    
+    {
+      "@id": "murm:primary_url",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:URL",
+      "cluster": "Digital",
+      "required": true,
+      "murmurationsField": "primary_url",
+      "rdfs:comment": "Primary website URL for the organization"
+    },
+    
+    {
+      "@id": "murm:urls",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:URL",
+      "cluster": "Digital",
+      "murmurationsField": "urls",
+      "rdfs:comment": "Additional website and social media URLs"
+    },
+    
+    {
+      "@id": "murm:rss",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:URL",
+      "cluster": "Digital",
+      "murmurationsField": "rss",
+      "rdfs:comment": "RSS feed URL for the organization's content"
+    },
+    
+    {
+      "@id": "ex:socialMedia",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "ex:SocialMediaAccount",
+      "cluster": "Digital",
+      "rdfs:comment": "Social media accounts with platform and metrics"
+    },
+    
+    {
+      "@id": "murm:contact_details",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Contact",
+      "murmurationsField": "contact_details",
+      "rdfs:comment": "General contact information"
+    },
+    
+    {
+      "@id": "ex:openSourceRepos",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:URL",
+      "cluster": "Innovation",
+      "rdfs:comment": "URLs to open source repositories maintained by the organization"
+    },
+    
+    {
+      "@id": "ex:dataSources",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Meta",
+      "rdfs:comment": "Sources of data used to compile this organization profile"
+    },
+    
+    {
+      "@id": "ex:lastUpdated",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "xsd:dateTime",
+      "cluster": "Meta",
+      "rdfs:comment": "ISO 8601 timestamp of when this profile was last updated"
+    },
+    
+    {
+      "@id": "ex:confidenceScore",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "xsd:decimal",
+      "cluster": "Meta",
+      "rdfs:comment": "Confidence score for data quality (0.0-1.0)"
     }
   ]
 }
