@@ -505,8 +505,145 @@
               "rdfs:label": "Alumni Of",
               "rdfs:comment": "Educational institutions attended",
               "schema:isArray": true
+            },
+            "eventParticipation": {
+              "@id": "regen:eventParticipation",
+              "@type": "regen:EventParticipation",
+              "rdfs:label": "Event Participation",
+              "rdfs:comment": "Events participated in with roles and organizations",
+              "schema:isArray": true,
+              "schema:properties": {
+                "event": {
+                  "@id": "schema:event",
+                  "@type": "schema:Event"
+                },
+                "organizer": {
+                  "@id": "regen:eventOrganizer",
+                  "@type": "schema:Organization"
+                },
+                "role": {
+                  "@id": "regen:participationRole",
+                  "@type": "schema:Text"
+                },
+                "date": {
+                  "@id": "schema:startDate",
+                  "@type": "schema:Date"
+                }
+              }
+            },
+            "boardPositions": {
+              "@id": "regen:boardPositions",
+              "@type": "regen:BoardPosition",
+              "rdfs:label": "Board Positions",
+              "rdfs:comment": "Board and advisory positions held",
+              "schema:isArray": true,
+              "schema:properties": {
+                "organization": {
+                  "@id": "schema:memberOf",
+                  "@type": "schema:Organization"
+                },
+                "position": {
+                  "@id": "regen:boardRole",
+                  "@type": "schema:Text"
+                },
+                "since": {
+                  "@id": "schema:startDate",
+                  "@type": "schema:Date"
+                },
+                "until": {
+                  "@id": "schema:endDate",
+                  "@type": "schema:Date"
+                }
+              }
+            },
+            "coauthorships": {
+              "@id": "regen:coauthorships",
+              "@type": "regen:Coauthorship",
+              "rdfs:label": "Publication Co-authorships",
+              "rdfs:comment": "Joint publications with other people",
+              "schema:isArray": true,
+              "schema:properties": {
+                "coauthor": {
+                  "@id": "regen:coauthor",
+                  "@type": "schema:Person"
+                },
+                "work": {
+                  "@id": "schema:workExample",
+                  "@type": "schema:CreativeWork"
+                },
+                "citations": {
+                  "@id": "regen:citationCount",
+                  "@type": "schema:Integer"
+                }
+              }
             }
           }
+        },
+
+        {
+          "@id": "regen:edgeTypes",
+          "@type": "rdf:Property",
+          "rdfs:label": "Edge Type Definitions",
+          "rdfs:comment": "Formal definitions of relationship types for graph visualization",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:hasDefinedTerm": [
+            {
+              "@id": "regen:Collaboration",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Collaboration",
+              "rdfs:comment": "Project partnerships and joint initiatives",
+              "regen:direction": "bidirectional",
+              "regen:applies": ["Person↔Person", "Person↔Organization", "Organization↔Organization"],
+              "regen:minimalFields": ["since", "until", "projectName"],
+              "regen:optionalFields": ["weight", "fundingUSD"]
+            },
+            {
+              "@id": "regen:EmploymentAffiliation",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Employment / Affiliation",
+              "rdfs:comment": "Formal organizational relationships and employment",
+              "regen:direction": "unidirectional",
+              "regen:applies": ["Person→Organization"],
+              "regen:minimalFields": ["role", "start", "end", "FTE%"]
+            },
+            {
+              "@id": "regen:MentorAdvisor",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Mentor / Advisor",
+              "rdfs:comment": "Knowledge transfer and guidance relationships",
+              "regen:direction": "unidirectional",
+              "regen:applies": ["Person→Person"],
+              "regen:minimalFields": ["since", "intensity1-5"]
+            },
+            {
+              "@id": "regen:PublicationCoauthorship",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Publication Co-authorship",
+              "rdfs:comment": "Joint publications and intellectual collaboration",
+              "regen:direction": "bidirectional",
+              "regen:applies": ["Person↔Person"],
+              "regen:minimalFields": ["workId"],
+              "regen:optionalFields": ["citations"]
+            },
+            {
+              "@id": "regen:EventParticipation",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Event Participation",
+              "rdfs:comment": "Participation in events hosted by organizations",
+              "regen:direction": "unidirectional",
+              "regen:applies": ["Person→Organization"],
+              "regen:minimalFields": ["eventId", "role", "date"]
+            },
+            {
+              "@id": "regen:SharedBoardSeat",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Shared Board Seat",
+              "rdfs:comment": "Board and governance connections",
+              "regen:direction": "bidirectional",
+              "regen:applies": ["Person↔Organization", "Person↔Person"],
+              "regen:minimalFields": ["orgId", "since"]
+            }
+          ]
         },
 
         {

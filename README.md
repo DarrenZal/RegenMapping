@@ -50,6 +50,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 └── Ontology/                                   # Schema definitions (organized by entity type)
     ├── Person/                                  # Person schemas and examples
     │   ├── unified-person-schema.jsonld        # Primary unified person schema
+    │   ├── regen-person-shapes.ttl             # SHACL validation shapes for person data
     │   ├── example-person-profile.jsonld       # Person usage examples
     │   ├── Dylan/
     │   │   └── person-schema-dylantull.jsonld  # Dylan's visualization-optimized person schema
@@ -61,6 +62,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
     │       └── person-schema-complete.jsonld   # All 67 Person properties
     ├── Organization/                            # Organization schemas and examples
     │   ├── unified-organization-schema.jsonld  # Primary unified organization schema
+    │   ├── regen-org-shapes.ttl                # SHACL validation shapes for organization data
     │   ├── example-organization-profile.jsonld # Organization usage examples
     │   ├── Dylan/
     │   │   └── organization-schema-dylantull.jsonld # Dylan's visualization-optimized org schema

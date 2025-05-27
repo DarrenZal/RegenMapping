@@ -341,6 +341,385 @@ function unifiedToSchemaOrg(unifiedData) {
 }
 ```
 
+## Edge Type Transformations
+
+A critical aspect of the unified schema is its sophisticated edge type system for modeling relationships. Here's how to transform relationship data between schema formats.
+
+### Edge Type Mapping Overview
+
+| Unified Edge Type | Schema.org Equivalent | Murmurations | Dylan's Schema | Transformation Notes |
+|------------------|----------------------|--------------|----------------|---------------------|
+| `regen:Collaboration` | `schema:colleague` | - | ✓ Full support | Rich metadata for projects |
+| `regen:EmploymentAffiliation` | `schema:worksFor` | Limited via `relationships` | ✓ Full support | Temporal and role data |
+| `regen:MentorAdvisor` | - | - | ✓ Full support | Unidirectional knowledge transfer |
+| `regen:PublicationCoauthorship` | `schema:colleague` | - | ✓ Full support | Publication-specific metadata |
+| `regen:EventParticipation` | - | - | ✓ Full support | Event and role details |
+| `regen:SharedBoardSeat` | `schema:memberOf` | Limited via `relationships` | ✓ Full support | Governance connections |
+
+### Extracting Edge Types from Dylan's Schema
+
+```javascript
+function extractEdgeTypesFromDylans(dylansData) {
+  const relationships = {
+    collaborations: [],
+    employmentAffiliations: [],
+    mentorships: [],
+    coauthorships: [],
+    eventParticipations: [],
+    boardPositions: []
+  };
+
+  // Extract collaboration edges
+  if (dylansData.collaborations) {
+    relationships.collaborations = dylansData.collaborations.map(collab => ({
+      "@type": "regen:Collaboration",
+      "regen:targetEntity": { "@id": collab.partnerId },
+      "regen:projectName": collab.projectName,
+      "schema:startDate": collab.since,
+      "schema:endDate": collab.until,
+      "regen:weight": collab.weight,
+      "regen:fundingUSD": collab.fundingUSD
+    }));
+  }
+
+  // Extract employment affiliations
+  if (dylansData.affiliations) {
+    relationships.employmentAffiliations = dylansData.affiliations.map(aff => ({
+      "@type": "regen:EmploymentAffiliation",
+      "regen:targetOrganization": { "@id": aff.orgId },
+      "schema:roleName": aff.role,
+      "schema:startDate": aff.start,
+      "schema:endDate": aff.end,
+      "regen:ftePercentage": aff.fte || 100
+    }));
+  }
+
+  // Extract event participation
+  if (dylansData.eventParticipation) {
+    relationships.eventParticipations = dylansData.eventParticipation.map(event => ({
+      "@type": "regen:EventParticipation",
+      "regen:targetOrganization": { "@id": event.organizerId },
+      "regen:eventId": event.eventId,
+      "regen:participationRole": event.role,
+      "schema:startDate": event.date
+    }));
+  }
+
+  // Extract board positions
+  if (dylansData.boardPositions) {
+    relationships.boardPositions = dylansData.boardPositions.map(board => ({
+      "@type": "regen:SharedBoardSeat",
+      "regen:targetOrganization": { "@id": board.orgId },
+      "regen:boardRole": board.position,
+      "schema:startDate": board.since,
+      "schema:endDate": board.until
+    }));
+  }
+
+  // Extract publication coauthorships
+  if (dylansData.coauthorships) {
+    relationships.coauthorships = dylansData.coauthorships.map(coauth => ({
+      "@type": "regen:PublicationCoauthorship",
+      "regen:targetPerson": { "@id": coauth.coauthorId },
+      "regen:workId": coauth.workId,
+      "regen:citationCount": coauth.citations
+    }));
+  }
+
+  return relationships;
+}
+```
+
+### Converting Schema.org to Edge Types
+
+```javascript
+function schemaOrgToEdgeTypes(schemaData) {
+  const relationships = {
+    collaborations: [],
+    employmentAffiliations: [],
+    boardPositions: []
+  };
+
+  // Convert colleague relationships to collaborations
+  if (schemaData.colleague) {
+    const colleagues = Array.isArray(schemaData.colleague) ? 
+      schemaData.colleague : [schemaData.colleague];
+    
+    relationships.collaborations = colleagues.map(colleague => ({
+      "@type": "regen:Collaboration",
+      "regen:targetEntity": { "@id": colleague["@id"] || colleague },
+      "regen:weight": 1, // Default weight
+      "schema:startDate": null, // Unknown timing
+      "regen:inferredFrom": "schema:colleague"
+    }));
+  }
+
+  // Convert worksFor to employment affiliation
+  if (schemaData.worksFor) {
+    const orgs = Array.isArray(schemaData.worksFor) ? 
+      schemaData.worksFor : [schemaData.worksFor];
+    
+    relationships.employmentAffiliations = orgs.map(org => ({
+      "@type": "regen:EmploymentAffiliation",
+      "regen:targetOrganization": { "@id": org["@id"] || org },
+      "schema:roleName": schemaData.jobTitle || "Employee",
+      "regen:isCurrentRole": true,
+      "regen:inferredFrom": "schema:worksFor"
+    }));
+  }
+
+  // Convert memberOf to board positions (if governance-related)
+  if (schemaData.memberOf) {
+    const memberships = Array.isArray(schemaData.memberOf) ? 
+      schemaData.memberOf : [schemaData.memberOf];
+    
+    relationships.boardPositions = memberships
+      .filter(org => org.additionalType?.includes("governance"))
+      .map(org => ({
+        "@type": "regen:SharedBoardSeat",
+        "regen:targetOrganization": { "@id": org["@id"] || org },
+        "regen:boardRole": "Member",
+        "regen:inferredFrom": "schema:memberOf"
+      }));
+  }
+
+  return relationships;
+}
+```
+
+### Converting Murmurations to Edge Types
+
+```javascript
+function murmurationsToEdgeTypes(murmData) {
+  const relationships = {
+    employmentAffiliations: [],
+    boardPositions: []
+  };
+
+  if (murmData.relationships) {
+    murmData.relationships.forEach(rel => {
+      // Parse relationship type from predicate URL
+      const relType = extractRelationshipType(rel.predicate_url);
+      
+      switch (relType) {
+        case 'member':
+        case 'employee':
+          relationships.employmentAffiliations.push({
+            "@type": "regen:EmploymentAffiliation",
+            "regen:targetOrganization": { "@id": rel.object_url },
+            "schema:roleName": relType === 'member' ? 'Member' : 'Employee',
+            "regen:inferredFrom": "murmurations:relationships"
+          });
+          break;
+          
+        case 'board_member':
+        case 'advisor':
+          relationships.boardPositions.push({
+            "@type": "regen:SharedBoardSeat",
+            "regen:targetOrganization": { "@id": rel.object_url },
+            "regen:boardRole": relType === 'board_member' ? 'Board Member' : 'Advisor',
+            "regen:inferredFrom": "murmurations:relationships"
+          });
+          break;
+      }
+    });
+  }
+
+  return relationships;
+}
+
+function extractRelationshipType(predicateUrl) {
+  // Extract relationship type from predicate URL
+  const pathParts = predicateUrl.split('/');
+  return pathParts[pathParts.length - 1];
+}
+```
+
+### Unified Schema to Neo4j Edge Format
+
+```javascript
+function unifiedToNeo4jEdges(unifiedPerson) {
+  const edges = [];
+  const personId = unifiedPerson["@id"];
+
+  // Process collaborations
+  if (unifiedPerson["regen:collaborators"]) {
+    unifiedPerson["regen:collaborators"].forEach(collab => {
+      edges.push({
+        source: personId,
+        target: collab["regen:targetEntity"]["@id"],
+        type: "COLLABORATES_WITH",
+        properties: {
+          projectName: collab["regen:projectName"],
+          since: collab["schema:startDate"],
+          until: collab["schema:endDate"],
+          weight: collab["regen:weight"] || 1,
+          direction: "bidirectional"
+        }
+      });
+    });
+  }
+
+  // Process employment affiliations
+  if (unifiedPerson["regen:affiliations"]) {
+    unifiedPerson["regen:affiliations"].forEach(aff => {
+      edges.push({
+        source: personId,
+        target: aff["schema:memberOf"]["@id"],
+        type: "AFFILIATED_WITH",
+        properties: {
+          role: aff["schema:roleName"],
+          startDate: aff["schema:startDate"],
+          endDate: aff["schema:endDate"],
+          isCurrentRole: aff["regen:isCurrentRole"],
+          direction: "unidirectional"
+        }
+      });
+    });
+  }
+
+  // Process event participation
+  if (unifiedPerson["regen:eventParticipation"]) {
+    unifiedPerson["regen:eventParticipation"].forEach(event => {
+      edges.push({
+        source: personId,
+        target: event["regen:eventOrganizer"]["@id"],
+        type: "PARTICIPATED_IN_EVENT",
+        properties: {
+          eventId: event["schema:event"]["@id"],
+          role: event["regen:participationRole"],
+          date: event["schema:startDate"],
+          direction: "unidirectional"
+        }
+      });
+    });
+  }
+
+  // Process board positions
+  if (unifiedPerson["regen:boardPositions"]) {
+    unifiedPerson["regen:boardPositions"].forEach(board => {
+      edges.push({
+        source: personId,
+        target: board["schema:memberOf"]["@id"],
+        type: "BOARD_MEMBER_OF",
+        properties: {
+          position: board["regen:boardRole"],
+          since: board["schema:startDate"],
+          until: board["schema:endDate"],
+          direction: "bidirectional"
+        }
+      });
+    });
+  }
+
+  // Process coauthorships
+  if (unifiedPerson["regen:coauthorships"]) {
+    unifiedPerson["regen:coauthorships"].forEach(coauth => {
+      edges.push({
+        source: personId,
+        target: coauth["regen:coauthor"]["@id"],
+        type: "COAUTHORED_WITH",
+        properties: {
+          workId: coauth["schema:workExample"]["@id"],
+          citations: coauth["regen:citationCount"],
+          direction: "bidirectional"
+        }
+      });
+    });
+  }
+
+  return edges;
+}
+```
+
+### Edge Type Validation Rules
+
+```javascript
+function validateEdgeTypes(relationships) {
+  const errors = [];
+
+  relationships.forEach((rel, index) => {
+    const edgeType = rel["@type"];
+    
+    switch (edgeType) {
+      case "regen:Collaboration":
+        if (!rel["regen:targetEntity"]) {
+          errors.push(`Collaboration ${index}: missing targetEntity`);
+        }
+        if (!rel["schema:startDate"] && !rel["regen:projectName"]) {
+          errors.push(`Collaboration ${index}: needs either startDate or projectName`);
+        }
+        break;
+        
+      case "regen:EmploymentAffiliation":
+        if (!rel["regen:targetOrganization"]) {
+          errors.push(`Employment ${index}: missing targetOrganization`);
+        }
+        if (!rel["schema:roleName"]) {
+          errors.push(`Employment ${index}: missing role name`);
+        }
+        break;
+        
+      case "regen:EventParticipation":
+        if (!rel["regen:eventId"] || !rel["schema:startDate"]) {
+          errors.push(`Event ${index}: missing eventId or date`);
+        }
+        break;
+        
+      case "regen:SharedBoardSeat":
+        if (!rel["regen:targetOrganization"] || !rel["schema:startDate"]) {
+          errors.push(`Board ${index}: missing organization or start date`);
+        }
+        break;
+    }
+  });
+
+  return errors;
+}
+```
+
+### Best Practices for Edge Type Transformations
+
+1. **Preserve Directionality**
+   ```javascript
+   // Always specify direction in metadata
+   {
+     "@type": "regen:MentorAdvisor",
+     "regen:direction": "unidirectional",
+     "regen:source": personId,
+     "regen:target": menteeId
+   }
+   ```
+
+2. **Handle Temporal Data**
+   ```javascript
+   // Support open-ended relationships
+   {
+     "schema:startDate": "2020-01-15",
+     "schema:endDate": null, // Still active
+     "regen:isCurrentRole": true
+   }
+   ```
+
+3. **Maintain Source Attribution**
+   ```javascript
+   {
+     "@type": "regen:Collaboration",
+     "regen:inferredFrom": "schema:colleague",
+     "regen:confidence": 0.7, // Lower confidence for inferred relationships
+     "regen:needsVerification": true
+   }
+   ```
+
+4. **Support Relationship Weights**
+   ```javascript
+   {
+     "regen:weight": 0.8, // For force-directed graph layout
+     "regen:strength": "strong", // Semantic strength
+     "regen:frequency": "weekly" // Interaction frequency
+   }
+   ```
+
 ## Validation Considerations
 
 ### Required Fields by Schema

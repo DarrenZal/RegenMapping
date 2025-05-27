@@ -1,0 +1,324 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix schema:<http://schema.org/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix regen: <https://regen-map.org/schema/> .
+@prefix murm:  <https://murmurations.network/fields/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+############################################################
+# Node shape for every RegenerativePerson instance
+############################################################
+regen:RegenerativePersonShape
+  a sh:NodeShape ;
+  sh:targetClass         regen:RegenerativePerson ;
+  sh:severity            sh:Warning ;        # default for whole shape
+
+  ##########################################################
+  # -------- Core Identity cluster ------------------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:name ;
+      sh:minCount        1 ;                # required for identification
+      sh:maxLength       200 ;
+      sh:message         "Provide a full name (≤ 200 chars)." ;
+  ] ;
+  sh:property [
+      sh:path            schema:givenName ;
+      sh:maxLength       100 ;
+  ] ;
+  sh:property [
+      sh:path            schema:familyName ;
+      sh:maxLength       100 ;
+  ] ;
+  sh:property [
+      sh:path            schema:image ;
+      sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:datatype xsd:anyURI ]
+      ) ;
+      sh:message         "Profile image should be an IRI or a literal typed as xsd:anyURI." ;
+  ] ;
+  sh:property [
+      sh:path            regen:pronouns ;
+      sh:pattern         "^[a-zA-Z/]+$" ;
+      sh:message         "Pronouns should follow standard format like 'she/her' or 'they/them'." ;
+  ] ;
+
+  ##########################################################
+  # -------- Professional & Affiliation cluster ----------
+  ##########################################################
+  sh:property [
+      sh:path            schema:jobTitle ;
+      sh:maxLength       150 ;
+  ] ;
+  sh:property [
+      sh:path            schema:worksFor ;
+      sh:nodeKind        sh:IRI ;           # expect a link to an organization
+  ] ;
+  sh:property [
+      sh:path            regen:affiliations ;
+      sh:class           regen:Affiliation ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+  sh:property [
+      sh:path            schema:skills ;
+      sh:nodeKind        sh:IRIOrLiteral ;
+  ] ;
+
+  ##########################################################
+  # -------- Location cluster -----------------------------
+  ##########################################################
+  sh:property [
+      sh:path            geo:lat ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    -90 ;
+      sh:maxInclusive    90 ;
+      sh:message         "Latitude must be between -90 and 90 degrees." ;
+  ] ;
+  sh:property [
+      sh:path            geo:long ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    -180 ;
+      sh:maxInclusive    180 ;
+      sh:message         "Longitude must be between -180 and 180 degrees." ;
+  ] ;
+  sh:property [
+      sh:path            schema:addressLocality ;
+      sh:maxLength       100 ;
+  ] ;
+  sh:property [
+      sh:path            schema:addressCountry ;
+      sh:pattern         "^[A-Z]{2}$|^[A-Za-z\\s]+$" ;
+      sh:message         "Country should be ISO 3166-1 alpha-2 code or full country name." ;
+  ] ;
+
+  ##########################################################
+  # -------- Movement Focus & Categorization --------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:domainTags ;
+      sh:in              ( 
+        "Regenerative Agriculture" "Biodiversity" "Water Cycles" 
+        "Circular Materials" "Post-capitalist Finance" "Distributed Governance" 
+        "Systems Literacy" "Inner Development" "Culture & Story" 
+        "Crisis Response" "Tech4Good" "Planetary Health" "Indigenous Stewardship" 
+      ) ;
+      sh:message         "Domain tags must be from the predefined regenerative focus areas." ;
+  ] ;
+  sh:property [
+      sh:path            regen:methodTags ;
+      sh:in              ( 
+        "Permaculture" "Doughnut Economics" "Active Inference" "TEAL Organization" 
+        "Biomimicry" "Holonic Finance" "Community Land Trust" "Web3/DAO" 
+        "AI-augmented Research" "Citizen Science" "Adaptive Management" 
+      ) ;
+      sh:message         "Method tags must be from the predefined methodological approaches." ;
+  ] ;
+  sh:property [
+      sh:path            regen:sdgAlignment ;
+      sh:pattern         "^SDG(0[1-9]|1[0-7])$" ;
+      sh:message         "SDG tags should be in format SDG01-SDG17." ;
+  ] ;
+
+  ##########################################################
+  # -------- Contact & Media cluster ----------------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:url ;
+      sh:datatype        xsd:anyURI ;
+      sh:minCount        1 ;                # required for network participation
+      sh:message         "Primary URL is required for profile discovery." ;
+  ] ;
+  sh:property [
+      sh:path            schema:email ;
+      sh:pattern         "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" ;
+      sh:message         "Email does not look valid." ;
+  ] ;
+  sh:property [
+      sh:path            regen:additionalUrls ;
+      sh:class           regen:URLReference ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+
+  ##########################################################
+  # -------- Relationships cluster ------------------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:colleague ;
+      sh:nodeKind        sh:IRI ;           # expect links to other people
+  ] ;
+  sh:property [
+      sh:path            schema:memberOf ;
+      sh:nodeKind        sh:IRI ;           # expect links to organizations
+  ] ;
+  sh:property [
+      sh:path            regen:eventParticipation ;
+      sh:class           regen:EventParticipation ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+  sh:property [
+      sh:path            regen:boardPositions ;
+      sh:class           regen:BoardPosition ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+  sh:property [
+      sh:path            regen:coauthorships ;
+      sh:class           regen:Coauthorship ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+
+  ##########################################################
+  # -------- Network Metrics cluster ----------------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:degreeCentrality ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:betweennessCentrality ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+      sh:maxInclusive    1 ;
+  ] ;
+  sh:property [
+      sh:path            regen:influenceScore ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+      sh:maxInclusive    1 ;
+  ] ;
+
+  ##########################################################
+  # -------- Metadata cluster -----------------------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:lastVerified ;
+      sh:datatype        xsd:dateTime ;
+  ] ;
+  sh:property [
+      sh:path            regen:confidenceScore ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+      sh:maxInclusive    1 ;
+  ] ;
+  sh:property [
+      sh:path            schema:dateCreated ;
+      sh:datatype        xsd:dateTime ;
+  ] ;
+  sh:property [
+      sh:path            schema:dateModified ;
+      sh:datatype        xsd:dateTime ;
+  ] ;
+.
+
+############################################################
+# Shapes for nested relationship classes
+############################################################
+regen:AffiliationShape
+  a sh:NodeShape ;
+  sh:targetClass regen:Affiliation ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        schema:memberOf ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+      sh:message     "Affiliation must reference an organization." ;
+  ] ;
+  sh:property [
+      sh:path        schema:roleName ;
+      sh:minCount    1 ;
+      sh:maxLength   100 ;
+  ] ;
+  sh:property [
+      sh:path        schema:startDate ;
+      sh:datatype    xsd:date ;
+      sh:lessThan    schema:endDate ;
+  ] ;
+  sh:property [
+      sh:path        schema:endDate ;
+      sh:datatype    xsd:date ;
+  ] ;
+.
+
+regen:EventParticipationShape
+  a sh:NodeShape ;
+  sh:targetClass regen:EventParticipation ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        schema:event ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        regen:eventOrganizer ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        regen:participationRole ;
+      sh:minCount    1 ;
+      sh:in          ( "Speaker" "Panelist" "Moderator" "Attendee" "Organizer" "Sponsor" ) ;
+  ] ;
+  sh:property [
+      sh:path        schema:startDate ;
+      sh:datatype    xsd:date ;
+      sh:minCount    1 ;
+  ] ;
+.
+
+regen:BoardPositionShape
+  a sh:NodeShape ;
+  sh:targetClass regen:BoardPosition ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        schema:memberOf ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        regen:boardRole ;
+      sh:minCount    1 ;
+      sh:in          ( "Board Member" "Chair" "Vice Chair" "Secretary" "Treasurer" "Advisor" ) ;
+  ] ;
+  sh:property [
+      sh:path        schema:startDate ;
+      sh:datatype    xsd:date ;
+      sh:lessThan    schema:endDate ;
+  ] ;
+.
+
+regen:CoauthorshipShape
+  a sh:NodeShape ;
+  sh:targetClass regen:Coauthorship ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        regen:coauthor ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        schema:workExample ;
+      sh:nodeKind    sh:IRI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        regen:citationCount ;
+      sh:datatype    xsd:integer ;
+      sh:minInclusive 0 ;
+  ] ;
+.
+
+regen:URLReferenceShape
+  a sh:NodeShape ;
+  sh:targetClass regen:URLReference ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        schema:url ;
+      sh:datatype    xsd:anyURI ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        regen:platform ;
+      sh:in          ( "LinkedIn" "Twitter" "GitHub" "ORCID" "ResearchGate" "Website" "Blog" ) ;
+  ] ;
+.

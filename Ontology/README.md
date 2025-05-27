@@ -8,6 +8,7 @@ Schema definitions and ontologies for the regenerative economy mapping platform,
 Ontology/
 ├── Person/                          # All person-related schemas
 │   ├── unified-person-schema.jsonld          # Primary unified person schema
+│   ├── regen-person-shapes.ttl               # SHACL validation shapes for person data
 │   ├── example-person-profile.jsonld         # Person usage examples
 │   ├── Dylan/
 │   │   └── person-schema-dylantull.jsonld    # Dylan's visualization-optimized person schema
@@ -19,6 +20,7 @@ Ontology/
 │       └── person-schema-complete.jsonld     # All 67 Person properties
 ├── Organization/                    # All organization-related schemas
 │   ├── unified-organization-schema.jsonld    # Primary unified organization schema
+│   ├── regen-org-shapes.ttl                  # SHACL validation shapes for organization data
 │   ├── example-organization-profile.jsonld   # Organization usage examples
 │   ├── Dylan/
 │   │   └── organization-schema-dylantull.jsonld # Dylan's visualization-optimized org schema
@@ -102,9 +104,27 @@ Companies, nonprofits, DAOs, cooperatives, and communities with properties for:
 ## Implementation Features
 
 ### Data Quality & Validation
+- **SHACL Shapes Validation** - Comprehensive validation shapes for both person and organization data
 - **Confidence scoring** - Automated quality assessment based on source reliability
 - **Provenance tracking** - Data source documentation and verification timestamps
 - **Progressive validation** - SHACL shapes for quality improvement over time
+
+#### SHACL Validation Files
+- **`Person/regen-person-shapes.ttl`** - Validates unified person schema data including:
+  - Core identity requirements (name, URL, coordinates)
+  - Professional affiliation constraints
+  - Regenerative categorization validation (domain/method tags, SDG alignment)
+  - Relationship modeling validation (event participation, board positions, coauthorships)
+  - Network metrics validation (centrality measures, influence scores)
+  - Contact information format validation (email patterns, URL formats)
+
+- **`Organization/regen-org-shapes.ttl`** - Validates unified organization schema data including:
+  - Identity and branding requirements
+  - Geographic scope and address validation
+  - Status and lifecycle constraints
+  - Financial and scale metrics validation
+  - Impact measurement and certification requirements
+  - Network relationship validation
 
 ### Visualization Integration
 - **Globe rendering** - Optimized coordinate data and geographic clustering

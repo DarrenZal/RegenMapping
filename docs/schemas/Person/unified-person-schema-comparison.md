@@ -85,6 +85,163 @@ The unified person schema combines the best elements from three different approa
 | Collaborators | `schema:colleague` | - | - | `regen:collaborators[]` | Active partnerships |
 | Mentors/Mentees | - | - | - | `regen:mentors[]`, `regen:mentees[]` | Knowledge transfer |
 
+## Edge Types and Relationship Modeling
+
+One of the most significant differences between the schemas is how they model relationships between entities. Dylan Tull's schema includes sophisticated edge type definitions that are essential for graph visualization and analysis.
+
+### Edge Type Comparison
+
+| Edge Type | Schema.org | Murmurations | Dylan Tull | Unified Schema | Direction | Purpose |
+|-----------|------------|--------------|------------|----------------|-----------|---------|
+| **Collaboration** | `schema:colleague` | - | ✓ Defined | `regen:Collaboration` | Bidirectional | Project partnerships |
+| **Employment** | `schema:worksFor` | - | ✓ Defined | `regen:EmploymentAffiliation` | Unidirectional | Formal org relationships |
+| **Mentorship** | - | - | ✓ Defined | `regen:MentorAdvisor` | Unidirectional | Knowledge transfer |
+| **Co-authorship** | `schema:colleague` | - | ✓ Defined | `regen:PublicationCoauthorship` | Bidirectional | Joint publications |
+| **Event Participation** | - | - | ✓ Defined | `regen:EventParticipation` | Unidirectional | Event involvement |
+| **Board Positions** | `schema:memberOf` | - | ✓ Defined | `regen:SharedBoardSeat` | Bidirectional | Governance connections |
+
+### Schema.org Relationship Approach
+
+Schema.org provides basic relationship properties but lacks the granularity needed for network analysis:
+
+```json
+{
+  "schema:colleague": [{"@id": "person2"}],
+  "schema:worksFor": {"@id": "organization1"},
+  "schema:memberOf": [{"@id": "organization2"}]
+}
+```
+
+**Limitations:**
+- No temporal information (when relationships started/ended)
+- No role specificity within relationships
+- No directionality or relationship strength
+- Minimal metadata for network analysis
+
+### Murmurations Relationship Approach
+
+Murmurations focuses on formal organizational relationships for network discovery:
+
+```json
+{
+  "relationships": [
+    {
+      "relationship_type": "member",
+      "entity_name": "Organization Name",
+      "entity_url": "https://example.org"
+    }
+  ]
+}
+```
+
+**Strengths:**
+- Network discovery optimization
+- Clear entity identification via URLs
+
+**Limitations:**
+- Limited to organizational relationships
+- No person-to-person connections
+- No temporal or strength data
+- Focused on current relationships only
+
+### Dylan Tull's Edge Type System
+
+Dylan's schema provides comprehensive edge type definitions with rich metadata:
+
+```json
+{
+  "edgeTypes": {
+    "Collaboration": {
+      "direction": "bidirectional",
+      "applies": ["Person↔Person", "Person↔Organization", "Organization↔Organization"],
+      "minimalFields": ["since", "until", "projectName"],
+      "optionalFields": ["weight", "fundingUSD"]
+    },
+    "EventParticipation": {
+      "direction": "unidirectional", 
+      "applies": ["Person→Organization"],
+      "minimalFields": ["eventId", "role", "date"]
+    }
+  }
+}
+```
+
+**Advantages:**
+- Formal directionality specifications
+- Rich metadata for graph algorithms
+- Temporal relationship tracking
+- Multiple entity type support
+- Visualization optimization
+
+### Unified Schema Edge Type Integration
+
+The unified schema adopts and extends Dylan's edge type system while maintaining Schema.org compatibility:
+
+```json
+{
+  "regen:edgeTypes": {
+    "schema:hasDefinedTerm": [
+      {
+        "@id": "regen:Collaboration",
+        "@type": "schema:DefinedTerm",
+        "rdfs:label": "Collaboration",
+        "rdfs:comment": "Project partnerships and joint initiatives",
+        "regen:direction": "bidirectional",
+        "regen:applies": ["Person↔Person", "Person↔Organization"],
+        "regen:minimalFields": ["since", "until", "projectName"],
+        "regen:optionalFields": ["weight", "fundingUSD"]
+      }
+    ]
+  }
+}
+```
+
+### Implementation Benefits of Edge Types
+
+#### For Graph Visualization
+- **Force-Directed Layouts**: Edge directionality and weights inform physics simulations
+- **Node Clustering**: Relationship types enable community detection algorithms
+- **Visual Encoding**: Different edge types can have distinct visual representations
+- **Interactive Exploration**: Users can filter by relationship type
+
+#### For Network Analysis
+- **Centrality Calculations**: Different edge types contribute differently to influence metrics
+- **Path Analysis**: Relationship types affect shortest path calculations
+- **Community Detection**: Edge types inform clustering algorithms
+- **Influence Propagation**: Models how ideas/resources flow through networks
+
+#### For Data Quality
+- **Validation Rules**: Edge types define required fields for relationships
+- **Temporal Consistency**: Start/end dates ensure relationship timeline accuracy
+- **Relationship Strength**: Quantified connections enable weighted analysis
+- **Provenance Tracking**: Source and confidence data for each relationship
+
+### Edge Type Field Mappings
+
+The unified schema provides structured relationship data:
+
+```json
+{
+  "eventParticipation": [
+    {
+      "event": {"@id": "event1", "schema:name": "Regenerative Finance Summit"},
+      "organizer": {"@id": "org1"},
+      "role": "Keynote Speaker",
+      "date": "2024-03-15"
+    }
+  ],
+  "coauthorships": [
+    {
+      "coauthor": {"@id": "person2"},
+      "work": {"@id": "paper1", "schema:name": "Regenerative Capital Flows"},
+      "citations": 127
+    }
+  ]
+}
+```
+
+This structured approach enables sophisticated relationship queries and analysis while maintaining human readability and Schema.org compatibility.
+
 ## Synthesis Approach
 
 ### 1. Standards Compliance First
