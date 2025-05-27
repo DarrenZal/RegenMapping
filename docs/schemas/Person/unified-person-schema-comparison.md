@@ -80,10 +80,14 @@ The unified person schema combines the best elements from three different approa
 
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
-| Current Needs | - | - | - | `regen:currentNeeds[]` | Matchmaking |
-| Current Offers | - | - | - | `regen:currentOffers[]` | Resource sharing |
-| Collaborators | `schema:colleague` | - | - | `regen:collaborators[]` | Active partnerships |
-| Mentors/Mentees | - | - | - | `regen:mentors[]`, `regen:mentees[]` | Knowledge transfer |
+| Current Needs | - | - | `needs[]` | `regen:currentNeeds[]` | Matchmaking |
+| Current Offers | - | - | `offers[]` | `regen:currentOffers[]` | Resource sharing |
+| Collaborators | `schema:colleague` | - | `collaborators[]` | `regen:collaborators[]` | Active partnerships |
+| Mentors/Mentees | - | - | `mentors[]`, `mentees[]` | `regen:mentors[]`, `regen:mentees[]` | Knowledge transfer |
+| Event Participation | - | - | `eventParticipation[]` | `regen:eventParticipation[]` | Event involvement |
+| Board Positions | `schema:memberOf` | - | `boardPositions[]` | `regen:boardPositions[]` | Governance roles |
+| Co-authorships | `schema:colleague` | - | `coauthorships[]` | `regen:coauthorships[]` | Joint publications |
+| Network Metrics | - | - | `degreeCentrality`, etc. | `regen:networkMetrics{}` | Graph analysis |
 
 ## Edge Types and Relationship Modeling
 
@@ -348,7 +352,25 @@ function mapDyllanTullToUnified(dylanPerson) {
     'regen:methodTags': dylanPerson.methodTags,
     'regen:sdgAlignment': dylanPerson.sdgTags,
     'regen:keyWorks': dylanPerson.keyWorks,
-    'regen:influenceMetrics': dylanPerson.metrics
+    'regen:influenceMetrics': dylanPerson.metrics,
+    // Enhanced relationship fields
+    'regen:mentors': dylanPerson.mentors,
+    'regen:mentees': dylanPerson.mentees,
+    'regen:collaborators': dylanPerson.collaborators,
+    'schema:colleague': dylanPerson.colleagues,
+    'regen:eventParticipation': dylanPerson.eventParticipation,
+    'regen:boardPositions': dylanPerson.boardPositions,
+    'regen:coauthorships': dylanPerson.coauthorships,
+    // Needs and offers
+    'regen:currentNeeds': dylanPerson.needs,
+    'regen:currentOffers': dylanPerson.offers,
+    // Network metrics
+    'regen:networkMetrics': {
+      'regen:degreeCentrality': dylanPerson.degreeCentrality,
+      'regen:betweennessCentrality': dylanPerson.betweennessCentrality,
+      'regen:clusterId': dylanPerson.clusterId,
+      'regen:bridgingScore': dylanPerson.bridgingScore
+    }
   };
 }
 ```

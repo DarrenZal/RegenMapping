@@ -60,6 +60,25 @@ This guide provides mapping tables and transformation rules for converting betwe
 | knowsAbout | knowsAbout | - | - |
 | skills | skills | - | - |
 | openSourceRepos | - | - | openSourceRepos |
+| partnerOrganizations | - | - | partnerOrganizations |
+| collaborators | - | - | collaborators |
+| investors | - | - | investors |
+| investees | - | - | investees |
+| grantors | - | - | grantors |
+| grantees | - | - | grantees |
+| suppliers | - | - | suppliers |
+| customers | - | - | customers |
+| competitorOrgs | - | - | competitorOrgs |
+| alliedOrgs | - | - | alliedOrgs |
+| currentNeeds | - | - | currentNeeds |
+| currentOffers | - | - | currentOffers |
+| seeking | - | - | seeking |
+| providing | - | - | providing |
+| degreeCentrality | - | - | degreeCentrality |
+| betweennessCentrality | - | - | betweennessCentrality |
+| clusterId | - | - | clusterId |
+| bridgingScore | - | - | bridgingScore |
+| influenceScore | - | - | influenceScore |
 | dataSources | - | - | dataSources |
 | lastUpdated | - | - | lastScraped |
 | confidenceScore | - | - | confidenceScore |
@@ -185,6 +204,31 @@ function dylansToUnified(dylansData) {
     dataSources: dylansData.dataSources,
     lastUpdated: dylansData.lastScraped,
     confidenceScore: dylansData.confidenceScore,
+    
+    // Relationship and network fields
+    partnerOrganizations: dylansData.partnerOrganizations,
+    collaborators: dylansData.collaborators,
+    investors: dylansData.investors,
+    investees: dylansData.investees,
+    grantors: dylansData.grantors,
+    grantees: dylansData.grantees,
+    suppliers: dylansData.suppliers,
+    customers: dylansData.customers,
+    competitorOrgs: dylansData.competitorOrgs,
+    alliedOrgs: dylansData.alliedOrgs,
+    
+    // Needs and offers
+    currentNeeds: dylansData.currentNeeds,
+    currentOffers: dylansData.currentOffers,
+    seeking: dylansData.seeking,
+    providing: dylansData.providing,
+    
+    // Network metrics
+    degreeCentrality: dylansData.degreeCentrality,
+    betweennessCentrality: dylansData.betweennessCentrality,
+    clusterId: dylansData.clusterId,
+    bridgingScore: dylansData.bridgingScore,
+    influenceScore: dylansData.influenceScore,
     
     // Geolocation conversion
     geolocation: {

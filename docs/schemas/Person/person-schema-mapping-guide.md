@@ -43,20 +43,24 @@ This guide provides mapping tables and transformation rules for converting betwe
 | telephone | telephone | telephone | - |
 | urls | sameAs | urls | urls |
 | **Relationships** | | | |
-| colleague | colleague | - | - |
-| collaborators | - | - | - |
-| mentors | - | - | - |
+| colleague | colleague | - | colleagues |
+| collaborators | - | - | collaborators |
+| mentors | - | - | mentors |
+| mentees | - | - | mentees |
 | memberOf | memberOf | - | - |
 | alumniOf | alumniOf | - | - |
 | relationships | - | relationships | - |
+| eventParticipation | - | - | eventParticipation |
+| boardPositions | - | - | boardPositions |
+| coauthorships | - | - | coauthorships |
 | **Metrics** | | | |
 | followers | - | - | metrics.followers |
 | citations | - | - | metrics.citations |
 | hIndex | - | - | metrics.hIndex |
 | projects | - | - | metrics.projects |
 | **Needs/Offers** | | | |
-| currentNeeds | - | - | - |
-| currentOffers | - | - | - |
+| currentNeeds | - | - | needs |
+| currentOffers | - | - | offers |
 | seeks | seeks | - | - |
 | makesOffer | makesOffer | - | - |
 | **Meta** | | | |
@@ -64,6 +68,11 @@ This guide provides mapping tables and transformation rules for converting betwe
 | dataSource | - | - | - |
 | confidenceScore | - | - | - |
 | languagesSpoken | knowsLanguage | knows_language | - |
+| **Network Metrics** | | | |
+| degreeCentrality | - | - | degreeCentrality |
+| betweennessCentrality | - | - | betweennessCentrality |
+| clusterId | - | - | clusterId |
+| bridgingScore | - | - | bridgingScore |
 
 ## Transformation Rules
 
@@ -239,6 +248,25 @@ function dylansPersonToUnified(dylansData) {
       "schema:url": url,
       "regen:platform": "Unknown"
     })),
+    
+    // Relationships and network
+    "regen:mentors": dylansData.mentors,
+    "regen:mentees": dylansData.mentees,
+    "regen:collaborators": dylansData.collaborators,
+    "schema:colleague": dylansData.colleagues,
+    "regen:eventParticipation": dylansData.eventParticipation,
+    "regen:boardPositions": dylansData.boardPositions,
+    "regen:coauthorships": dylansData.coauthorships,
+    
+    // Needs and offers
+    "regen:currentNeeds": dylansData.needs,
+    "regen:currentOffers": dylansData.offers,
+    
+    // Network metrics
+    "regen:degreeCentrality": dylansData.degreeCentrality,
+    "regen:betweennessCentrality": dylansData.betweennessCentrality,
+    "regen:clusterId": dylansData.clusterId,
+    "regen:bridgingScore": dylansData.bridgingScore,
     
     // Meta information
     "regen:lastVerified": dylansData.lastVerified,

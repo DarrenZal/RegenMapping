@@ -12,78 +12,86 @@
     "storageType":    "ex:storageType",
     "uxValue":        "ex:uxValue",
 
-    /* ---------- Identity ---------- */
     "orgName":         "schema:name",
     "aka":            { "@id":"schema:alternateName", "@container":"@set" },
     "legalType":       "ex:legalType",
     "brandLogo":      { "@id":"schema:logo", "@type":"@id" },
 
-    /* ---------- Mission, Vision, Values ---------- */
     "tagline":         "schema:slogan",
     "missionStmt":     "ex:missionStatement",
     "visionStmt":      "ex:visionStatement",
     "coreValues":     { "@id":"ex:coreValues", "@container":"@set" },
 
-    /* ---------- Sector & Scope ---------- */
     "industryCodes":  { "@id":"schema:naics", "@container":"@set" },
     "regionScope":     "ex:regionScope",
 
-    /* ---------- Operational Scale ---------- */
     "employeeRange":   "ex:employeeRange",
     "revenueRangeUSD": "ex:revenueRangeUSD",
     "assetsUSD":       "ex:assetsUSD",
     "volunteerCount":  "ex:volunteerCount",
 
-    /* ---------- Financial Lineage ---------- */
     "fundingRounds":  { "@id":"ex:fundingRounds", "@container":"@set" },
     "grantsReceived": { "@id":"ex:grantsReceived", "@container":"@set" },
     "grantsGiven":    { "@id":"ex:grantsGiven", "@container":"@set" },
 
-    /* ---------- Impact Metrics ---------- */
     "impactKPIs":     { "@id":"ex:impactKPIs", "@container":"@set" },
     "sdgContribution":{ "@id":"ex:sdgContribution", "@container":"@set" },
 
-    /* ---------- Certifications ---------- */
     "bcorpScore":      "ex:bcorpScore",
     "iso14k":          "ex:iso14k",
     "fairTrade":       "ex:fairTrade",
     "scienceBasedTargets":"ex:scienceBasedTargets",
 
-    /* ---------- Programs & Products ---------- */
     "flagshipProjects":{ "@id":"ex:flagshipProjects", "@container":"@set" },
 
-    /* ---------- Org Structure ---------- */
     "parentOrgId":    { "@id":"schema:parentOrganization", "@type":"@id" },
     "subsidiaryIds":  { "@id":"schema:subOrganization", "@type":"@id", "@container":"@set" },
     "daoTokenContract":"ex:daoTokenContract",
     "boardMembers":   { "@id":"schema:member", "@type":"@id", "@container":"@set" },
     "execTeam":       { "@id":"ex:execTeam", "@type":"@id", "@container":"@set" },
 
-    /* ---------- Community Presence ---------- */
     "followersX":      "ex:followersX",
     "followersLinkedIn":"ex:followersLinkedIn",
     "newsletterSubs":  "ex:newsletterSubs",
     "eventSeries":    { "@id":"ex:eventSeries", "@container":"@set" },
 
-    /* ---------- Repositories & IP ---------- */
     "openSourceRepos":{ "@id":"ex:openSourceRepos", "@container":"@set" },
     "patentIds":      { "@id":"ex:patentIds", "@container":"@set" },
     "datasets":       { "@id":"ex:datasets", "@container":"@set" },
 
-    /* ---------- Contact & Channels ---------- */
     "hqLat":          { "@id":"schema:latitude",  "@type":"xsd:decimal" },
     "hqLon":          { "@id":"schema:longitude", "@type":"xsd:decimal" },
     "locality":        "schema:addressLocality",
     "urls":           { "@id":"schema:url", "@type":"@id", "@container":"@set" },
 
-    /* ---------- Meta ---------- */
+    "partnerOrganizations": { "@id":"ex:partnerOrgs", "@type":"@id", "@container":"@set" },
+    "collaborators":       { "@id":"ex:collaborators", "@type":"@id", "@container":"@set" },
+    "investors":          { "@id":"ex:investors", "@type":"@id", "@container":"@set" },
+    "investees":          { "@id":"ex:investees", "@type":"@id", "@container":"@set" },
+    "grantors":           { "@id":"ex:grantors", "@type":"@id", "@container":"@set" },
+    "grantees":           { "@id":"ex:grantees", "@type":"@id", "@container":"@set" },
+    "suppliers":          { "@id":"ex:suppliers", "@type":"@id", "@container":"@set" },
+    "customers":          { "@id":"ex:customers", "@type":"@id", "@container":"@set" },
+    "competitorOrgs":     { "@id":"ex:competitors", "@type":"@id", "@container":"@set" },
+    "alliedOrgs":         { "@id":"ex:allies", "@type":"@id", "@container":"@set" },
+
+    "currentNeeds":       { "@id":"ex:currentNeeds", "@container":"@set" },
+    "currentOffers":      { "@id":"ex:currentOffers", "@container":"@set" },
+    "seeking":            { "@id":"ex:seeking", "@container":"@set" },
+    "providing":          { "@id":"ex:providing", "@container":"@set" },
+
+    "degreeCentrality":   "ex:degreeCentrality",
+    "betweennessCentrality": "ex:betweennessCentrality",
+    "clusterId":          "ex:clusterId",
+    "bridgingScore":      "ex:bridgingScore",
+    "influenceScore":     "ex:influenceScore",
+
     "dataSources":    { "@id":"ex:dataSources", "@container":"@set" },
     "lastScraped":    { "@id":"ex:lastScraped", "@type":"xsd:dateTime" },
     "confidenceScore":"ex:confidenceScore"
   },
 
   "@graph": [
-    /* ========== CLASS DEFINITION ========== */
     {
       "@id": "schema:Organization",
       "@type": "rdfs:Class",
@@ -91,7 +99,6 @@
       "rdfs:comment": "Extended organization schema covering identity, scale, finance, impact, certifications and more."
     },
 
-    /* ================== Identity ================== */
     {
       "@id": "schema:name",
       "@type": "rdf:Property",
@@ -129,7 +136,6 @@
       "uxValue":        "Pin icon"
     },
 
-    /* ========== Mission, Vision, Values ========== */
     {
       "@id": "schema:slogan",
       "@type": "rdf:Property",
@@ -167,7 +173,6 @@
       "uxValue":        "Cultural compatibility edges"
     },
 
-    /* ========== Sector & Scope ========== */
     {
       "@id": "schema:naics",
       "@type": "rdf:Property",
@@ -187,7 +192,6 @@
       "uxValue":        "Map zoom presets"
     },
 
-    /* ========== Operational Scale ========== */
     {
       "@id": "ex:employeeRange",
       "@type": "rdf:Property",
@@ -225,7 +229,6 @@
       "uxValue":        "Civil-society heft"
     },
 
-    /* ========== Financial Lineage ========== */
     {
       "@id": "ex:fundingRounds",
       "@type": "rdf:Property",
@@ -254,7 +257,6 @@
       "uxValue":        "Philanthropy map"
     },
 
-    /* ========== Impact Metrics ========== */
     {
       "@id": "ex:impactKPIs",
       "@type": "rdf:Property",
@@ -274,7 +276,6 @@
       "uxValue":        "Global goal overlay"
     },
 
-    /* ========== Certifications ========== */
     {
       "@id": "ex:bcorpScore",
       "@type": "rdf:Property",
@@ -312,7 +313,6 @@
       "uxValue":        "Trust filters"
     },
 
-    /* ========== Programs & Products ========== */
     {
       "@id": "ex:flagshipProjects",
       "@type": "rdf:Property",
@@ -323,7 +323,6 @@
       "uxValue":        "Content drill-down"
     },
 
-    /* ========== Org Structure ========== */
     {
       "@id": "schema:parentOrganization",
       "@type": "rdf:Property",
@@ -370,7 +369,6 @@
       "uxValue":        "Force-graph bipartite"
     },
 
-    /* ========== Community Presence ========== */
     {
       "@id": "ex:followersX",
       "@type": "rdf:Property",
@@ -408,7 +406,6 @@
       "uxValue":        "Temporal pulse"
     },
 
-    /* ========== Repositories & IP ========== */
     {
       "@id": "ex:openSourceRepos",
       "@type": "rdf:Property",
@@ -437,7 +434,6 @@
       "uxValue":        "Innovation lens"
     },
 
-    /* ========== Contact & Channels ========== */
     {
       "@id": "schema:latitude",
       "@type": "rdf:Property",
@@ -475,7 +471,180 @@
       "uxValue":        "Outreach"
     },
 
-    /* ========== Meta ========== */
+    {
+      "@id": "ex:partnerOrgs",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Partnership network analysis"
+    },
+    {
+      "@id": "ex:collaborators",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Collaboration edges"
+    },
+    {
+      "@id": "ex:investors",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Capital flow network"
+    },
+    {
+      "@id": "ex:investees",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Investment distribution network"
+    },
+    {
+      "@id": "ex:grantors",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Grant funding network"
+    },
+    {
+      "@id": "ex:grantees",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Grant distribution network"
+    },
+    {
+      "@id": "ex:suppliers",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Supply chain network"
+    },
+    {
+      "@id": "ex:customers",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Customer relationship network"
+    },
+    {
+      "@id": "ex:competitors",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Competitive landscape analysis"
+    },
+    {
+      "@id": "ex:allies",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Organization",
+      "cluster":        "RelationshipsNetwork",
+      "storageType":    "array",
+      "uxValue":        "Alliance and advocacy network"
+    },
+
+    {
+      "@id": "ex:currentNeeds",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "NeedsOffers",
+      "storageType":    "array",
+      "uxValue":        "Matchmaking and resource discovery"
+    },
+    {
+      "@id": "ex:currentOffers",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "NeedsOffers",
+      "storageType":    "array",
+      "uxValue":        "Matchmaking and resource discovery"
+    },
+    {
+      "@id": "ex:seeking",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "NeedsOffers",
+      "storageType":    "array",
+      "uxValue":        "Formal demand mapping"
+    },
+    {
+      "@id": "ex:providing",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "NeedsOffers",
+      "storageType":    "array",
+      "uxValue":        "Formal supply mapping"
+    },
+
+    {
+      "@id": "ex:degreeCentrality",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "NetworkMetrics",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Node sizing for visualization"
+    },
+    {
+      "@id": "ex:betweennessCentrality",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "NetworkMetrics",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Bridge detection analysis"
+    },
+    {
+      "@id": "ex:clusterId",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Text",
+      "cluster":        "NetworkMetrics",
+      "storageType":    "xsd:string",
+      "uxValue":        "Community detection and coloring"
+    },
+    {
+      "@id": "ex:bridgingScore",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "NetworkMetrics",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Cross-community connection analysis"
+    },
+    {
+      "@id": "ex:influenceScore",
+      "@type": "rdf:Property",
+      "domainIncludes": "schema:Organization",
+      "rangeIncludes":  "schema:Number",
+      "cluster":        "NetworkMetrics",
+      "storageType":    "xsd:decimal",
+      "uxValue":        "Combined influence measure for node sizing"
+    },
+
     {
       "@id": "ex:dataSources",
       "@type": "rdf:Property",

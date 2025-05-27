@@ -1,324 +1,345 @@
-# Unified Organization Schema Comparison & Proposal
+# Unified Organization Schema Comparison
+
+This document compares the three approaches to modeling organizations in the regenerative economy ecosystem and explains how they were synthesized into our unified schema.
 
 ## Overview
 
-This document provides a comprehensive comparison of three RDF schemas for organizations with a focus on mapping regenerative organizations. It includes:
+The unified organization schema combines the best elements from three different approaches:
 
-1. **Schema.org Organization Schema** - Industry standard vocabulary
-2. **Murmurations Organizations Schema v1.0.0** - Purpose-built for regenerative economy
-3. **Dylan Tull's Organization Schema** - Custom schema for mapping and visualization
+1. **Schema.org Organization** - Web standards compliance and semantic interoperability
+2. **Murmurations Organizations Schema** - Network discovery and regenerative economy focus  
+3. **Dylan Tull's Visualization Schema** - Optimized for 3D globe and force-directed graph visualization
 
-## Detailed Schema Analysis
+## Schema Comparison Matrix
 
-### 1. Schema.org Organization Schema
+### Core Identity Fields
 
-**Strengths:**
-- Industry standard with wide adoption
-- Comprehensive property coverage (60+ properties)
-- Strong semantic relationships
-- Well-documented and maintained
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Organization Name | `schema:name` | `name` (required) | `orgName` | `schema:name` | Primary identifier |
+| Legal Name | `schema:legalName` | - | - | `schema:legalName` | Official legal name |
+| Nickname | - | `nickname` | - | `murm:nickname` | Informal names |
+| Aliases | `schema:alternateName` | - | `aka[]` | `schema:alternateName[]` | Search optimization |
+| Legal Type | - | - | `legalType` | `ex:legalType` | Governance analysis |
+| Logo | `schema:logo` | `image` | `brandLogo` | `schema:logo` | Visual identification |
 
-**Key Properties:**
-- **Identity**: name, legalName, alternateName, logo
-- **Contact**: email, telephone, faxNumber, address, contactPoint
-- **Structure**: parentOrganization, subOrganization, department, member
-- **Financial**: taxID, vatID, leiCode, duns, globalLocationNumber
-- **Certifications**: hasCertification, award, iso6523Code
-- **Social**: review, aggregateRating, slogan, brand
-- **Governance**: founder, employee, legalRepresentative
-- **Publishing**: publishingPrinciples, ethicsPolicy, diversityPolicy
+### Mission & Purpose
 
-### 2. Murmurations Organizations Schema v1.0.0
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Tagline | `schema:slogan` | - | `tagline` | `schema:slogan` | Quick descriptor |
+| Mission | - | `mission` | `missionStmt` | `murm:mission` | Purpose statement |
+| Vision | - | - | `visionStmt` | `ex:visionStatement` | Future goals |
+| Core Values | - | - | `coreValues[]` | `ex:coreValues[]` | Cultural compatibility |
+| Description | `schema:description` | `description` | - | `schema:description` | General description |
 
-**Strengths:**
-- Simple and focused on discovery
-- Built for regenerative economy organizations
-- Network-oriented with relationship mapping
-- Includes temporal data
+### Geographic Information
 
-**Complete Field Definitions:**
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Address | `schema:address` | `full_address` | - | `schema:address` | Complete address |
+| Coordinates | - | `geolocation.lat/lon` | `hqLat`, `hqLon` | `murm:geolocation` | Globe positioning |
+| Locality | `schema:addressLocality` | - | `locality` | `schema:addressLocality` | Display name |
+| Country Code | - | `country_iso_3166` | - | `murm:country_iso_3166` | Geographic context |
+| Geographic Scope | `schema:areaServed` | `geographic_scope` | `regionScope` | `murm:geographic_scope` | Operation scale |
 
-#### Core Fields:
-- **linked_schemas** (required): Array of schema names for validation
-- **name** (required): Organization name (max 200 chars)
-- **nickname**: Familiar name
-- **primary_url**: Definitive website URL
+### Categorization & Discovery
 
-#### Discovery Fields:
-- **tags**: Keywords for categorization (array, max 100 items)
-  - Used for searchability in Murmurations index
-  - Maps to schema:keywords
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Tags | `schema:keywords` | `tags[]` (required) | - | `murm:tags[]` | Search keywords |
+| Industry Codes | `schema:naics` | - | `industryCodes[]` | `schema:naics[]` | Sector classification |
+| Keywords | `schema:keywords` | - | - | `schema:keywords[]` | General keywords |
 
-#### Relationship Fields:
-- **relationships**: Array of subject-predicate-object relationships
-  ```json
-  {
-    "predicate_url": "https://schema.org/member",
-    "object_url": "https://other-org.com"
-  }
-  ```
+### Relationships & Network
 
-#### Location Fields:
-- **geolocation**: Object with lat/lon coordinates
-- **full_address**: Complete address as single text field
-- **country_iso_3166**: Two-letter country code
-- **geographic_scope**: Enum ["local", "regional", "national", "international"]
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Parent Organization | `schema:parentOrganization` | - | `parentOrgId` | `schema:parentOrganization` | Corporate hierarchy |
+| Sub Organizations | `schema:subOrganization` | - | `subsidiaryIds[]` | `schema:subOrganization[]` | Corporate structure |
+| Formal Relationships | - | `relationships[]` | - | `murm:relationships[]` | Network discovery |
+| Member Of | `schema:memberOf` | - | - | `schema:memberOf` | Membership affiliations |
+| Partner Organizations | - | - | `partnerOrganizations[]` | `ex:partnerOrgs[]` | Partnership network |
+| Collaborators | - | - | `collaborators[]` | `ex:collaborators[]` | Active partnerships |
+| Investors | - | - | `investors[]` | `ex:investors[]` | Capital relationships |
+| Investees | - | - | `investees[]` | `ex:investees[]` | Investment portfolio |
+| Grantors | - | - | `grantors[]` | `ex:grantors[]` | Funding sources |
+| Grantees | - | - | `grantees[]` | `ex:grantees[]` | Grant recipients |
 
-#### Status & Time:
-- **status**: Enum ["active", "completed", "cancelled", "on_hold", "in_planning"]
-- **starts_at**: Unix timestamp for creation date
-- **ends_at**: Unix timestamp for dissolution date
+### Status & Temporal
 
-#### Content Fields:
-- **description**: Short description
-- **mission**: Mission/purpose statement
-- **image**: Logo URL
-- **header_image**: Banner image URL
-- **images**: Array of additional image URLs
-- **rss**: RSS feed URL
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Status | - | `status` | - | `murm:status` | Operational status |
+| Founding Date | `schema:foundingDate` | - | - | `schema:foundingDate` | Creation date |
+| Dissolution Date | `schema:dissolutionDate` | - | - | `schema:dissolutionDate` | End date |
+| Starts At | - | `starts_at` (Unix) | - | `murm:starts_at` | Unix timestamp |
+| Ends At | - | `ends_at` (Unix) | - | `murm:ends_at` | Unix timestamp |
 
-#### Contact:
-- **contact_details**: Contact information
-- **telephone**: Phone number
-- **urls**: Array of other website/social media URLs
+### Operational Scale
 
-### 3. Dylan Tull's Organization Schema
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Employee Count | `schema:numberOfEmployees` | - | - | `schema:numberOfEmployees` | Exact count |
+| Employee Range | - | - | `employeeRange` | `ex:employeeRange` | Size category |
+| Revenue Range | - | - | `revenueRangeUSD` | `ex:revenueRangeUSD` | Financial scale |
+| Volunteer Count | - | - | `volunteerCount` | `ex:volunteerCount` | Community engagement |
 
-**Strengths:**
-- Highly organized into thematic clusters
-- Rich metadata for visualization
-- Comprehensive impact tracking
-- Innovation and IP tracking
+### Impact & Certifications
 
-**Thematic Clusters:**
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Impact KPIs | - | - | `impactKPIs[]` | `ex:impactKPIs[]` | Measurable impact |
+| SDG Contribution | - | - | `sdgContribution[]` | `ex:sdgContribution[]` | UN goal alignment |
+| Certifications | `schema:hasCertification` | - | - | `schema:hasCertification[]` | Third-party validation |
+| B-Corp Score | - | - | `bcorpScore` | `ex:bcorpScore` | B-Corp assessment |
+| Nonprofit Status | `schema:nonprofitStatus` | - | - | `schema:nonprofitStatus` | Tax classification |
 
-1. **Identity Cluster**
-   - orgName, aka, legalType, brandLogo
+### Financial Information
 
-2. **Mission, Vision, Values Cluster**
-   - tagline, missionStmt, visionStmt, coreValues
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Funding Rounds | - | - | `fundingRounds[]` | `ex:fundingRounds[]` | Investment history |
+| Funding | `schema:funding` | - | - | `schema:funding` | General funding |
+| Funder | `schema:funder` | - | - | `schema:funder` | Funding source |
+| Tax ID | `schema:taxID` | - | - | `schema:taxID` | Legal identifier |
 
-3. **Sector & Scope Cluster**
-   - industryCodes (NAICS), regionScope
+### Digital Presence
 
-4. **Operational Scale Cluster**
-   - employeeRange, revenueRangeUSD, assetsUSD, volunteerCount
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Primary URL | `schema:url` | `primary_url` (required) | - | `murm:primary_url` | Main website |
+| Additional URLs | `schema:sameAs` | `urls[]` | `urls[]` | `murm:urls[]` | Social media, etc. |
+| RSS Feed | - | `rss` | - | `murm:rss` | Content syndication |
+| Social Media | - | - | `followersX`, `followersLinkedIn` | `ex:socialMedia[]` | Social presence |
 
-5. **Financial Lineage Cluster**
-   - fundingRounds, grantsReceived, grantsGiven
+### Contact Information
 
-6. **Impact Metrics Cluster**
-   - impactKPIs, sdgContribution
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Email | `schema:email` | - | - | `schema:email` | Direct contact |
+| Telephone | `schema:telephone` | `telephone` | - | `schema:telephone` | Phone contact |
+| Contact Point | `schema:contactPoint` | - | - | `schema:contactPoint` | Structured contact |
+| Contact Details | - | `contact_details` | - | `murm:contact_details` | General contact |
 
-7. **Certifications Cluster**
-   - bcorpScore, iso14k, fairTrade, scienceBasedTargets
+### Innovation & Resources
 
-8. **Programs & Products Cluster**
-   - flagshipProjects
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Expertise Areas | `schema:knowsAbout` | - | - | `schema:knowsAbout[]` | Knowledge domains |
+| Skills | `schema:skills` | - | - | `schema:skills[]` | Organizational capabilities |
+| Open Source Repos | - | - | `openSourceRepos[]` | `ex:openSourceRepos[]` | Innovation sharing |
 
-9. **Org Structure Cluster**
-   - parentOrgId, subsidiaryIds, daoTokenContract, boardMembers, execTeam
+### Collaboration Features (Unified Innovation)
 
-10. **Community Presence Cluster**
-    - followersX, followersLinkedIn, newsletterSubs, eventSeries
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Current Needs | - | - | `currentNeeds[]` | `ex:currentNeeds[]` | Resource requirements |
+| Current Offers | - | - | `currentOffers[]` | `ex:currentOffers[]` | Available resources |
+| Seeking | `schema:seeks` | - | `seeking[]` | `ex:seeking[]` | Formal demands |
+| Providing | - | - | `providing[]` | `ex:providing[]` | Formal offerings |
+| Network Metrics | - | - | `degreeCentrality`, etc. | `ex:networkMetrics{}` | Graph analysis |
 
-11. **Repositories & IP Cluster**
-    - openSourceRepos, patentIds, datasets
+## Relationship Modeling Approaches
 
-12. **Contact & Channels Cluster**
-    - hqLat, hqLon, locality, urls
+### Schema.org Approach
+- Basic organizational hierarchy (`parentOrganization`, `subOrganization`)
+- Simple membership (`memberOf`)
+- Limited relationship metadata
+- No temporal information or relationship strength
 
-13. **Meta Cluster**
-    - dataSources, lastScraped, confidenceScore
+### Murmurations Approach
+- Formal relationship discovery via `relationships[]` array
+- Subject-predicate-object model for network mapping
+- Focus on organizational connections for regenerative economy
+- Limited to current, formal relationships
 
-## Unified Schema Proposal
+### Dylan Tull's Extended Approach
+- Comprehensive relationship types for visualization
+- Separate arrays for different relationship categories
+- Rich metadata for graph analysis and network metrics
+- Support for temporal relationships and strength weighting
 
-Based on the analysis, here's a unified schema that combines the best of all three approaches:
+### Unified Schema Integration
+The unified schema combines all approaches:
+- Maintains Schema.org compatibility for basic relationships
+- Includes Murmurations discovery mechanism
+- Extends with Dylan's comprehensive relationship modeling
+- Adds network analysis metrics for visualization
 
-```json
-{
-  "@context": {
-    "schema": "http://schema.org/",
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "https://regen-mapping.org/ontology/",
-    "murm": "https://murmurations.network/fields/",
-    
-    /* Core Identity (combines all three) */
-    "name": "schema:name",
-    "legalName": "schema:legalName",
-    "nickname": "murm:nickname",
-    "aka": {"@id": "schema:alternateName", "@container": "@set"},
-    "legalType": "ex:legalType",
-    "logo": {"@id": "schema:logo", "@type": "@id"},
-    
-    /* Mission & Purpose (Dylan + Murmurations) */
-    "tagline": "schema:slogan",
-    "mission": "murm:mission",
-    "vision": "ex:visionStatement",
-    "coreValues": {"@id": "ex:coreValues", "@container": "@set"},
-    "description": "schema:description",
-    
-    /* Discovery & Categorization (Murmurations + Schema.org) */
-    "tags": {"@id": "murm:tags", "@container": "@set"},
-    "keywords": {"@id": "schema:keywords", "@container": "@set"},
-    "industryCodes": {"@id": "schema:naics", "@container": "@set"},
-    
-    /* Geographic Information (all three) */
-    "geolocation": "murm:geolocation",
-    "address": "schema:address",
-    "fullAddress": "murm:full_address",
-    "countryCode": "murm:country_iso_3166",
-    "geographicScope": "murm:geographic_scope",
-    "areaServed": "schema:areaServed",
-    
-    /* Relationships & Network (Murmurations + Schema.org) */
-    "relationships": {"@id": "murm:relationships", "@container": "@set"},
-    "memberOf": {"@id": "schema:memberOf", "@type": "@id"},
-    "parentOrganization": {"@id": "schema:parentOrganization", "@type": "@id"},
-    "subOrganization": {"@id": "schema:subOrganization", "@type": "@id", "@container": "@set"},
-    
-    /* Status & Temporal (Murmurations) */
-    "status": "murm:status",
-    "foundingDate": "schema:foundingDate",
-    "dissolutionDate": "schema:dissolutionDate",
-    "startsAt": {"@id": "murm:starts_at", "@type": "xsd:integer"},
-    "endsAt": {"@id": "murm:ends_at", "@type": "xsd:integer"},
-    
-    /* Scale & Operations (Dylan) */
-    "employeeRange": "ex:employeeRange",
-    "numberOfEmployees": "schema:numberOfEmployees",
-    "revenueRange": "ex:revenueRangeUSD",
-    "volunteerCount": "ex:volunteerCount",
-    
-    /* Impact & Certifications (Dylan + Schema.org) */
-    "impactKPIs": {"@id": "ex:impactKPIs", "@container": "@set"},
-    "sdgContribution": {"@id": "ex:sdgContribution", "@container": "@set"},
-    "hasCertification": {"@id": "schema:hasCertification", "@container": "@set"},
-    "bcorpScore": "ex:bcorpScore",
-    "nonprofitStatus": "schema:nonprofitStatus",
-    
-    /* Financial (Dylan + Schema.org) */
-    "fundingRounds": {"@id": "ex:fundingRounds", "@container": "@set"},
-    "funding": "schema:funding",
-    "funder": "schema:funder",
-    "taxID": "schema:taxID",
-    
-    /* Digital Presence (all three) */
-    "primaryUrl": "murm:primary_url",
-    "url": {"@id": "schema:url", "@type": "@id"},
-    "urls": {"@id": "murm:urls", "@container": "@set"},
-    "rss": "murm:rss",
-    "socialMedia": {"@id": "ex:socialMedia", "@container": "@set"},
-    
-    /* Contact (all three) */
-    "email": "schema:email",
-    "telephone": "schema:telephone",
-    "contactPoint": "schema:contactPoint",
-    "contactDetails": "murm:contact_details",
-    
-    /* Innovation & Knowledge (Dylan + Schema.org) */
-    "knowsAbout": {"@id": "schema:knowsAbout", "@container": "@set"},
-    "skills": {"@id": "schema:skills", "@container": "@set"},
-    "openSourceRepos": {"@id": "ex:openSourceRepos", "@container": "@set"},
-    
-    /* Metadata (Dylan) */
-    "dataSources": {"@id": "ex:dataSources", "@container": "@set"},
-    "lastUpdated": {"@id": "ex:lastUpdated", "@type": "xsd:dateTime"},
-    "confidenceScore": "ex:confidenceScore"
-  },
-  
-  "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
-  
-  /* Required fields */
-  "name": "Organization Name",
-  "primaryUrl": "https://example.org"
+## Synthesis Approach
+
+### 1. Standards Compliance First
+Built on Schema.org as the foundation to ensure:
+- Web standards compliance and semantic interoperability
+- SEO and structured data benefits
+- Compatibility with existing organizational databases
+
+### 2. Network Discovery Integration
+Incorporated Murmurations' network discovery features:
+- Required fields for regenerative economy indexing
+- Formal relationship modeling for network effects
+- Geographic and temporal standardization
+
+### 3. Visualization Optimization
+Added Dylan's visualization-specific enhancements:
+- Comprehensive relationship categorization
+- Network analysis metrics for graph algorithms
+- Impact measurement for regenerative economy mapping
+
+### 4. Collaboration Innovation
+Extended all approaches with new features:
+- Needs/offers matching for resource discovery
+- Enhanced relationship metadata for network analysis
+- Structured collaboration support
+
+## Implementation Benefits
+
+### For Web Standards
+- Full Schema.org compliance for existing tools
+- Rich structured data for search engines
+- Interoperability with other organization databases
+
+### For Network Discovery
+- Murmurations Index compatibility
+- Automated relationship detection and mapping
+- Geographic clustering and regional analysis
+
+### For Visualization
+- Optimized for Three.js/Deck.gl 3D rendering
+- Graph analysis algorithm integration
+- Multiple representation modes (globe + force-directed)
+
+### For Regenerative Economy
+- Comprehensive organizational categorization
+- Impact measurement and SDG alignment tracking
+- Resource sharing and collaboration features
+
+## Field Mapping Functions
+
+### From Schema.org to Unified
+```javascript
+function mapSchemaOrgToUnified(schemaOrg) {
+  return {
+    '@type': ['schema:Organization', 'ex:RegenerativeOrganization'],
+    'schema:name': schemaOrg.name,
+    'schema:legalName': schemaOrg.legalName,
+    'schema:alternateName': schemaOrg.alternateName,
+    'schema:logo': schemaOrg.logo,
+    'schema:url': schemaOrg.url,
+    'schema:email': schemaOrg.email,
+    'schema:address': schemaOrg.address,
+    'schema:parentOrganization': schemaOrg.parentOrganization,
+    // Add regenerative-specific fields
+    'murm:tags': [], // Requires manual categorization
+    'ex:impactKPIs': [] // Requires impact assessment
+  };
 }
 ```
 
-## Implementation Recommendations
+### From Murmurations to Unified
+```javascript
+function mapMurmurationsToUnified(murmOrg) {
+  return {
+    '@type': ['schema:Organization', 'ex:RegenerativeOrganization'],
+    'schema:name': murmOrg.name,
+    'murm:nickname': murmOrg.nickname,
+    'murm:primary_url': murmOrg.primary_url,
+    'murm:tags': murmOrg.tags,
+    'schema:description': murmOrg.description,
+    'murm:mission': murmOrg.mission,
+    'murm:geolocation': murmOrg.geolocation,
+    'murm:status': murmOrg.status,
+    'murm:relationships': murmOrg.relationships,
+    'schema:telephone': murmOrg.telephone,
+    'murm:urls': murmOrg.urls
+  };
+}
+```
 
-### 1. Phased Approach
+### From Dylan Tull to Unified
+```javascript
+function mapDylanTullToUnified(dylanOrg) {
+  return {
+    '@type': ['schema:Organization', 'ex:RegenerativeOrganization'],
+    'schema:name': dylanOrg.orgName,
+    'schema:alternateName': dylanOrg.aka,
+    'ex:legalType': dylanOrg.legalType,
+    'schema:logo': dylanOrg.brandLogo,
+    'schema:slogan': dylanOrg.tagline,
+    'murm:mission': dylanOrg.missionStmt,
+    'ex:visionStatement': dylanOrg.visionStmt,
+    'ex:coreValues': dylanOrg.coreValues,
+    'schema:naics': dylanOrg.industryCodes,
+    'murm:geographic_scope': dylanOrg.regionScope,
+    'ex:employeeRange': dylanOrg.employeeRange,
+    'ex:revenueRangeUSD': dylanOrg.revenueRangeUSD,
+    'ex:impactKPIs': dylanOrg.impactKPIs,
+    'ex:bcorpScore': dylanOrg.bcorpScore,
+    'schema:parentOrganization': dylanOrg.parentOrgId,
+    'schema:subOrganization': dylanOrg.subsidiaryIds,
+    // Enhanced relationship fields
+    'ex:partnerOrgs': dylanOrg.partnerOrganizations,
+    'ex:collaborators': dylanOrg.collaborators,
+    'ex:investors': dylanOrg.investors,
+    'ex:investees': dylanOrg.investees,
+    'ex:grantors': dylanOrg.grantors,
+    'ex:grantees': dylanOrg.grantees,
+    // Needs and offers
+    'ex:currentNeeds': dylanOrg.currentNeeds,
+    'ex:currentOffers': dylanOrg.currentOffers,
+    // Network metrics
+    'ex:networkMetrics': {
+      'ex:degreeCentrality': dylanOrg.degreeCentrality,
+      'ex:betweennessCentrality': dylanOrg.betweennessCentrality,
+      'ex:clusterId': dylanOrg.clusterId,
+      'ex:bridgingScore': dylanOrg.bridgingScore,
+      'ex:influenceScore': dylanOrg.influenceScore
+    },
+    // Geographic data
+    'murm:geolocation': {
+      lat: dylanOrg.hqLat,
+      lon: dylanOrg.hqLon
+    },
+    'schema:addressLocality': dylanOrg.locality
+  };
+}
+```
 
-**Phase 1: Core Fields (MVP)**
-- name, legalName, nickname
-- primaryUrl, urls
-- description, mission
-- tags, keywords
-- geolocation, address
-- status
-- Basic relationships
+## Validation and Quality
 
-**Phase 2: Enhanced Discovery**
-- Geographic scope
-- Industry codes
-- Impact metrics
-- Certifications
-- Social media presence
+### Required Fields (Minimum Viable Profile)
+- `schema:name` - Organization name for identification
+- `murm:primary_url` - Primary online presence
+- `murm:geolocation` - Location for mapping
+- `murm:tags` - At least one categorization tag
 
-**Phase 3: Advanced Features**
-- Financial data
-- Innovation tracking
-- Detailed relationships
-- Time-series data
+### Recommended Fields (Rich Profile)
+- Mission and purpose information
+- Contact details and additional URLs
+- Organizational relationships and partnerships
+- Impact metrics and certifications
 
-### 2. Data Migration Strategy
+### Data Quality Indicators
+- `ex:confidenceScore` (0-1) based on source authority
+- `ex:lastUpdated` timestamp for freshness
+- `ex:dataSources[]` for provenance tracking
+- Validation against controlled vocabularies
 
-**From Murmurations:**
-- Direct mapping for most fields
-- Expand relationships to use schema.org predicates
-- Convert timestamps to ISO dates where appropriate
+## Future Extensions
 
-**From Schema.org:**
-- Map to simplified fields where possible
-- Preserve all semantic relationships
-- Add regenerative-specific extensions
+### Planned Enhancements
+1. **Supply Chain Mapping** - Detailed supplier and customer relationships
+2. **Impact Measurement** - Standardized regenerative impact metrics
+3. **Financial Transparency** - Enhanced funding and revenue tracking
+4. **Innovation Networks** - Patent and intellectual property connections
+5. **Event Integration** - Conference and gathering participation
 
-**From Dylan's Schema:**
-- Maintain cluster organization for UI
-- Preserve all custom fields
-- Add Murmurations discovery fields
+### Technical Roadmap
+1. **GraphQL API** - Query interface for applications
+2. **Neo4j Integration** - Graph database optimization
+3. **Vector Embeddings** - Semantic search capabilities
+4. **Real-time Updates** - Live synchronization across platforms
+5. **Privacy Controls** - Granular data sharing permissions
 
-### 3. Validation Rules
-
-1. **Required Fields:**
-   - name (or orgName)
-   - At least one URL (primaryUrl or url)
-   - At least one schema declaration
-
-2. **Conditional Requirements:**
-   - If nonprofit, require nonprofitStatus
-   - If has impact metrics, require at least one KPI
-   - If has certifications, require issuing details
-
-3. **Data Quality:**
-   - URLs must be valid and accessible
-   - Geolocation must be valid coordinates
-   - Dates must be properly formatted
-
-### 4. Extension Points
-
-The schema is designed to be extensible:
-
-1. **Custom Predicates**: Add domain-specific relationships
-2. **Impact Frameworks**: Support various impact measurement standards
-3. **Certification Types**: Add new certification schemas
-4. **Regional Extensions**: Add locale-specific fields
-
-## Benefits of Unified Approach
-
-1. **Interoperability**: Works with existing tools and standards
-2. **Discoverability**: Optimized for Murmurations network
-3. **Visualization**: Rich data for mapping and analytics
-4. **Flexibility**: Can start simple and add complexity
-5. **Future-proof**: Built on established standards
-
-## Next Steps
-
-1. Review and refine field mappings
-2. Create JSON-LD context file
-3. Build validation schemas
-4. Create transformation scripts
-5. Test with sample data
-6. Document for developers
+This unified approach provides a comprehensive foundation for mapping the regenerative economy ecosystem while maintaining compatibility with existing standards and enabling innovative visualization and collaboration features.

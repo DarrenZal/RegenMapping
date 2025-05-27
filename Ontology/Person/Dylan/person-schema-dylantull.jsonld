@@ -252,6 +252,180 @@
         },
 
         {
+          "@id": "regen:relationships",
+          "rdfs:label": "Relationships",
+          "regen:cluster": "Relationships",
+          "schema:properties": {
+            "mentors": {
+              "@id": "regen:mentors",
+              "@type": "schema:Person",
+              "rdfs:label": "Mentors",
+              "rdfs:comment": "People who mentor this person",
+              "regen:purpose": "mentor network analysis",
+              "schema:isArray": true
+            },
+            "mentees": {
+              "@id": "regen:mentees",
+              "@type": "schema:Person",
+              "rdfs:label": "Mentees",
+              "rdfs:comment": "People this person mentors",
+              "regen:purpose": "mentor network analysis",
+              "schema:isArray": true
+            },
+            "collaborators": {
+              "@id": "regen:collaborators",
+              "@type": "schema:Person",
+              "rdfs:label": "Collaborators",
+              "rdfs:comment": "People they collaborate with on projects",
+              "regen:purpose": "collaboration network",
+              "schema:isArray": true
+            },
+            "colleagues": {
+              "@id": "schema:colleague",
+              "@type": "schema:Person",
+              "rdfs:label": "Colleagues",
+              "rdfs:comment": "Professional colleagues",
+              "regen:purpose": "professional network",
+              "schema:isArray": true
+            },
+            "eventParticipation": {
+              "@id": "regen:eventParticipation",
+              "@type": "regen:EventParticipation",
+              "rdfs:label": "Event Participation",
+              "rdfs:comment": "Events participated in with roles",
+              "regen:purpose": "event network analysis",
+              "schema:isArray": true,
+              "schema:properties": {
+                "eventId": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Event ID"
+                },
+                "organizer": {
+                  "@type": "schema:Organization",
+                  "rdfs:label": "Event Organizer"
+                },
+                "role": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Participation Role"
+                },
+                "date": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "Event Date"
+                }
+              }
+            },
+            "boardPositions": {
+              "@id": "regen:boardPositions",
+              "@type": "regen:BoardPosition",
+              "rdfs:label": "Board Positions",
+              "rdfs:comment": "Board and advisory positions held",
+              "regen:purpose": "governance network",
+              "schema:isArray": true,
+              "schema:properties": {
+                "orgId": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Organization ID"
+                },
+                "position": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Board Position"
+                },
+                "since": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "Start Date"
+                },
+                "until": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "End Date"
+                }
+              }
+            },
+            "coauthorships": {
+              "@id": "regen:coauthorships",
+              "@type": "regen:Coauthorship",
+              "rdfs:label": "Publication Co-authorships",
+              "rdfs:comment": "Joint publications with other people",
+              "regen:purpose": "intellectual collaboration network",
+              "schema:isArray": true,
+              "schema:properties": {
+                "coauthor": {
+                  "@type": "schema:Person",
+                  "rdfs:label": "Co-author"
+                },
+                "workId": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Work ID"
+                },
+                "citations": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Citation Count"
+                }
+              }
+            }
+          }
+        },
+
+        {
+          "@id": "regen:needsOffers",
+          "rdfs:label": "Needs & Offers",
+          "regen:cluster": "Needs & Offers",
+          "schema:properties": {
+            "needs": {
+              "@id": "regen:currentNeeds",
+              "@type": "schema:Text",
+              "rdfs:label": "Current Needs",
+              "rdfs:comment": "Resources, support, or connections currently sought",
+              "regen:purpose": "matchmaking and resource discovery",
+              "schema:isArray": true
+            },
+            "offers": {
+              "@id": "regen:currentOffers",
+              "@type": "schema:Text",
+              "rdfs:label": "Current Offers",
+              "rdfs:comment": "Skills, resources, or support they can provide",
+              "regen:purpose": "matchmaking and resource discovery",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:networkMetrics",
+          "rdfs:label": "Network Metrics",
+          "regen:cluster": "Network Metrics",
+          "schema:properties": {
+            "degreeCentrality": {
+              "@id": "regen:degreeCentrality",
+              "@type": "schema:Number",
+              "rdfs:label": "Degree Centrality",
+              "rdfs:comment": "Number of direct connections",
+              "regen:purpose": "network topology analysis"
+            },
+            "betweennessCentrality": {
+              "@id": "regen:betweennessCentrality",
+              "@type": "schema:Number",
+              "rdfs:label": "Betweenness Centrality",
+              "rdfs:comment": "How often person appears on shortest paths",
+              "regen:purpose": "bridge detection"
+            },
+            "clusterId": {
+              "@id": "regen:clusterId",
+              "@type": "schema:Text",
+              "rdfs:label": "Cluster ID",
+              "rdfs:comment": "Community cluster identifier",
+              "regen:purpose": "community detection"
+            },
+            "bridgingScore": {
+              "@id": "regen:bridgingScore",
+              "@type": "schema:Number",
+              "rdfs:label": "Bridging Score",
+              "rdfs:comment": "Measure of community bridging",
+              "regen:purpose": "network bridge analysis"
+            }
+          }
+        },
+
+        {
           "@id": "regen:meta",
           "rdfs:label": "Meta Information",
           "regen:cluster": "Meta",
