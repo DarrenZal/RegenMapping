@@ -44,6 +44,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 │
 └── Ontology/                                   # Schema definitions (JSON-LD files)
     ├── unified-organization-schema.jsonld          # Practical unified implementation
+    ├── regen-org-shapes.ttl                       # SHACL shapes for data validation
     ├── example-organization-profile.jsonld         # Complete usage example
     ├── schemaorganizationDyllanTull.jsonld        # Dylan Tull's regenerative schema
     │
