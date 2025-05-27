@@ -13,6 +13,11 @@ This guide provides mapping tables and transformation rules for converting betwe
 | additionalName | additionalName | - | - |
 | nickname | alternateName | nickname | - |
 | aka | - | - | aka |
+| displayHandle | - | - | displayHandle |
+| headline | - | - | headline |
+| birthYear | birthDate | - | birthYear |
+| citizenship | nationality | - | citizenship |
+| timeZone | - | - | timeZone |
 | pronouns | - | - | pronouns |
 | honorificPrefix | honorificPrefix | - | - |
 | image | image | image | - |
@@ -20,7 +25,13 @@ This guide provides mapping tables and transformation rules for converting betwe
 | jobTitle | jobTitle | - | primaryRole |
 | worksFor | worksFor | - | - |
 | affiliations | memberOf | - | affiliations |
-| skills | skills | tags | - |
+| currentTitle | jobTitle | - | currentTitle |
+| currentOrgId | worksFor | - | currentOrgId |
+| workHistory | - | - | workHistory |
+| education | educationalCredential | - | education |
+| certifications | hasCredential | - | certifications |
+| skills | skills | tags | skills |
+| languages | knowsLanguage | knows_language | languages |
 | knowsAbout | knowsAbout | - | - |
 | **Location** | | | |
 | homeLocation | homeLocation | - | - |
@@ -55,9 +66,31 @@ This guide provides mapping tables and transformation rules for converting betwe
 | coauthorships | - | - | coauthorships |
 | **Metrics** | | | |
 | followers | - | - | metrics.followers |
-| citations | - | - | metrics.citations |
+| followersX | - | - | metrics.followersX |
+| followersLinkedIn | - | - | metrics.followersLinkedIn |
+| newsletterSubs | - | - | metrics.newsletterSubs |
 | hIndex | - | - | metrics.hIndex |
+| listsOnX | - | - | metrics.listsOnX |
+| twitterEngageRate | - | - | metrics.twitterEngageRate |
+| citations | - | - | metrics.citations |
 | projects | - | - | metrics.projects |
+| **Content & IP** | | | |
+| pinnedTweets | - | - | pinnedTweets |
+| topPosts | - | - | topPosts |
+| publications | - | - | publications |
+| repos | - | - | repos |
+| speakingEvents | - | - | speakingEvents |
+| **Networks & Memberships** | | | |
+| groupsLinkedIn | - | - | groupsLinkedIn |
+| fbGroups | - | - | fbGroups |
+| daoMemberships | - | - | daoMemberships |
+| **Contact & Trust** | | | |
+| emailHash | - | - | emailHash |
+| publicEmail | email | contact_details.email | publicEmail |
+| dmLinks | - | - | dmLinks |
+| blueCheckX | - | - | blueCheckX |
+| credentialedLinkedIn | - | - | credentialedLinkedIn |
+| humanIDProof | - | - | humanIDProof |
 | **Needs/Offers** | | | |
 | currentNeeds | - | - | needs |
 | currentOffers | - | - | offers |

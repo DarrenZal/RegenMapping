@@ -43,6 +43,32 @@ regen:RegenerativePersonShape
       sh:pattern         "^[a-zA-Z/]+$" ;
       sh:message         "Pronouns should follow standard format like 'she/her' or 'they/them'." ;
   ] ;
+  sh:property [
+      sh:path            regen:displayHandle ;
+      sh:maxLength       50 ;
+      sh:message         "Display handle should be ≤ 50 characters." ;
+  ] ;
+  sh:property [
+      sh:path            regen:headline ;
+      sh:maxLength       200 ;
+      sh:message         "Headline should be ≤ 200 characters." ;
+  ] ;
+  sh:property [
+      sh:path            regen:birthYear ;
+      sh:datatype        xsd:gYear ;
+      sh:minInclusive    "1900"^^xsd:gYear ;
+      sh:maxInclusive    "2025"^^xsd:gYear ;
+      sh:message         "Birth year should be between 1900 and 2025." ;
+  ] ;
+  sh:property [
+      sh:path            regen:citizenship ;
+      sh:maxLength       100 ;
+  ] ;
+  sh:property [
+      sh:path            regen:timeZone ;
+      sh:pattern         "^[A-Za-z/_]+$" ;
+      sh:message         "Time zone should follow standard format like 'America/New_York'." ;
+  ] ;
 
   ##########################################################
   # -------- Professional & Affiliation cluster ----------
@@ -61,8 +87,32 @@ regen:RegenerativePersonShape
       sh:nodeKind        sh:IRIOrBlankNode ;
   ] ;
   sh:property [
+      sh:path            regen:currentTitle ;
+      sh:maxLength       150 ;
+  ] ;
+  sh:property [
+      sh:path            regen:currentOrgId ;
+      sh:nodeKind        sh:IRI ;
+  ] ;
+  sh:property [
+      sh:path            regen:workHistory ;
+      sh:class           regen:WorkHistory ;
+  ] ;
+  sh:property [
+      sh:path            regen:education ;
+      sh:class           schema:EducationalOccupationalCredential ;
+  ] ;
+  sh:property [
+      sh:path            regen:certifications ;
+      sh:class           schema:EducationalOccupationalCredential ;
+  ] ;
+  sh:property [
       sh:path            schema:skills ;
       sh:nodeKind        sh:IRIOrLiteral ;
+  ] ;
+  sh:property [
+      sh:path            regen:languages ;
+      sh:class           schema:Language ;
   ] ;
 
   ##########################################################
@@ -165,6 +215,108 @@ regen:RegenerativePersonShape
       sh:path            regen:coauthorships ;
       sh:class           regen:Coauthorship ;
       sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+
+  ##########################################################
+  # -------- Content & IP cluster -------------------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:pinnedTweets ;
+      sh:class           schema:SocialMediaPosting ;
+  ] ;
+  sh:property [
+      sh:path            regen:topPosts ;
+      sh:class           schema:SocialMediaPosting ;
+  ] ;
+  sh:property [
+      sh:path            regen:publications ;
+      sh:class           schema:ScholarlyArticle ;
+  ] ;
+  sh:property [
+      sh:path            regen:repos ;
+      sh:class           schema:SoftwareSourceCode ;
+  ] ;
+  sh:property [
+      sh:path            regen:speakingEvents ;
+      sh:class           schema:Event ;
+  ] ;
+
+  ##########################################################
+  # -------- Influence Metrics cluster --------------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:followersX ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:followersLinkedIn ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:newsletterSubs ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:hIndex ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:listsOnX ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            regen:twitterEngageRate ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+      sh:maxInclusive    1 ;
+  ] ;
+
+  ##########################################################
+  # -------- Networks & Trust cluster ---------------------
+  ##########################################################
+  sh:property [
+      sh:path            regen:groupsLinkedIn ;
+      sh:class           schema:Organization ;
+  ] ;
+  sh:property [
+      sh:path            regen:fbGroups ;
+      sh:class           schema:Organization ;
+  ] ;
+  sh:property [
+      sh:path            regen:daoMemberships ;
+      sh:class           schema:Organization ;
+  ] ;
+  sh:property [
+      sh:path            regen:emailHash ;
+      sh:maxLength       64 ;
+      sh:pattern         "^[a-f0-9]{64}$" ;
+      sh:message         "Email hash should be a 64-character hexadecimal string." ;
+  ] ;
+  sh:property [
+      sh:path            regen:publicEmail ;
+      sh:pattern         "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$" ;
+      sh:message         "Public email should be a valid email address." ;
+  ] ;
+  sh:property [
+      sh:path            regen:dmLinks ;
+      sh:nodeKind        sh:IRI ;
+  ] ;
+  sh:property [
+      sh:path            regen:blueCheckX ;
+      sh:datatype        xsd:boolean ;
+  ] ;
+  sh:property [
+      sh:path            regen:credentialedLinkedIn ;
+      sh:datatype        xsd:boolean ;
+  ] ;
+  sh:property [
+      sh:path            regen:humanIDProof ;
+      sh:maxLength       200 ;
   ] ;
 
   ##########################################################

@@ -75,6 +75,28 @@ ex:RegenerativeOrgShape
   ] ;
 
   ##########################################################
+  # -------- Mission & Purpose ----------------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:mission ;
+      sh:maxLength       500 ;
+  ] ;
+  sh:property [
+      sh:path            ex:missionStatement ;
+      sh:maxLength       1000 ;
+  ] ;
+  sh:property [
+      sh:path            ex:foundedYear ;
+      sh:datatype        xsd:gYear ;
+      sh:minInclusive    "1800"^^xsd:gYear ;
+      sh:maxInclusive    "2025"^^xsd:gYear ;
+  ] ;
+  sh:property [
+      sh:path            ex:programAreas ;
+      sh:maxLength       100 ;
+  ] ;
+
+  ##########################################################
   # -------- Scale & finance ------------------------------
   ##########################################################
   sh:property [
@@ -92,6 +114,58 @@ ex:RegenerativeOrgShape
       sh:pattern         "^\\$?[0-9,]+\\s*[-+]\\s*\\$?[0-9,]+$" ;
       sh:message         "revenueRange should be a USD range, e.g. '1M-5M'." ;
   ] ;
+  sh:property [
+      sh:path            ex:assetsUSD ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            ex:grantsReceived ;
+      sh:class           ex:Grant ;
+  ] ;
+  sh:property [
+      sh:path            ex:grantsGiven ;
+      sh:class           ex:Grant ;
+  ] ;
+
+  ##########################################################
+  # -------- Organizational Structure ---------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:boardMembers ;
+      sh:nodeKind        sh:IRI ;
+  ] ;
+  sh:property [
+      sh:path            ex:execTeam ;
+      sh:nodeKind        sh:IRI ;
+  ] ;
+  sh:property [
+      sh:path            ex:daoTokenContract ;
+      sh:nodeKind        sh:IRI ;
+  ] ;
+
+  ##########################################################
+  # -------- Community Presence ---------------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:followersX ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            ex:followersLinkedIn ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            ex:newsletterSubs ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            ex:eventSeries ;
+      sh:class           ex:EventSeries ;
+  ] ;
 
   ##########################################################
   # -------- Impact & certifications ----------------------
@@ -104,6 +178,34 @@ ex:RegenerativeOrgShape
   sh:property [
       sh:path            schema:hasCertification ;
       sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+  sh:property [
+      sh:path            ex:iso14k ;
+      sh:datatype        xsd:boolean ;
+  ] ;
+  sh:property [
+      sh:path            ex:fairTrade ;
+      sh:datatype        xsd:boolean ;
+  ] ;
+  sh:property [
+      sh:path            ex:scienceBasedTargets ;
+      sh:datatype        xsd:boolean ;
+  ] ;
+
+  ##########################################################
+  # -------- Innovation & IP ------------------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:flagshipProjects ;
+      sh:class           ex:FlagshipProject ;
+  ] ;
+  sh:property [
+      sh:path            ex:patentIds ;
+      sh:class           ex:Patent ;
+  ] ;
+  sh:property [
+      sh:path            ex:datasets ;
+      sh:nodeKind        sh:IRI ;
   ] ;
 
   ##########################################################

@@ -20,6 +20,11 @@ The unified person schema combines the best elements from three different approa
 | Given/Family Name | `schema:givenName`, `schema:familyName` | - | - | `schema:givenName`, `schema:familyName` | Name components |
 | Nickname | `schema:alternateName` | `nickname` | - | `schema:alternateName` | Informal names |
 | Aliases | - | - | `aka[]` | `regen:alsoKnownAs[]` | Search optimization |
+| Display Handle | - | - | `displayHandle` | `regen:displayHandle` | Social media mentions |
+| Headline | - | - | `headline` | `regen:headline` | Professional summary |
+| Birth Year | `schema:birthDate` | - | `birthYear` | `regen:birthYear` | Demographics |
+| Citizenship | `schema:nationality` | - | `citizenship` | `regen:citizenship` | Global context |
+| Time Zone | - | - | `timeZone` | `regen:timeZone` | Coordination |
 | Pronouns | - | - | `pronouns` | `regen:pronouns` | Inclusive UX |
 | Profile Image | `schema:image` | `image` | - | `schema:image` | Visual identification |
 
@@ -28,9 +33,14 @@ The unified person schema combines the best elements from three different approa
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
 | Job Title | `schema:jobTitle` | - | `primaryRole` | `schema:jobTitle` | Professional identity |
-| Current Org | `schema:worksFor` | - | - | `schema:worksFor` | Primary affiliation |
+| Current Title | `schema:jobTitle` | - | `currentTitle` | `regen:currentTitle` | Current position |
+| Current Org | `schema:worksFor` | - | `currentOrgId` | `schema:worksFor` | Primary affiliation |
+| Work History | - | - | `workHistory[]` | `regen:workHistory[]` | Career trajectory |
+| Education | `schema:educationalCredential` | - | `education[]` | `regen:education[]` | Academic background |
+| Certifications | `schema:hasCredential` | - | `certifications[]` | `regen:certifications[]` | Professional credentials |
 | Affiliations | `schema:memberOf` | - | `affiliations[]` | `regen:affiliations[]` | Time-sliced relationships |
-| Skills | `schema:skills` | `tags` (required) | - | `schema:skills` | Competencies |
+| Skills | `schema:skills` | `tags` (required) | `skills[]` | `schema:skills` | Competencies |
+| Languages | `schema:knowsLanguage` | `knows_language[]` | `languages[]` | `schema:knowsLanguage` | Communication abilities |
 | Expertise | `schema:knowsAbout` | - | - | `schema:knowsAbout` | Knowledge domains |
 
 ### Location Data
@@ -59,6 +69,46 @@ The unified person schema combines the best elements from three different approa
 | Email | `schema:email` | `contact_details.email` | - | `schema:email` | Direct contact |
 | Phone | `schema:telephone` | `telephone` | - | `schema:telephone` | Phone contact |
 | Additional URLs | `schema:sameAs` | `urls[]` | `urls[]` | `regen:additionalUrls[]` | Social media, etc. |
+| Email Hash | - | - | `emailHash` | `regen:emailHash` | Privacy-preserving contact |
+| Public Email | `schema:email` | `contact_details.email` | `publicEmail` | `regen:publicEmail` | Direct contact |
+| DM Links | - | - | `dmLinks[]` | `regen:dmLinks[]` | Direct messaging |
+
+### Influence & Content Metrics
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Twitter/X Followers | - | - | `followersX` | `regen:followersX` | Social influence |
+| LinkedIn Followers | - | - | `followersLinkedIn` | `regen:followersLinkedIn` | Professional reach |
+| Newsletter Subscribers | - | - | `newsletterSubs` | `regen:newsletterSubs` | Direct audience |
+| H-Index | - | - | `hIndex` | `regen:hIndex` | Academic impact |
+| Twitter/X Lists | - | - | `listsOnX` | `regen:listsOnX` | Network curation |
+| Engagement Rate | - | - | `twitterEngageRate` | `regen:twitterEngageRate` | Content quality |
+
+### Content & IP
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Pinned Tweets | - | - | `pinnedTweets[]` | `regen:pinnedTweets[]` | Thought leadership |
+| Top Posts | - | - | `topPosts[]` | `regen:topPosts[]` | Viral content |
+| Publications | `schema:author` | - | `publications[]` | `regen:publications[]` | Academic output |
+| Repositories | - | - | `repos[]` | `regen:repos[]` | Technical contributions |
+| Speaking Events | - | - | `speakingEvents[]` | `regen:speakingEvents[]` | Public speaking |
+
+### Networks & Memberships
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| LinkedIn Groups | - | - | `groupsLinkedIn[]` | `regen:groupsLinkedIn[]` | Professional networks |
+| Facebook Groups | - | - | `fbGroups[]` | `regen:fbGroups[]` | Community engagement |
+| DAO Memberships | - | - | `daoMemberships[]` | `regen:daoMemberships[]` | Web3 participation |
+
+### Trust & Verification
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Twitter/X Verified | - | - | `blueCheckX` | `regen:blueCheckX` | Credibility indicator |
+| LinkedIn Verified | - | - | `credentialedLinkedIn` | `regen:credentialedLinkedIn` | Professional credibility |
+| Human ID Proof | - | - | `humanIDProof` | `regen:humanIDProof` | Authenticity verification |
 
 ### Network Discovery (Murmurations Focus)
 

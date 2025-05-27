@@ -33,6 +33,72 @@
       "schema:jobTitle": "Professor of Human Geography",
       "regen:currentTitle": "Professor of Human Geography",
       "regen:currentOrgId": "https://regen-map.org/organizations/university-of-oslo",
+      
+      "regen:workHistory": [
+        {
+          "organization": "Norwegian Environment Agency",
+          "role": "Senior Climate Researcher",
+          "startDate": "2010-01-01",
+          "endDate": "2015-12-31"
+        }
+      ],
+      
+      "regen:education": [
+        {
+          "@type": "schema:EducationalOccupationalCredential",
+          "credentialCategory": "PhD",
+          "educationalLevel": "Graduate",
+          "recognizedBy": "University of Oslo",
+          "name": "PhD in Human Geography"
+        }
+      ],
+      
+      "regen:certifications": [
+        {
+          "@type": "schema:EducationalOccupationalCredential",
+          "name": "IPCC Lead Author Certification",
+          "recognizedBy": "IPCC"
+        }
+      ],
+      
+      "regen:skills": [
+        "Climate Change Research",
+        "Human Geography", 
+        "Transformative Capacity",
+        "Qualitative Research",
+        "Policy Analysis"
+      ],
+      
+      "regen:languages": [
+        {"@type": "schema:Language", "name": "English"},
+        {"@type": "schema:Language", "name": "Norwegian"}
+      ],
+      
+      "regen:followersX": 5200,
+      "regen:followersLinkedIn": 8900,
+      "regen:hIndex": 42,
+      
+      "regen:publications": [
+        {
+          "@type": "schema:ScholarlyArticle",
+          "name": "You Say You Want a Revolution? Transforming Education and Capacity Building in Response to Global Change",
+          "datePublished": "2018",
+          "url": "https://example.com/publications/revolution-education"
+        }
+      ],
+      
+      "regen:speakingEvents": [
+        {
+          "@type": "schema:Event",
+          "name": "COP26 Climate Conference", 
+          "startDate": "2021-11-01",
+          "location": "Glasgow, UK"
+        }
+      ],
+      
+      "regen:publicEmail": "karen.obrien@geo.uio.no",
+      "regen:blueCheckX": false,
+      "regen:credentialedLinkedIn": true,
       "schema:worksFor": {
         "@type": "schema:EducationalOrganization",
         "@id": "https://regen-map.org/organizations/university-of-oslo",

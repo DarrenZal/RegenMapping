@@ -103,6 +103,9 @@ The unified organization schema combines the best elements from three different 
 | SDG Contribution | - | - | `sdgContribution[]` | `ex:sdgContribution[]` | UN goal alignment |
 | Certifications | `schema:hasCertification` | - | - | `schema:hasCertification[]` | Third-party validation |
 | B-Corp Score | - | - | `bcorpScore` | `ex:bcorpScore` | B-Corp assessment |
+| ISO 14001 | - | - | `iso14k` | `ex:iso14k` | Environmental certification |
+| Fair Trade | - | - | `fairTrade` | `ex:fairTrade` | Ethical trade certification |
+| Science Based Targets | - | - | `scienceBasedTargets` | `ex:scienceBasedTargets` | Climate targets |
 | Nonprofit Status | `schema:nonprofitStatus` | - | - | `schema:nonprofitStatus` | Tax classification |
 | Impact Metrics | - | - | `impactMetrics[]` | `ex:impactMetrics[]` | Performance indicators |
 | Impact Assessments | - | - | `impactAssessments[]` | `ex:impactAssessments[]` | Evaluation reports |
@@ -115,6 +118,9 @@ The unified organization schema combines the best elements from three different 
 | Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
 |-------|------------|--------------|------------|----------------|---------|
 | Funding Rounds | - | - | `fundingRounds[]` | `ex:fundingRounds[]` | Investment history |
+| Grants Received | - | - | `grantsReceived[]` | `ex:grantsReceived[]` | Grant funding |
+| Grants Given | - | - | `grantsGiven[]` | `ex:grantsGiven[]` | Philanthropy |
+| Assets USD | - | - | `assetsUSD` | `ex:assetsUSD` | Financial position |
 | Funding Model | - | - | `fundingModel` | `ex:fundingModel` | Revenue approach |
 | Funding | `schema:funding` | - | - | `schema:funding` | General funding |
 | Funder | `schema:funder` | - | - | `schema:funder` | Funding source |
@@ -127,7 +133,19 @@ The unified organization schema combines the best elements from three different 
 | Primary URL | `schema:url` | `primary_url` (required) | - | `murm:primary_url` | Main website |
 | Additional URLs | `schema:sameAs` | `urls[]` | `urls[]` | `murm:urls[]` | Social media, etc. |
 | RSS Feed | - | `rss` | - | `murm:rss` | Content syndication |
-| Social Media | - | - | `followersX`, `followersLinkedIn` | `ex:socialMedia[]` | Social presence |
+| Twitter/X Followers | - | - | `followersX` | `ex:followersX` | Social influence |
+| LinkedIn Followers | - | - | `followersLinkedIn` | `ex:followersLinkedIn` | Professional reach |
+| Newsletter Subscribers | - | - | `newsletterSubs` | `ex:newsletterSubs` | Direct audience |
+| Event Series | - | - | `eventSeries[]` | `ex:eventSeries[]` | Community engagement |
+| Social Media | - | - | - | `ex:socialMedia[]` | Social presence |
+
+### Organizational Structure
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Board Members | - | - | `boardMembers[]` | `ex:boardMembers[]` | Governance structure |
+| Executive Team | - | - | `execTeam[]` | `ex:execTeam[]` | Leadership team |
+| DAO Token Contract | - | - | `daoTokenContract` | `ex:daoTokenContract` | Web3 governance |
 
 ### Contact Information
 
@@ -147,6 +165,7 @@ The unified organization schema combines the best elements from three different 
 | Open Source Repos | - | - | `openSourceRepos[]` | `ex:openSourceRepos[]` | Innovation sharing |
 | Flagship Projects | - | - | `flagshipProjects[]` | `ex:flagshipProjects[]` | Key initiatives |
 | Patent IDs | - | - | `patentIds[]` | `ex:patentIds[]` | Intellectual property |
+| Datasets | - | - | `datasets[]` | `ex:datasets[]` | Open data contributions |
 
 ### Collaboration Features (Unified Innovation)
 

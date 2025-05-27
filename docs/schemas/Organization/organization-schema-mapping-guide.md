@@ -101,6 +101,20 @@ This guide provides mapping tables and transformation rules for converting betwe
 | socialApproach | - | - | socialApproach |
 | environmentalApproach | - | - | environmentalApproach |
 | economicApproach | - | - | economicApproach |
+| assetsUSD | - | - | assetsUSD |
+| grantsReceived | - | - | grantsReceived |
+| grantsGiven | - | - | grantsGiven |
+| iso14k | - | - | iso14k |
+| fairTrade | - | - | fairTrade |
+| scienceBasedTargets | - | - | scienceBasedTargets |
+| datasets | - | - | datasets |
+| boardMembers | - | - | boardMembers |
+| execTeam | - | - | execTeam |
+| eventSeries | - | - | eventSeries |
+| daoTokenContract | - | - | daoTokenContract |
+| followersX | - | - | followersX |
+| followersLinkedIn | - | - | followersLinkedIn |
+| newsletterSubs | - | - | newsletterSubs |
 
 ## Transformation Rules
 

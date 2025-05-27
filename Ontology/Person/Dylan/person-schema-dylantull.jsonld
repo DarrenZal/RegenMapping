@@ -124,6 +124,46 @@
               "rdfs:comment": "LinkedIn current employer",
               "regen:purpose": "employment edge"
             },
+            "workHistory": {
+              "@id": "regen:workHistory",
+              "@type": "regen:WorkHistory",
+              "rdfs:label": "Work History",
+              "rdfs:comment": "Professional work experience",
+              "regen:purpose": "career trajectory analysis",
+              "schema:isArray": true
+            },
+            "education": {
+              "@id": "regen:education",
+              "@type": "schema:EducationalOccupationalCredential",
+              "rdfs:label": "Education",
+              "rdfs:comment": "Educational background and degrees",
+              "regen:purpose": "expertise validation",
+              "schema:isArray": true
+            },
+            "certifications": {
+              "@id": "regen:certifications",
+              "@type": "schema:EducationalOccupationalCredential",
+              "rdfs:label": "Certifications",
+              "rdfs:comment": "Professional certifications and credentials",
+              "regen:purpose": "skills verification",
+              "schema:isArray": true
+            },
+            "skills": {
+              "@id": "regen:skills",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Skills",
+              "rdfs:comment": "Professional and technical skills",
+              "regen:purpose": "collaboration matching",
+              "schema:isArray": true
+            },
+            "languages": {
+              "@id": "regen:languages",
+              "@type": "schema:Language",
+              "rdfs:label": "Languages",
+              "rdfs:comment": "Languages spoken",
+              "regen:purpose": "global collaboration",
+              "schema:isArray": true
+            },
             "affiliations": {
               "@id": "regen:affiliations",
               "@type": "regen:Affiliation",
@@ -292,15 +332,115 @@
                   "@type": "schema:Integer", 
                   "rdfs:label": "Followers"
                 },
+                "followersX": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Twitter/X Followers"
+                },
+                "followersLinkedIn": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "LinkedIn Followers"
+                },
+                "newsletterSubs": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Newsletter Subscribers"
+                },
                 "hIndex": {
                   "@type": "schema:Integer",
                   "rdfs:label": "H-Index"
+                },
+                "listsOnX": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Twitter/X Lists"
+                },
+                "twitterEngageRate": {
+                  "@type": "schema:Number",
+                  "rdfs:label": "Twitter Engagement Rate"
                 },
                 "projects": {
                   "@type": "schema:Integer",
                   "rdfs:label": "Active Projects"
                 }
               }
+            }
+          }
+        },
+
+        {
+          "@id": "regen:contentIP",
+          "rdfs:label": "Content & IP",
+          "regen:cluster": "Content & IP",
+          "schema:properties": {
+            "pinnedTweets": {
+              "@id": "regen:pinnedTweets",
+              "@type": "schema:SocialMediaPosting",
+              "rdfs:label": "Pinned Tweets",
+              "rdfs:comment": "Featured tweets/posts",
+              "regen:purpose": "thought leadership",
+              "schema:isArray": true
+            },
+            "topPosts": {
+              "@id": "regen:topPosts",
+              "@type": "schema:SocialMediaPosting",
+              "rdfs:label": "Top Posts",
+              "rdfs:comment": "Most engaged social media posts",
+              "regen:purpose": "content analysis",
+              "schema:isArray": true
+            },
+            "publications": {
+              "@id": "regen:publications",
+              "@type": "schema:ScholarlyArticle",
+              "rdfs:label": "Publications",
+              "rdfs:comment": "Academic and thought leadership publications",
+              "regen:purpose": "expertise validation",
+              "schema:isArray": true
+            },
+            "repos": {
+              "@id": "regen:repos",
+              "@type": "schema:SoftwareSourceCode",
+              "rdfs:label": "Repositories",
+              "rdfs:comment": "Code repositories and open source projects",
+              "regen:purpose": "technical contribution",
+              "schema:isArray": true
+            },
+            "speakingEvents": {
+              "@id": "regen:speakingEvents",
+              "@type": "schema:Event",
+              "rdfs:label": "Speaking Events",
+              "rdfs:comment": "Conferences, talks, and presentations",
+              "regen:purpose": "influence tracking",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:networksMemeberships",
+          "rdfs:label": "Networks & Memberships",
+          "regen:cluster": "Networks & Memberships",
+          "schema:properties": {
+            "groupsLinkedIn": {
+              "@id": "regen:groupsLinkedIn",
+              "@type": "schema:Organization",
+              "rdfs:label": "LinkedIn Groups",
+              "rdfs:comment": "Professional LinkedIn group memberships",
+              "regen:purpose": "network analysis",
+              "schema:isArray": true
+            },
+            "fbGroups": {
+              "@id": "regen:fbGroups",
+              "@type": "schema:Organization",
+              "rdfs:label": "Facebook Groups",
+              "rdfs:comment": "Facebook group memberships",
+              "regen:purpose": "community analysis",
+              "schema:isArray": true
+            },
+            "daoMemberships": {
+              "@id": "regen:daoMemberships",
+              "@type": "schema:Organization",
+              "rdfs:label": "DAO Memberships",
+              "rdfs:comment": "Decentralized autonomous organization memberships",
+              "regen:purpose": "Web3 network analysis",
+              "schema:isArray": true
             }
           }
         },
@@ -317,6 +457,57 @@
               "rdfs:comment": "web, X, LinkedIn, ORCID",
               "regen:purpose": "harvest pipelines",
               "schema:isArray": true
+            },
+            "emailHash": {
+              "@id": "regen:emailHash",
+              "@type": "schema:Text",
+              "rdfs:label": "Email Hash",
+              "rdfs:comment": "Hashed email for privacy-preserving matching",
+              "regen:purpose": "privacy-preserving contact"
+            },
+            "publicEmail": {
+              "@id": "regen:publicEmail",
+              "@type": "schema:Text",
+              "rdfs:label": "Public Email",
+              "rdfs:comment": "Publicly available contact email",
+              "regen:purpose": "direct contact"
+            },
+            "dmLinks": {
+              "@id": "regen:dmLinks",
+              "@type": "schema:URL",
+              "rdfs:label": "DM Links",
+              "rdfs:comment": "Direct messaging links across platforms",
+              "regen:purpose": "communication facilitation",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:trustVerification",
+          "rdfs:label": "Trust & Verification",
+          "regen:cluster": "Trust & Verification",
+          "schema:properties": {
+            "blueCheckX": {
+              "@id": "regen:blueCheckX",
+              "@type": "schema:Boolean",
+              "rdfs:label": "Twitter/X Blue Check",
+              "rdfs:comment": "Verified status on Twitter/X",
+              "regen:purpose": "credibility indicator"
+            },
+            "credentialedLinkedIn": {
+              "@id": "regen:credentialedLinkedIn",
+              "@type": "schema:Boolean",
+              "rdfs:label": "LinkedIn Verified",
+              "rdfs:comment": "LinkedIn credential verification",
+              "regen:purpose": "professional credibility"
+            },
+            "humanIDProof": {
+              "@id": "regen:humanIDProof",
+              "@type": "schema:Text",
+              "rdfs:label": "Human ID Proof",
+              "rdfs:comment": "Human verification systems",
+              "regen:purpose": "authenticity verification"
             }
           }
         },
