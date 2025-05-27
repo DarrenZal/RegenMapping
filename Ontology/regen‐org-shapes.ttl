@@ -1,0 +1,155 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix schema:<http://schema.org/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:    <https://regenmap.org/ontology/> .
+@prefix murm:  <https://murmurations.network/fields/> .
+
+############################################################
+# Node shape for every RegenerativeOrganization instance
+############################################################
+ex:RegenerativeOrgShape
+  a sh:NodeShape ;
+  sh:targetClass         ex:RegenerativeOrganization ;
+  sh:severity            sh:Warning ;        # default for whole shape
+
+  ##########################################################
+  # -------- Identity cluster -----------------------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:name ;
+      sh:minCount        1 ;                # strongly recommended
+      sh:maxLength       200 ;
+      sh:message         "Provide an organization name (≤ 200 chars)." ;
+  ] ;
+  sh:property [
+      sh:path            schema:logo ;
+      sh:datatype        xsd:anyURI ;
+      sh:nodeKind        sh:IRIOrLiteral ;  # accept URI or literal string
+      sh:message         "Logo should be a valid URI." ;
+  ] ;
+
+  ##########################################################
+  # -------- Geographic cluster ----------------------------
+  ##########################################################
+  sh:property [
+      sh:path            murm:geographic_scope ;
+      sh:in              ( "local" "regional" "national" "international" ) ;
+      sh:message         "geographic_scope should be one of: local, regional, national, international." ;
+  ] ;
+  sh:property [
+      sh:path            schema:address ;
+      sh:nodeKind        sh:BlankNodeOrIRI ;  # allow full PostalAddress node or just an ID
+  ] ;
+
+  ##########################################################
+  # -------- Network / relationship cluster ---------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:memberOf ;
+      sh:nodeKind        sh:IRI ;           # expect a link to another org
+  ] ;
+  sh:property [
+      sh:path            murm:relationships ;
+      sh:class           ex:Relationship ;  # if present, each node should be typed
+  ] ;
+
+  ##########################################################
+  # -------- Status & lifecycle ---------------------------
+  ##########################################################
+  sh:property [
+      sh:path            murm:status ;
+      sh:in              ( "active" "completed" "cancelled" "on_hold" "in_planning" ) ;
+      sh:message         "status value is not in the allowed list." ;
+  ] ;
+  sh:property [
+      sh:path            schema:foundingDate ;
+      sh:datatype        xsd:date ;
+  ] ;
+  sh:property [
+      sh:path            schema:dissolutionDate ;
+      sh:datatype        xsd:date ;
+      sh:lessThan        schema:foundingDate ;  # warn if dissolved before founded
+      sh:message         "dissolutionDate precedes foundingDate." ;
+  ] ;
+
+  ##########################################################
+  # -------- Scale & finance ------------------------------
+  ##########################################################
+  sh:property [
+      sh:path            schema:numberOfEmployees ;
+      sh:datatype        xsd:integer ;
+      sh:minInclusive    0 ;
+  ] ;
+  sh:property [
+      sh:path            ex:employeeRange ;
+      sh:pattern         "^[0-9]+\\s*[-+]\\s*[0-9]+$" ;   # e.g. "11-50"
+      sh:message         "employeeRange should be a simple range like '11-50'." ;
+  ] ;
+  sh:property [
+      sh:path            ex:revenueRangeUSD ;
+      sh:pattern         "^\\$?[0-9,]+\\s*[-+]\\s*\\$?[0-9,]+$" ;
+      sh:message         "revenueRange should be a USD range, e.g. '1M-5M'." ;
+  ] ;
+
+  ##########################################################
+  # -------- Impact & certifications ----------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:impactKPIs ;
+      sh:class           ex:ImpactKPI ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+  sh:property [
+      sh:path            schema:hasCertification ;
+      sh:nodeKind        sh:IRIOrBlankNode ;
+  ] ;
+
+  ##########################################################
+  # -------- Contact & web presence -----------------------
+  ##########################################################
+  sh:property [
+      sh:path            murm:primary_url ;
+      sh:datatype        xsd:anyURI ;
+  ] ;
+  sh:property [
+      sh:path            schema:url ;
+      sh:datatype        xsd:anyURI ;
+      sh:maxCount        10 ;               # arbitrary sanity limit
+  ] ;
+  sh:property [
+      sh:path            schema:email ;
+      sh:pattern         "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$" ;
+      sh:message         "email does not look valid." ;
+  ] ;
+
+  ##########################################################
+  # -------- Provenance -----------------------------------
+  ##########################################################
+  sh:property [
+      sh:path            ex:lastUpdated ;
+      sh:datatype        xsd:dateTime ;
+  ] ;
+  sh:property [
+      sh:path            ex:confidenceScore ;
+      sh:datatype        xsd:decimal ;
+      sh:minInclusive    0 ;
+      sh:maxInclusive    1 ;
+  ] ;
+.
+
+############################################################
+# Optional: shapes for nested classes
+############################################################
+ex:ImpactKPIShape
+  a sh:NodeShape ;
+  sh:targetClass ex:ImpactKPI ;
+  sh:severity    sh:Warning ;
+  sh:property [
+      sh:path        schema:name ;
+      sh:minCount    1 ;
+  ] ;
+  sh:property [
+      sh:path        schema:value ;
+      sh:datatype    xsd:decimal ;
+  ] ;
+.

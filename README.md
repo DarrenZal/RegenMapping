@@ -149,14 +149,93 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **Frontend**: React with Three.js for 3D visualizations
 - **Globe Rendering**: Deck.gl with ScatterplotLayer and ArcLayer
 - **Force Graph**: d3-force-3d or three.js
+- **Data Validation**: SHACL shapes engine for knowledge graph quality assurance
 - **Hosting**: Cloud platform with CDN for global performance
 
-### Data Pipeline
-1. **Ingestion**: Automated scrapers for public data sources
-2. **Processing**: Entity resolution and deduplication
-3. **Enrichment**: NLP for tag extraction and relationship inference
-4. **Validation**: Manual curation and confidence scoring
-5. **Publishing**: Real-time updates to visualization layer
+### Data Pipeline & SHACL Integration
+
+The ETL pipeline implements open-world data ingestion with quality validation using SHACL shapes:
+
+#### 1. **Data Ingestion**
+```bash
+# Import from various sources (Murmurations, LinkedIn, manual entry)
+./scripts/ingest-data.sh --source murmurations --format jsonld
+./scripts/ingest-data.sh --source linkedin --format csv  
+./scripts/ingest-data.sh --source manual --format jsonld
+```
+
+#### 2. **Staging & Validation**
+```sparql
+# Store raw triples in temporary graph
+LOAD <file://./data/raw/organizations-batch-001.ttl> INTO GRAPH <http://staging.regenmap.org/temp>
+
+# Run SHACL validation against shapes
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+SELECT ?focusNode ?message ?severity ?value WHERE {
+  GRAPH <http://staging.regenmap.org/shacl-report> {
+    ?result sh:focusNode ?focusNode ;
+            sh:resultMessage ?message ;
+            sh:resultSeverity ?severity ;
+            sh:value ?value .
+  }
+}
+```
+
+#### 3. **Quality Monitoring**
+- **Violation Reports**: Export SHACL validation results to data quality dashboard
+- **Confidence Scoring**: Automatically assign confidence scores based on validation results
+- **Progressive Validation**: Tighten constraints over time as data quality improves
+
+#### 4. **Production Publishing**
+- **All Data Preserved**: Move validated and non-validated data to production (open-world principle)
+- **Quality Metadata**: Tag records with validation status and confidence scores
+- **Consumer Filtering**: Allow downstream applications to filter by quality thresholds
+
+### SHACL Configuration
+
+#### Operational Tuning
+- **Critical Violations**: Promote core constraints (e.g., malformed URIs) to `sh:Violation` severity
+- **Soft Nudges**: Use `sh:Warning` for recommendations like missing descriptions
+- **Noise Reduction**: Remove `sh:minCount 1` for optional fields if too noisy
+- **Pattern Evolution**: Add `sh:in` lists and regex patterns as data issues emerge
+
+#### Quality Thresholds
+```javascript
+// Example quality filtering in client applications
+const HIGH_QUALITY = 0.8;  // Show only high-confidence records
+const MEDIUM_QUALITY = 0.5; // Include with quality warnings
+const LOW_QUALITY = 0.2;    // Include but highlight data gaps
+
+function filterByQuality(orgs, threshold = MEDIUM_QUALITY) {
+  return orgs.filter(org => 
+    org.confidenceScore >= threshold || 
+    org.hasManualVerification
+  );
+}
+```
+
+### Data Quality Dashboard
+
+The SHACL validation system powers a real-time data quality dashboard showing:
+
+- **Validation Overview**: Pass/fail rates across all shape constraints
+- **Field Completeness**: Percentage of organizations with each property populated  
+- **Geographic Coverage**: Data density by region and scope
+- **Source Reliability**: Quality metrics per data source
+- **Improvement Trends**: Quality metrics over time
+
+### Automated Quality Improvement
+
+```bash
+# Weekly data quality reports
+./scripts/generate-quality-report.sh --format html --output reports/
+
+# Automated cleanup suggestions
+./scripts/suggest-improvements.sh --confidence-threshold 0.3
+
+# Gradual constraint tightening
+./scripts/evolve-shapes.sh --analyze-violations --suggest-patterns
+```
 
 ## 🤝 Contributing
 
