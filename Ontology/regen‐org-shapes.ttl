@@ -23,9 +23,11 @@ ex:RegenerativeOrgShape
   ] ;
   sh:property [
       sh:path            schema:logo ;
-      sh:datatype        xsd:anyURI ;
-      sh:nodeKind        sh:IRIOrLiteral ;  # accept URI or literal string
-      sh:message         "Logo should be a valid URI." ;
+      sh:or (
+        [ sh:nodeKind sh:IRI ]
+        [ sh:datatype xsd:anyURI ]
+      ) ;
+      sh:message         "Logo should be an IRI or a literal typed as xsd:anyURI." ;
   ] ;
 
   ##########################################################
@@ -64,12 +66,12 @@ ex:RegenerativeOrgShape
   sh:property [
       sh:path            schema:foundingDate ;
       sh:datatype        xsd:date ;
+      sh:lessThan        schema:dissolutionDate ;
+      sh:message         "foundingDate should be earlier than dissolutionDate." ;
   ] ;
   sh:property [
       sh:path            schema:dissolutionDate ;
       sh:datatype        xsd:date ;
-      sh:lessThan        schema:foundingDate ;  # warn if dissolved before founded
-      sh:message         "dissolutionDate precedes foundingDate." ;
   ] ;
 
   ##########################################################
@@ -82,7 +84,7 @@ ex:RegenerativeOrgShape
   ] ;
   sh:property [
       sh:path            ex:employeeRange ;
-      sh:pattern         "^[0-9]+\\s*[-+]\\s*[0-9]+$" ;   # e.g. "11-50"
+      sh:pattern         "^[0-9]+\\s*[-]\\s*[0-9]+$" ;   # e.g. "11-50"
       sh:message         "employeeRange should be a simple range like '11-50'." ;
   ] ;
   sh:property [
