@@ -1,0 +1,143 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/"
+  },
+  "@graph": [
+    {
+      "@id": "murm:people_schema-v0.1.0",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Murmurations People Schema v0.1.0",
+      "schema:description": "A schema to add individuals in the regenerative economy to the Murmurations Index",
+      "schema:version": "0.1.0",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "schema:name": "Murmurations Network",
+        "schema:url": "https://murmurations.network"
+      },
+      "schema:url": "https://library.murmurations.network/v2/schemas/people_schema-v0.1.0"
+    },
+    {
+      "@id": "murm:MurmurationsPerson",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Murmurations Person",
+      "rdfs:comment": "A person in the regenerative economy ecosystem discoverable through the Murmurations network",
+      "rdfs:subClassOf": "schema:Person",
+      "murm:requiredFields": ["murm:linked_schemas", "schema:name", "murm:primary_url", "schema:keywords"],
+      "schema:properties": {
+        "murm:linked_schemas": {
+          "@type": "schema:Text",
+          "rdfs:label": "Linked Schemas",
+          "rdfs:comment": "A list of schemas against which a profile must be validated",
+          "schema:required": true
+        },
+        "schema:name": {
+          "@type": "schema:Text", 
+          "rdfs:label": "Full Name",
+          "rdfs:comment": "The full name of the person",
+          "schema:required": true,
+          "schema:maxLength": 200
+        },
+        "murm:nickname": {
+          "@type": "schema:Text",
+          "rdfs:label": "Nickname", 
+          "rdfs:comment": "The familiar name of the person"
+        },
+        "murm:primary_url": {
+          "@type": "schema:URL",
+          "rdfs:label": "Primary URL",
+          "rdfs:comment": "The unique and definitive website address for the person",
+          "schema:required": true,
+          "schema:maxLength": 2000
+        },
+        "schema:keywords": {
+          "@type": "schema:Text",
+          "rdfs:label": "Tags / Skills",
+          "rdfs:comment": "Keywords that describe the person, searchable in the Murmurations index",
+          "schema:required": true,
+          "schema:maxLength": 100
+        },
+        "schema:description": {
+          "@type": "schema:Text",
+          "rdfs:label": "Description/Bio",
+          "rdfs:comment": "A short description or biography of the person"
+        },
+        "schema:image": {
+          "@type": "schema:ImageObject",
+          "rdfs:label": "Photo/Avatar",
+          "rdfs:comment": "An image URL, preferably a square",
+          "schema:maxLength": 2000
+        },
+        "murm:images": {
+          "@type": "schema:ImageObject",
+          "rdfs:label": "Other Images",
+          "rdfs:comment": "Other images for this person"
+        },
+        "murm:urls": {
+          "@type": "schema:URL",
+          "rdfs:label": "Website Addresses/URLs",
+          "rdfs:comment": "URLs for related website(s), RSS feeds, social media, etc."
+        },
+        "schema:knowsLanguage": {
+          "@type": "schema:Language",
+          "rdfs:label": "Languages Spoken",
+          "rdfs:comment": "The languages a person can read, write and speak"
+        },
+        "murm:contact_details": {
+          "@type": "schema:ContactPoint",
+          "rdfs:label": "Contact Details",
+          "rdfs:comment": "The person's contact details"
+        },
+        "schema:telephone": {
+          "@type": "schema:Text",
+          "rdfs:label": "Telephone Number",
+          "rdfs:comment": "A phone number in international dialing format"
+        },
+        "murm:street_address": {
+          "@type": "schema:Text",
+          "rdfs:label": "Street Address",
+          "rdfs:comment": "The street address of the entity"
+        },
+        "schema:addressLocality": {
+          "@type": "schema:Text",
+          "rdfs:label": "Locality",
+          "rdfs:comment": "The locality (city, town, village, etc.) where the entity is located",
+          "schema:maxLength": 100
+        },
+        "schema:addressRegion": {
+          "@type": "schema:Text",
+          "rdfs:label": "Region", 
+          "rdfs:comment": "The region (state, county, province, etc.) where the entity is located",
+          "schema:maxLength": 100
+        },
+        "schema:postalCode": {
+          "@type": "schema:Text",
+          "rdfs:label": "Postal Code",
+          "rdfs:comment": "The postal code for the entity's address"
+        },
+        "murm:country_name": {
+          "@type": "schema:Text",
+          "rdfs:label": "Country Name",
+          "rdfs:comment": "The name of country where the entity is based",
+          "schema:maxLength": 100
+        },
+        "murm:country_iso_3166": {
+          "@type": "schema:Text",
+          "rdfs:label": "Country (2 letters)",
+          "rdfs:comment": "The two-letter country code according to the ISO 3166-1 standard"
+        },
+        "murm:geolocation": {
+          "@type": "schema:GeoCoordinates",
+          "rdfs:label": "Geolocation Coordinates",
+          "rdfs:comment": "The geo-coordinates (latitude & longitude) of the primary location of the person"
+        },
+        "murm:relationships": {
+          "@type": "murm:Relationship", 
+          "rdfs:label": "Relationships",
+          "rdfs:comment": "A list of relationships between this person and various other entities"
+        }
+      }
+    }
+  ]
+}

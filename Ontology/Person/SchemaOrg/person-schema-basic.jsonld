@@ -1,0 +1,546 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  },
+  "@graph": [
+    {
+      "@id": "schema:PersonSchemaExtract",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Schema.org Person Schema - Basic Extract",
+      "schema:description": "Essential Schema.org Person properties for core functionality",
+      "schema:version": "1.0.0",
+      "schema:dateCreated": "2025-05-26",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "schema:name": "Schema.org Community Group",
+        "schema:url": "https://schema.org/"
+      }
+    },
+    {
+      "@id": "schema:Person",
+      "@type": "rdfs:Class",
+      "owl:equivalentClass": {
+        "@id": "foaf:Person"
+      },
+      "rdfs:comment": "A person (alive, dead, undead, or fictional).",
+      "rdfs:label": "Person",
+      "rdfs:subClassOf": {
+        "@id": "schema:Thing"
+      },
+      "schema:contributor": {
+        "@id": "https://schema.org/docs/collab/rNews"
+      }
+    },
+    {
+      "@id": "schema:jobTitle",
+      "@type": "rdf:Property",
+      "rdfs:comment": "The job title of the person (for example, Financial Manager).",
+      "rdfs:label": "jobTitle",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:isPartOf": {
+        "@id": "https://pending.schema.org"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:Text"
+        },
+        {
+          "@id": "schema:DefinedTerm"
+        }
+      ],
+      "schema:source": {
+        "@id": "https://github.com/schemaorg/schemaorg/issues/2192"
+      }
+    },
+    {
+      "@id": "schema:award",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An award won by or for this item.",
+      "rdfs:label": "award",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:Organization"
+        },
+        {
+          "@id": "schema:CreativeWork"
+        },
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:Product"
+        },
+        {
+          "@id": "schema:Service"
+        }
+      ],
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:colleague",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A colleague of the person.",
+      "rdfs:label": "colleague",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:URL"
+        }
+      ]
+    },
+    {
+      "@id": "schema:additionalName",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An additional name for a Person, can be used for a middle name.",
+      "rdfs:label": "additionalName",
+      "rdfs:subPropertyOf": {
+        "@id": "schema:alternateName"
+      },
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:email",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Email address.",
+      "rdfs:label": "email",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:ContactPoint"
+        },
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:Organization"
+        }
+      ],
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:parent",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A parent of this person.",
+      "rdfs:label": "parent",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Person"
+      }
+    },
+    {
+      "@id": "schema:gender",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Gender of something, typically a [[Person]], but possibly also fictional characters, animals, etc. While https://schema.org/Male and https://schema.org/Female may be used, text strings are also acceptable for people who are not a binary gender. The [[gender]] property can also be used in an extended sense to cover e.g. the gender of sports teams. As with the gender of individuals, we do not try to enumerate all possibilities. A mixed-gender [[SportsTeam]] can be indicated with a text value of \"Mixed\".",
+      "rdfs:label": "gender",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:SportsTeam"
+        }
+      ],
+      "schema:isPartOf": {
+        "@id": "https://pending.schema.org"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:GenderType"
+        },
+        {
+          "@id": "schema:Text"
+        }
+      ],
+      "schema:source": {
+        "@id": "https://github.com/schemaorg/schemaorg/issues/2341"
+      }
+    },
+    {
+      "@id": "schema:memberOf",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An Organization (or ProgramMembership) to which this Person or Organization belongs.",
+      "rdfs:label": "memberOf",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:Organization"
+        },
+        {
+          "@id": "schema:Person"
+        }
+      ],
+      "schema:inverseOf": {
+        "@id": "schema:member"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:ProgramMembership"
+        },
+        {
+          "@id": "schema:MemberProgramTier"
+        },
+        {
+          "@id": "schema:Organization"
+        }
+      ]
+    },
+    {
+      "@id": "schema:worksFor",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Organizations that the person works for.",
+      "rdfs:label": "worksFor",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Organization"
+      }
+    },
+    {
+      "@id": "schema:givenName",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Given name. In the U.S., the first name of a Person.",
+      "rdfs:label": "givenName",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:telephone",
+      "@type": "rdf:Property",
+      "rdfs:comment": "The telephone number.",
+      "rdfs:label": "telephone",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:ContactPoint"
+        },
+        {
+          "@id": "schema:Place"
+        },
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:Organization"
+        }
+      ],
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:deathDate",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Date of death.",
+      "rdfs:label": "deathDate",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Date"
+      }
+    },
+    {
+      "@id": "schema:workLocation",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A contact location for a person's place of work.",
+      "rdfs:label": "workLocation",
+      "rdfs:subPropertyOf": {
+        "@id": "schema:location"
+      },
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:ContactPoint"
+        },
+        {
+          "@id": "schema:Place"
+        }
+      ]
+    },
+    {
+      "@id": "schema:knowsAbout",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Of a [[Person]], and less typically of an [[Organization]], to indicate a topic that is known about - suggesting possible expertise but not implying it. We do not distinguish skill levels here, or relate this to educational content, events, objectives or [[JobPosting]] descriptions.",
+      "rdfs:label": "knowsAbout",
+      "schema:contributor": {
+        "@id": "https://schema.org/docs/collab/TP"
+      },
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:Organization"
+        },
+        {
+          "@id": "schema:Person"
+        }
+      ],
+      "schema:isPartOf": {
+        "@id": "https://pending.schema.org"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:URL"
+        },
+        {
+          "@id": "schema:Text"
+        },
+        {
+          "@id": "schema:Thing"
+        }
+      ],
+      "schema:source": {
+        "@id": "https://github.com/schemaorg/schemaorg/issues/1688"
+      }
+    },
+    {
+      "@id": "schema:address",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Physical address of the item.",
+      "rdfs:label": "address",
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:GeoCoordinates"
+        },
+        {
+          "@id": "schema:Place"
+        },
+        {
+          "@id": "schema:Person"
+        },
+        {
+          "@id": "schema:GeoShape"
+        },
+        {
+          "@id": "schema:Organization"
+        }
+      ],
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:Text"
+        },
+        {
+          "@id": "schema:PostalAddress"
+        }
+      ]
+    },
+    {
+      "@id": "schema:children",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A child of the person.",
+      "rdfs:label": "children",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Person"
+      }
+    },
+    {
+      "@id": "schema:hasOccupation",
+      "@type": "rdf:Property",
+      "rdfs:comment": "The Person's occupation. For past professions, use Role for expressing dates.",
+      "rdfs:label": "hasOccupation",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Occupation"
+      },
+      "schema:source": {
+        "@id": "https://github.com/schemaorg/schemaorg/issues/1698"
+      }
+    },
+    {
+      "@id": "schema:sibling",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A sibling of the person.",
+      "rdfs:label": "sibling",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Person"
+      }
+    },
+    {
+      "@id": "schema:knows",
+      "@type": "rdf:Property",
+      "rdfs:comment": "The most generic bi-directional social/work relation.",
+      "rdfs:label": "knows",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Person"
+      }
+    },
+    {
+      "@id": "schema:spouse",
+      "@type": "rdf:Property",
+      "rdfs:comment": "The person's spouse.",
+      "rdfs:label": "spouse",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Person"
+      }
+    },
+    {
+      "@id": "schema:honorificSuffix",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An honorific suffix following a Person's name such as M.D./PhD/MSCSW.",
+      "rdfs:label": "honorificSuffix",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:nationality",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Nationality of the person.",
+      "rdfs:label": "nationality",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Country"
+      }
+    },
+    {
+      "@id": "schema:birthDate",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Date of birth.",
+      "rdfs:label": "birthDate",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Date"
+      }
+    },
+    {
+      "@id": "schema:alumniOf",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An organization that the person is an alumni of.",
+      "rdfs:label": "alumniOf",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:inverseOf": {
+        "@id": "schema:alumni"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:EducationalOrganization"
+        },
+        {
+          "@id": "schema:Organization"
+        }
+      ]
+    },
+    {
+      "@id": "schema:familyName",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Family name. In the U.S., the last name of a Person.",
+      "rdfs:label": "familyName",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:knowsLanguage",
+      "@type": "rdf:Property",
+      "rdfs:comment": "Of a [[Person]], and less typically of an [[Organization]], to indicate a known language. We do not distinguish skill levels or reading/writing/speaking/signing here. Use language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47).",
+      "rdfs:label": "knowsLanguage",
+      "schema:contributor": {
+        "@id": "https://schema.org/docs/collab/TP"
+      },
+      "schema:domainIncludes": [
+        {
+          "@id": "schema:Organization"
+        },
+        {
+          "@id": "schema:Person"
+        }
+      ],
+      "schema:isPartOf": {
+        "@id": "https://pending.schema.org"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:Text"
+        },
+        {
+          "@id": "schema:Language"
+        }
+      ],
+      "schema:source": {
+        "@id": "https://github.com/schemaorg/schemaorg/issues/1688"
+      }
+    },
+    {
+      "@id": "schema:honorificPrefix",
+      "@type": "rdf:Property",
+      "rdfs:comment": "An honorific prefix preceding a Person's name such as Dr/Mrs/Mr.",
+      "rdfs:label": "honorificPrefix",
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": {
+        "@id": "schema:Text"
+      }
+    },
+    {
+      "@id": "schema:homeLocation",
+      "@type": "rdf:Property",
+      "rdfs:comment": "A contact location for a person's residence.",
+      "rdfs:label": "homeLocation",
+      "rdfs:subPropertyOf": {
+        "@id": "schema:location"
+      },
+      "schema:domainIncludes": {
+        "@id": "schema:Person"
+      },
+      "schema:rangeIncludes": [
+        {
+          "@id": "schema:ContactPoint"
+        },
+        {
+          "@id": "schema:Place"
+        }
+      ]
+    }
+  ]
+}

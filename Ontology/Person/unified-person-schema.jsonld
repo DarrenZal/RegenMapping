@@ -1,0 +1,598 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "regen": "https://regen-map.org/schema/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    
+    "Person": "schema:Person",
+    "id": "@id",
+    "type": "@type",
+    
+    "latitude": {"@id": "geo:lat", "@type": "xsd:decimal"},
+    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"}
+  },
+  "@graph": [
+    {
+      "@id": "regen:UnifiedPersonSchema",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Unified Person Schema for Regenerative Mapping",
+      "schema:description": "A comprehensive schema for modeling people in the regenerative economy ecosystem, combining Schema.org standards, Murmurations network discovery, and specialized visualization fields",
+      "schema:version": "1.0.0",
+      "schema:dateCreated": "2025-05-26",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "@id": "https://regen-map.org/"
+      },
+      "schema:license": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "@id": "regen:RegenerativePerson",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Regenerative Person",
+      "rdfs:comment": "A person engaged in regenerative economy activities, with enhanced properties for network discovery and visualization",
+      "rdfs:subClassOf": "schema:Person",
+      "schema:properties": [
+        
+        {
+          "@id": "regen:coreIdentity",
+          "@type": "rdf:Property",
+          "rdfs:label": "Core Identity",
+          "rdfs:comment": "Fundamental identity information",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "fullName": {
+              "@id": "schema:name",
+              "@type": "schema:Text",
+              "rdfs:label": "Full Name",
+              "rdfs:comment": "Complete name of the person",
+              "schema:required": true
+            },
+            "givenName": {
+              "@id": "schema:givenName",
+              "@type": "schema:Text",
+              "rdfs:label": "Given Name",
+              "rdfs:comment": "First name"
+            },
+            "familyName": {
+              "@id": "schema:familyName", 
+              "@type": "schema:Text",
+              "rdfs:label": "Family Name",
+              "rdfs:comment": "Last name"
+            },
+            "additionalName": {
+              "@id": "schema:additionalName",
+              "@type": "schema:Text",
+              "rdfs:label": "Additional Name",
+              "rdfs:comment": "Middle names or other names"
+            },
+            "nickname": {
+              "@id": "schema:alternateName",
+              "@type": "schema:Text",
+              "rdfs:label": "Nickname",
+              "rdfs:comment": "Common name or handle used informally"
+            },
+            "aka": {
+              "@id": "regen:alsoKnownAs",
+              "@type": "schema:Text",
+              "rdfs:label": "Also Known As",
+              "rdfs:comment": "Alternative names, handles, or aliases for search purposes",
+              "schema:isArray": true
+            },
+            "pronouns": {
+              "@id": "regen:pronouns",
+              "@type": "schema:Text",
+              "rdfs:label": "Pronouns",
+              "rdfs:comment": "Preferred pronouns (e.g., she/her, they/them)"
+            },
+            "honorificPrefix": {
+              "@id": "schema:honorificPrefix",
+              "@type": "schema:Text",
+              "rdfs:label": "Honorific Prefix",
+              "rdfs:comment": "Title such as Dr., Prof., etc."
+            },
+            "image": {
+              "@id": "schema:image",
+              "@type": "schema:ImageObject",
+              "rdfs:label": "Profile Image",
+              "rdfs:comment": "Profile photo or avatar"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:professionalAffiliation",
+          "@type": "rdf:Property", 
+          "rdfs:label": "Professional & Affiliation",
+          "rdfs:comment": "Professional roles and organizational relationships",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "primaryRole": {
+              "@id": "schema:jobTitle",
+              "@type": "schema:Text",
+              "rdfs:label": "Primary Role",
+              "rdfs:comment": "Main professional title or role"
+            },
+            "currentOrganization": {
+              "@id": "schema:worksFor",
+              "@type": "schema:Organization",
+              "rdfs:label": "Current Organization",
+              "rdfs:comment": "Primary current organizational affiliation"
+            },
+            "affiliations": {
+              "@id": "regen:affiliations",
+              "@type": "schema:OrganizationRole",
+              "rdfs:label": "Affiliations",
+              "rdfs:comment": "List of organizational affiliations with roles and time periods",
+              "schema:isArray": true,
+              "schema:properties": {
+                "organization": {
+                  "@id": "schema:memberOf",
+                  "@type": "schema:Organization"
+                },
+                "role": {
+                  "@id": "schema:roleName", 
+                  "@type": "schema:Text"
+                },
+                "startDate": {
+                  "@id": "schema:startDate",
+                  "@type": "schema:Date"
+                },
+                "endDate": {
+                  "@id": "schema:endDate",
+                  "@type": "schema:Date"
+                },
+                "isCurrentRole": {
+                  "@id": "regen:isCurrentRole",
+                  "@type": "schema:Boolean"
+                }
+              }
+            },
+            "skills": {
+              "@id": "schema:skills",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Skills",
+              "rdfs:comment": "Professional skills and competencies",
+              "schema:isArray": true
+            },
+            "knowsAbout": {
+              "@id": "schema:knowsAbout",
+              "@type": "schema:Text",
+              "rdfs:label": "Expertise Areas",
+              "rdfs:comment": "Topics and domains of expertise",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:location",
+          "@type": "rdf:Property",
+          "rdfs:label": "Location Information",
+          "rdfs:comment": "Geographic and location data for mapping",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "homeLocation": {
+              "@id": "schema:homeLocation",
+              "@type": "schema:Place",
+              "rdfs:label": "Home Location",
+              "rdfs:comment": "Primary residence location"
+            },
+            "workLocation": {
+              "@id": "schema:workLocation", 
+              "@type": "schema:Place",
+              "rdfs:label": "Work Location",
+              "rdfs:comment": "Primary work location"
+            },
+            "hqLatitude": {
+              "@id": "geo:lat",
+              "@type": "xsd:decimal",
+              "rdfs:label": "Headquarters Latitude",
+              "rdfs:comment": "Primary location latitude for globe visualization"
+            },
+            "hqLongitude": {
+              "@id": "geo:long", 
+              "@type": "xsd:decimal",
+              "rdfs:label": "Headquarters Longitude", 
+              "rdfs:comment": "Primary location longitude for globe visualization"
+            },
+            "locality": {
+              "@id": "schema:addressLocality",
+              "@type": "schema:Text",
+              "rdfs:label": "Locality",
+              "rdfs:comment": "City or local area name for display"
+            },
+            "region": {
+              "@id": "schema:addressRegion",
+              "@type": "schema:Text", 
+              "rdfs:label": "Region",
+              "rdfs:comment": "State, province, or region"
+            },
+            "country": {
+              "@id": "schema:addressCountry",
+              "@type": "schema:Text",
+              "rdfs:label": "Country",
+              "rdfs:comment": "Country name"
+            },
+            "postalCode": {
+              "@id": "schema:postalCode",
+              "@type": "schema:Text",
+              "rdfs:label": "Postal Code"
+            },
+            "address": {
+              "@id": "schema:address",
+              "@type": "schema:PostalAddress",
+              "rdfs:label": "Full Address",
+              "rdfs:comment": "Complete postal address"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:movementFocus",
+          "@type": "rdf:Property",
+          "rdfs:label": "Movement Focus & Categorization",
+          "rdfs:comment": "Regenerative movement focus areas and methodological approaches",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "domainTags": {
+              "@id": "regen:domainTags",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Domain Focus Areas",
+              "rdfs:comment": "Primary domains of work (e.g., Regenerative Agriculture, Climate Adaptation)",
+              "schema:isArray": true,
+              "schema:valueSet": ["Regenerative Agriculture", "Biodiversity", "Water Cycles", "Circular Materials", "Post-capitalist Finance", "Distributed Governance", "Systems Literacy", "Inner Development", "Culture & Story", "Crisis Response", "Tech4Good", "Planetary Health", "Indigenous Stewardship"]
+            },
+            "methodTags": {
+              "@id": "regen:methodTags", 
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Methodological Approaches",
+              "rdfs:comment": "How they work (e.g., Permaculture, Doughnut Economics)",
+              "schema:isArray": true,
+              "schema:valueSet": ["Permaculture", "Doughnut Economics", "Active Inference", "TEAL Organization", "Biomimicry", "Holonic Finance", "Community Land Trust", "Web3/DAO", "AI-augmented Research", "Citizen Science", "Adaptive Management"]
+            },
+            "sdgTags": {
+              "@id": "regen:sdgAlignment",
+              "@type": "schema:DefinedTerm", 
+              "rdfs:label": "SDG Alignment",
+              "rdfs:comment": "UN Sustainable Development Goals alignment",
+              "schema:isArray": true,
+              "schema:valueSet": ["SDG01", "SDG02", "SDG03", "SDG04", "SDG05", "SDG06", "SDG07", "SDG08", "SDG09", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"]
+            },
+            "theoryTags": {
+              "@id": "regen:theoreticalFrameworks",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Theoretical Frameworks", 
+              "rdfs:comment": "Theoretical lenses and frameworks",
+              "schema:isArray": true,
+              "schema:valueSet": ["Complexity Science", "Metamodernism", "Integral Theory", "Game B", "Indigenous Cosmology", "Systems Poetics", "Deep Adaptation", "Cybernetics", "Polymathic Futures"]
+            },
+            "tags": {
+              "@id": "schema:keywords",
+              "@type": "schema:Text",
+              "rdfs:label": "General Tags",
+              "rdfs:comment": "General keywords and tags for discovery",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:outputsInfluence",
+          "@type": "rdf:Property",
+          "rdfs:label": "Outputs & Influence",
+          "rdfs:comment": "Publications, works, and influence metrics",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "keyWorks": {
+              "@id": "regen:keyWorks",
+              "@type": "schema:CreativeWork",
+              "rdfs:label": "Key Works",
+              "rdfs:comment": "Important publications, projects, or creative works",
+              "schema:isArray": true,
+              "schema:properties": {
+                "title": {
+                  "@id": "schema:name",
+                  "@type": "schema:Text"
+                },
+                "year": {
+                  "@id": "schema:datePublished",
+                  "@type": "schema:Date"
+                },
+                "url": {
+                  "@id": "schema:url",
+                  "@type": "schema:URL"
+                },
+                "type": {
+                  "@id": "schema:additionalType",
+                  "@type": "schema:Text"
+                },
+                "description": {
+                  "@id": "schema:description",
+                  "@type": "schema:Text"
+                }
+              }
+            },
+            "publications": {
+              "@id": "schema:subjectOf",
+              "@type": "schema:ScholarlyArticle",
+              "rdfs:label": "Publications",
+              "rdfs:comment": "Academic and professional publications",
+              "schema:isArray": true
+            },
+            "metrics": {
+              "@id": "regen:influenceMetrics",
+              "@type": "schema:PropertyValue",
+              "rdfs:label": "Influence Metrics",
+              "rdfs:comment": "Quantitative measures of reach and influence",
+              "schema:properties": {
+                "followers": {
+                  "@id": "regen:socialMediaFollowers",
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Social Media Followers"
+                },
+                "citations": {
+                  "@id": "regen:citationCount", 
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Citation Count"
+                },
+                "hIndex": {
+                  "@id": "regen:hIndex",
+                  "@type": "schema:Integer",
+                  "rdfs:label": "H-Index"
+                },
+                "projects": {
+                  "@id": "regen:projectCount",
+                  "@type": "schema:Integer", 
+                  "rdfs:label": "Active Projects"
+                },
+                "connections": {
+                  "@id": "regen:networkConnections",
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Network Connections"
+                }
+              }
+            }
+          }
+        },
+
+        {
+          "@id": "regen:contactMedia",
+          "@type": "rdf:Property",
+          "rdfs:label": "Contact & Media",
+          "rdfs:comment": "Contact information and online presence",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "primaryUrl": {
+              "@id": "schema:url",
+              "@type": "schema:URL",
+              "rdfs:label": "Primary URL",
+              "rdfs:comment": "Main website or profile page",
+              "schema:required": true
+            },
+            "email": {
+              "@id": "schema:email",
+              "@type": "schema:Text",
+              "rdfs:label": "Email Address"
+            },
+            "telephone": {
+              "@id": "schema:telephone",
+              "@type": "schema:Text",
+              "rdfs:label": "Phone Number"
+            },
+            "urls": {
+              "@id": "regen:additionalUrls",
+              "@type": "schema:URL",
+              "rdfs:label": "Additional URLs",
+              "rdfs:comment": "Social media, portfolio, and other online profiles",
+              "schema:isArray": true,
+              "schema:properties": {
+                "url": {
+                  "@id": "schema:url",
+                  "@type": "schema:URL"
+                },
+                "platform": {
+                  "@id": "regen:platform",
+                  "@type": "schema:Text"
+                },
+                "handle": {
+                  "@id": "regen:handle",
+                  "@type": "schema:Text"
+                }
+              }
+            },
+            "sameAs": {
+              "@id": "schema:sameAs",
+              "@type": "schema:URL",
+              "rdfs:label": "Same As",
+              "rdfs:comment": "Links to the same person on other platforms",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:needsOffers",
+          "@type": "rdf:Property",
+          "rdfs:label": "Needs & Offers",
+          "rdfs:comment": "What the person seeks and what they can provide",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "needs": {
+              "@id": "regen:currentNeeds",
+              "@type": "schema:Text",
+              "rdfs:label": "Current Needs",
+              "rdfs:comment": "Resources, support, or connections currently sought",
+              "schema:isArray": true
+            },
+            "offers": {
+              "@id": "regen:currentOffers",
+              "@type": "schema:Text", 
+              "rdfs:label": "Current Offers",
+              "rdfs:comment": "Skills, resources, or support they can provide",
+              "schema:isArray": true
+            },
+            "seeks": {
+              "@id": "schema:seeks",
+              "@type": "schema:Demand",
+              "rdfs:label": "Seeks",
+              "rdfs:comment": "Formal demands or requirements"
+            },
+            "makesOffer": {
+              "@id": "schema:makesOffer",
+              "@type": "schema:Offer",
+              "rdfs:label": "Makes Offer",
+              "rdfs:comment": "Formal offers of products or services"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:relationships",
+          "@type": "rdf:Property",
+          "rdfs:label": "Relationships",
+          "rdfs:comment": "Connections to other people and organizations",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "colleagues": {
+              "@id": "schema:colleague",
+              "@type": "schema:Person",
+              "rdfs:label": "Colleagues",
+              "rdfs:comment": "Professional colleagues",
+              "schema:isArray": true
+            },
+            "collaborators": {
+              "@id": "regen:collaborators",
+              "@type": "schema:Person",
+              "rdfs:label": "Collaborators",
+              "rdfs:comment": "People they collaborate with on projects",
+              "schema:isArray": true
+            },
+            "mentors": {
+              "@id": "regen:mentors",
+              "@type": "schema:Person", 
+              "rdfs:label": "Mentors",
+              "rdfs:comment": "People who mentor this person",
+              "schema:isArray": true
+            },
+            "mentees": {
+              "@id": "regen:mentees",
+              "@type": "schema:Person",
+              "rdfs:label": "Mentees", 
+              "rdfs:comment": "People this person mentors",
+              "schema:isArray": true
+            },
+            "memberOf": {
+              "@id": "schema:memberOf",
+              "@type": "schema:Organization",
+              "rdfs:label": "Member Of",
+              "rdfs:comment": "Organizations this person is a member of",
+              "schema:isArray": true
+            },
+            "founder": {
+              "@id": "schema:founder",
+              "@type": "schema:Organization",
+              "rdfs:label": "Founded Organizations",
+              "rdfs:comment": "Organizations founded by this person",
+              "schema:isArray": true
+            },
+            "alumniOf": {
+              "@id": "schema:alumniOf",
+              "@type": "schema:EducationalOrganization",
+              "rdfs:label": "Alumni Of",
+              "rdfs:comment": "Educational institutions attended",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:networkMetrics",
+          "@type": "rdf:Property",
+          "rdfs:label": "Network Metrics",
+          "rdfs:comment": "Graph analysis metrics for network visualization",
+          "schema:domainIncludes": "regen:RegenerativePerson", 
+          "schema:properties": {
+            "degreeCentrality": {
+              "@id": "regen:degreeCentrality",
+              "@type": "schema:Number",
+              "rdfs:label": "Degree Centrality",
+              "rdfs:comment": "Number of direct connections"
+            },
+            "betweennessCentrality": {
+              "@id": "regen:betweennessCentrality", 
+              "@type": "schema:Number",
+              "rdfs:label": "Betweenness Centrality",
+              "rdfs:comment": "How often person appears on shortest paths between others"
+            },
+            "clusterId": {
+              "@id": "regen:clusterId",
+              "@type": "schema:Text",
+              "rdfs:label": "Cluster ID",
+              "rdfs:comment": "Community cluster identifier from graph analysis"
+            },
+            "bridgingScore": {
+              "@id": "regen:bridgingScore",
+              "@type": "schema:Number",
+              "rdfs:label": "Bridging Score", 
+              "rdfs:comment": "Measure of how much they bridge different communities"
+            },
+            "influenceScore": {
+              "@id": "regen:influenceScore",
+              "@type": "schema:Number",
+              "rdfs:label": "Influence Score",
+              "rdfs:comment": "Combined measure of network influence"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:metadata",
+          "@type": "rdf:Property",
+          "rdfs:label": "Metadata",
+          "rdfs:comment": "Data quality and provenance information",
+          "schema:domainIncludes": "regen:RegenerativePerson",
+          "schema:properties": {
+            "lastVerified": {
+              "@id": "regen:lastVerified",
+              "@type": "schema:DateTime",
+              "rdfs:label": "Last Verified",
+              "rdfs:comment": "When this information was last verified"
+            },
+            "dataSource": {
+              "@id": "regen:dataSource",
+              "@type": "schema:Text",
+              "rdfs:label": "Data Sources",
+              "rdfs:comment": "Sources where this information was gathered",
+              "schema:isArray": true
+            },
+            "confidenceScore": {
+              "@id": "regen:confidenceScore",
+              "@type": "schema:Number",
+              "rdfs:label": "Confidence Score",
+              "rdfs:comment": "Confidence level in data accuracy (0-1)"
+            },
+            "lastUpdated": {
+              "@id": "schema:dateModified",
+              "@type": "schema:DateTime",
+              "rdfs:label": "Last Updated"
+            },
+            "createdDate": {
+              "@id": "schema:dateCreated", 
+              "@type": "schema:DateTime",
+              "rdfs:label": "Created Date"
+            },
+            "version": {
+              "@id": "schema:version",
+              "@type": "schema:Text",
+              "rdfs:label": "Schema Version"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

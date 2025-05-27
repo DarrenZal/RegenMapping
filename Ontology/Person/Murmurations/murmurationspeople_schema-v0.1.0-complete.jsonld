@@ -1,0 +1,344 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "murm:people_schema-v0.1.0",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Murmurations People Schema v0.1.0 - Complete",
+      "schema:description": "A comprehensive schema to add individuals in the regenerative economy to the Murmurations Index with all field definitions expanded",
+      "schema:version": "0.1.0",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "schema:name": "Murmurations Network",
+        "schema:url": "https://murmurations.network"
+      },
+      "schema:url": "https://library.murmurations.network/v2/schemas/people_schema-v0.1.0",
+      "schema:dateModified": "2025-05-26",
+      "murm:schemaType": "people",
+      "murm:schemaId": "people_schema-v0.1.0"
+    },
+    {
+      "@id": "murm:MurmurationsPerson",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Murmurations Person",
+      "rdfs:comment": "A person in the regenerative economy ecosystem discoverable through the Murmurations network",
+      "rdfs:subClassOf": "schema:Person",
+      "schema:properties": [
+        {
+          "@id": "murm:linked_schemas",
+          "@type": "rdf:Property",
+          "rdfs:label": "Linked Schemas",
+          "rdfs:comment": "A list of schemas against which a profile must be validated",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:required": true,
+          "murm:fieldVersion": "1.0.0",
+          "murm:pattern": "^[a-z][a-z0-9_]{7,97}-v[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "murm:minItems": 1,
+          "murm:uniqueItems": true,
+          "murm:purpose": "This field is required in all Murmurations schemas to ensure that a profile is valid and can be posted to the Index. It is the only required field in the default-v2.0.0 schema, which is the first schema used by the Index to process incoming profiles."
+        },
+        {
+          "@id": "schema:name",
+          "@type": "rdf:Property",
+          "rdfs:label": "Full Name",
+          "rdfs:comment": "The full name of the person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:required": true,
+          "schema:maxLength": 200,
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "The common name that is generally used to refer to the entity, organization, project, item, etc., which can be a living being, a legal entity, an object (real or virtual) or even a good or service."
+        },
+        {
+          "@id": "murm:nickname",
+          "@type": "rdf:Property",
+          "rdfs:label": "Nickname",
+          "rdfs:comment": "The familiar name of the person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "The familiar name that is generally used to refer to the entity, organization, project or item."
+        },
+        {
+          "@id": "murm:primary_url",
+          "@type": "rdf:Property",
+          "rdfs:label": "Primary URL",
+          "rdfs:comment": "The unique and definitive website address for the person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:URL",
+          "schema:required": true,
+          "schema:maxLength": 2000,
+          "murm:pattern": "^https?://.*",
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://schema.org/identifier",
+          "murm:purpose": "The primary URL is used to identify the entity or item, and is usually its main website address or, if the entity doesn't have a website it can be a web page that is well-known to be linked to the entity (e.g. a Facebook page)."
+        },
+        {
+          "@id": "schema:keywords",
+          "@type": "rdf:Property",
+          "rdfs:label": "Tags / Skills",
+          "rdfs:comment": "Keywords that describe the person, searchable in the Murmurations index",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:required": true,
+          "schema:maxLength": 100,
+          "murm:minItems": 1,
+          "murm:maxItems": 100,
+          "murm:uniqueItems": true,
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "Tags holds a list of unique keywords that are used to describe any aspect of the entity, such that there is enough information to fit the entity into a variety of data taxonomies."
+        },
+        {
+          "@id": "schema:description",
+          "@type": "rdf:Property",
+          "rdfs:label": "Description/Bio",
+          "rdfs:comment": "A short description or biography of the person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "The Description field can be used to provided a description of the item, entity, organization, project, etc. We have chosen not to add a maximum length but aggregators may snip the first ~160 characters of this field to provide a summary in directory listings or maps, so make sure the first sentence provides a good overview of the entity you are describing."
+        },
+        {
+          "@id": "schema:image",
+          "@type": "rdf:Property",
+          "rdfs:label": "Photo/Avatar",
+          "rdfs:comment": "An image URL (starting with https:// or http://), preferably a square",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:ImageObject",
+          "schema:maxLength": 2000,
+          "murm:pattern": "^https?://.*",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "An image that is generally used to refer to the entity, organization, project, item, etc."
+        },
+        {
+          "@id": "murm:images",
+          "@type": "rdf:Property",
+          "rdfs:label": "Other Images",
+          "rdfs:comment": "Other images for this person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:ImageObject",
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://schema.org/image",
+          "schema:properties": {
+            "name": {
+              "@type": "schema:Text",
+              "rdfs:label": "Image Name",
+              "rdfs:comment": "Description of the image",
+              "schema:maxLength": 100
+            },
+            "url": {
+              "@type": "schema:URL",
+              "rdfs:label": "URL",
+              "rdfs:comment": "A URL of the image starting with http:// or https://",
+              "schema:maxLength": 2000,
+              "murm:pattern": "^https?://.*",
+              "schema:required": true
+            }
+          }
+        },
+        {
+          "@id": "murm:urls",
+          "@type": "rdf:Property",
+          "rdfs:label": "Website Addresses/URLs",
+          "rdfs:comment": "URLs for related website(s), RSS feeds, social media, etc.",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:URL",
+          "murm:uniqueItems": true,
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://schema.org/url",
+          "murm:purpose": "URLs can be used to link the named entity to its presence on the web. For instance a group may link to informational sites and social media related to it. An individual may link to personal and work-related websites. In the case of an item or service, URLs can provide further information about them.",
+          "schema:properties": {
+            "name": {
+              "@type": "schema:Text",
+              "rdfs:label": "URL Name",
+              "rdfs:comment": "The name of what this URL is for (e.g., type of website such as work, personal, etc.)"
+            },
+            "url": {
+              "@type": "schema:URL",
+              "rdfs:label": "URL",
+              "rdfs:comment": "The URL (starting with http:// or https://) itself",
+              "schema:maxLength": 2000,
+              "murm:pattern": "^https?://.*",
+              "schema:required": true
+            }
+          }
+        },
+        {
+          "@id": "schema:knowsLanguage",
+          "@type": "rdf:Property",
+          "rdfs:label": "Languages Spoken",
+          "rdfs:comment": "The languages a person can read, write and speak",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Language",
+          "murm:minItems": 1,
+          "murm:uniqueItems": true,
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "A list of languages spoken by a person or used in communication within and by an organization, group, etc."
+        },
+        {
+          "@id": "murm:contact_details",
+          "@type": "rdf:Property",
+          "rdfs:label": "Contact Details",
+          "rdfs:comment": "The person's contact details (fill in at least one)",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:ContactPoint",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "Provides a contact method for an entity.",
+          "schema:properties": {
+            "email": {
+              "@type": "schema:Text",
+              "rdfs:label": "Email Address",
+              "rdfs:comment": "A valid email address (public)"
+            },
+            "contact_form": {
+              "@type": "schema:URL",
+              "rdfs:label": "Contact Form",
+              "rdfs:comment": "A webpage (starting with https:// or http://) with a contact form",
+              "murm:pattern": "^https?://.*"
+            }
+          }
+        },
+        {
+          "@id": "schema:telephone",
+          "@type": "rdf:Property",
+          "rdfs:label": "Telephone Number",
+          "rdfs:comment": "A landline or mobile phone number, specified in international dialing format",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "A phone number that can be used to contact a person or organization. The number should be provided in international dialing format (e.g., the US telephone number (212) 555-1212 should be formatted as +1 212 555 1212)."
+        },
+        {
+          "@id": "murm:street_address",
+          "@type": "rdf:Property",
+          "rdfs:label": "Street Address",
+          "rdfs:comment": "The street address of the entity in a single text field as you would write it on an envelope",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://schema.org/street_address",
+          "murm:purpose": "Street address captures the physical address of an entity, without the town/city, postal code, country, etc. This is useful for mapping and other applications where the full address is not required."
+        },
+        {
+          "@id": "schema:addressLocality",
+          "@type": "rdf:Property",
+          "rdfs:label": "Locality",
+          "rdfs:comment": "The locality (city, town, village, etc.) where the entity is located",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:maxLength": 100,
+          "murm:fieldVersion": "1.0.0"
+        },
+        {
+          "@id": "schema:addressRegion",
+          "@type": "rdf:Property",
+          "rdfs:label": "Region",
+          "rdfs:comment": "The region (state, county, province, etc.) where the entity is located",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:maxLength": 100,
+          "murm:fieldVersion": "1.0.0"
+        },
+        {
+          "@id": "schema:postalCode",
+          "@type": "rdf:Property",
+          "rdfs:label": "Postal Code",
+          "rdfs:comment": "The postal code for the entity's address",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "Postal code captures the code used by the local postal system of the entity. This is useful for mapping and other applications where the full address is not required."
+        },
+        {
+          "@id": "murm:country_name",
+          "@type": "rdf:Property",
+          "rdfs:label": "Country Name",
+          "rdfs:comment": "The name of country where the entity is based",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "schema:maxLength": 100,
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://schema.org/Country",
+          "murm:purpose": "A free form field to enter a country's name. The Index will try to match that text to a country's name and will store the country's two-letter ISO-3166-1 code in the Index database to enable searching by country for the entity."
+        },
+        {
+          "@id": "murm:country_iso_3166",
+          "@type": "rdf:Property",
+          "rdfs:label": "Country (2 letters)",
+          "rdfs:comment": "The two-letter country code according to the ISO 3166-1 standard where the entity is located",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:Text",
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": "https://en.wikipedia.org/wiki/ISO_3166-1",
+          "murm:enum": ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"]
+        },
+        {
+          "@id": "murm:geolocation",
+          "@type": "rdf:Property",
+          "rdfs:label": "Geolocation Coordinates",
+          "rdfs:comment": "The geo-coordinates (latitude & longitude) of the primary location of the person",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "schema:GeoCoordinates",
+          "murm:fieldVersion": "1.0.0",
+          "murm:context": ["https://schema.org/latitude", "https://schema.org/longitude", "https://schema.org/GeoCoordinates"],
+          "schema:properties": {
+            "lat": {
+              "@type": "schema:Number",
+              "rdfs:label": "Latitude",
+              "rdfs:comment": "A decimal amount between -90 and 90",
+              "schema:minValue": -90,
+              "schema:maxValue": 90,
+              "schema:required": true,
+              "murm:context": "https://schema.org/latitude"
+            },
+            "lon": {
+              "@type": "schema:Number",
+              "rdfs:label": "Longitude",
+              "rdfs:comment": "A decimal amount between -180 and 180",
+              "schema:minValue": -180,
+              "schema:maxValue": 180,
+              "schema:required": true,
+              "murm:context": "https://schema.org/longitude"
+            }
+          }
+        },
+        {
+          "@id": "murm:relationships",
+          "@type": "rdf:Property",
+          "rdfs:label": "Relationships",
+          "rdfs:comment": "A list of relationships between this person (subject) and various other entities (objects)",
+          "schema:domainIncludes": "murm:MurmurationsPerson",
+          "schema:rangeIncludes": "murm:Relationship",
+          "murm:uniqueItems": true,
+          "murm:fieldVersion": "1.0.0",
+          "murm:purpose": "Relationships describe the links between a Subject and an Object. In a Murmurations profile the entity publishing these relationships is the Subject. The object_url should be the Primary URL of the receiving entity (e.g., https://alice.net), and the predicate should be a URL which defines the relationship the subject has with the object (e.g. https://schema.org/knows).",
+          "schema:properties": {
+            "predicate_url": {
+              "@type": "schema:URL",
+              "rdfs:label": "Predicate URL",
+              "rdfs:comment": "A URL defining the predicate of the relationship (e.g., https://schema.org/member or https://schema.org/knows)",
+              "schema:maxLength": 2000,
+              "murm:pattern": "^https?://.*",
+              "schema:required": true
+            },
+            "object_url": {
+              "@type": "schema:URL", 
+              "rdfs:label": "Object URL",
+              "rdfs:comment": "The URL (ideally the Primary URL) of the object of this relationship",
+              "schema:maxLength": 2000,
+              "murm:pattern": "^https?://.*",
+              "schema:required": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

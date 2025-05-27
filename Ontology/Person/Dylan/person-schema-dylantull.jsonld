@@ -1,0 +1,351 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://regen-map.org/schema/",
+    "schema": "https://schema.org/",
+    "regen": "https://regen-map.org/schema/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "regen:DyllanTullPersonSchema",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Dylan Tull's Person Schema for Regenerative Mapping",
+      "schema:description": "Person schema optimized for 3D globe visualization and force-directed graph analysis in regenerative economy mapping",
+      "schema:version": "1.0.0",
+      "schema:dateCreated": "2025-05-26",
+      "schema:creator": {
+        "@type": "schema:Person",
+        "schema:name": "Dylan Tull",
+        "schema:url": "https://dylantull.com"
+      },
+      "regen:purpose": "Designed for regenerative economy network mapping with visualization-optimized fields"
+    },
+    {
+      "@id": "regen:RegenerativePersonDT",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Regenerative Person (Dylan Tull Design)",
+      "rdfs:comment": "A person in the regenerative space with fields optimized for network analysis and visualization",
+      "rdfs:subClassOf": "schema:Person",
+      "regen:visualizationOptimized": true,
+      "schema:properties": [
+        
+        {
+          "@id": "regen:identity",
+          "rdfs:label": "Identity Fields",
+          "regen:cluster": "Identity",
+          "schema:properties": {
+            "fullName": {
+              "@id": "schema:name",
+              "@type": "schema:Text",
+              "rdfs:label": "Full Name",
+              "rdfs:comment": "Dr. Karen O'Brien",
+              "regen:purpose": "canonical label",
+              "schema:required": true
+            },
+            "aka": {
+              "@id": "regen:aka",
+              "@type": "schema:Text",
+              "rdfs:label": "Also Known As",
+              "rdfs:comment": "Karen OBrien, @karenobri",
+              "regen:purpose": "alias search",
+              "schema:isArray": true
+            },
+            "pronouns": {
+              "@id": "regen:pronouns",
+              "@type": "schema:Text",
+              "rdfs:label": "Pronouns",
+              "rdfs:comment": "she/her",
+              "regen:purpose": "ethical UX"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:positionAffiliation",
+          "rdfs:label": "Position & Affiliation",
+          "regen:cluster": "Position & Affiliation",
+          "schema:properties": {
+            "primaryRole": {
+              "@id": "schema:jobTitle",
+              "@type": "schema:Text",
+              "rdfs:label": "Primary Role",
+              "rdfs:comment": "Professor of Human Geography",
+              "regen:purpose": "quick glance"
+            },
+            "affiliations": {
+              "@id": "regen:affiliations",
+              "@type": "regen:Affiliation",
+              "rdfs:label": "Affiliations",
+              "rdfs:comment": "Time-sliced organizational ties",
+              "regen:purpose": "time-sliced ties",
+              "schema:isArray": true,
+              "schema:properties": {
+                "orgId": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Organization ID"
+                },
+                "role": {
+                  "@type": "schema:Text", 
+                  "rdfs:label": "Role"
+                },
+                "start": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "Start Date"
+                },
+                "end": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "End Date"
+                }
+              }
+            }
+          }
+        },
+
+        {
+          "@id": "regen:location",
+          "rdfs:label": "Location",
+          "regen:cluster": "Location",
+          "schema:properties": {
+            "hqLat": {
+              "@id": "geo:lat",
+              "@type": "xsd:decimal",
+              "rdfs:label": "Headquarters Latitude",
+              "rdfs:comment": "59.91",
+              "regen:purpose": "globe coordinates"
+            },
+            "hqLon": {
+              "@id": "geo:long",
+              "@type": "xsd:decimal", 
+              "rdfs:label": "Headquarters Longitude",
+              "rdfs:comment": "10.75",
+              "regen:purpose": "globe coordinates"
+            },
+            "locality": {
+              "@id": "schema:addressLocality",
+              "@type": "schema:Text",
+              "rdfs:label": "Locality",
+              "rdfs:comment": "Oslo, Norway",
+              "regen:purpose": "hover-text"
+            }
+          }
+        },
+
+        {
+          "@id": "regen:movementFocus",
+          "rdfs:label": "Movement Focus",
+          "regen:cluster": "Movement Focus",
+          "schema:properties": {
+            "domainTags": {
+              "@id": "regen:domainTags",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Domain Tags",
+              "rdfs:comment": "Regenerative Ag, Metamodernism",
+              "regen:purpose": "hierarchical faceting",
+              "schema:isArray": true,
+              "schema:valueSet": [
+                "Regenerative Ag", "Biodiversity", "Water Cycles", "Circular Materials", 
+                "Post-capitalist Finance", "Distributed Governance", "Systems Literacy", 
+                "Inner Development (IDGs)", "Culture & Story", "Crisis Response", 
+                "Tech4Good", "Planetary Health", "Indigenous Stewardship"
+              ]
+            },
+            "sdgTags": {
+              "@id": "regen:sdgTags",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "SDG Tags",
+              "rdfs:comment": "SDG03, SDG13, SDG17",
+              "regen:purpose": "UN comparability",
+              "schema:isArray": true,
+              "schema:valueSet": ["SDG01", "SDG02", "SDG03", "SDG04", "SDG05", "SDG06", "SDG07", "SDG08", "SDG09", "SDG10", "SDG11", "SDG12", "SDG13", "SDG14", "SDG15", "SDG16", "SDG17"]
+            },
+            "methodTags": {
+              "@id": "regen:methodTags",
+              "@type": "schema:DefinedTerm",
+              "rdfs:label": "Method Tags",
+              "rdfs:comment": "Doughnut Economics, Permaculture",
+              "regen:purpose": "how they work",
+              "schema:isArray": true,
+              "schema:valueSet": [
+                "Permaculture", "Doughnut Economics", "Active Inference", "TEAL-Organization", 
+                "Biomimicry", "Holonic Finance", "Community Land Trust", "Web3/DAO", 
+                "AI-augmented Research", "Citizen Science", "Adaptive Management"
+              ]
+            }
+          }
+        },
+
+        {
+          "@id": "regen:outputsInfluence",
+          "rdfs:label": "Outputs & Influence", 
+          "regen:cluster": "Outputs & Influence",
+          "schema:properties": {
+            "keyWorks": {
+              "@id": "regen:keyWorks",
+              "@type": "regen:Work",
+              "rdfs:label": "Key Works",
+              "rdfs:comment": "Publications, projects, innovations",
+              "regen:purpose": "drill-downs",
+              "schema:isArray": true,
+              "schema:properties": {
+                "title": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Title"
+                },
+                "year": {
+                  "@type": "schema:Date",
+                  "rdfs:label": "Year"
+                },
+                "uri": {
+                  "@type": "schema:URL",
+                  "rdfs:label": "URI"
+                },
+                "type": {
+                  "@type": "schema:Text",
+                  "rdfs:label": "Type"
+                }
+              }
+            },
+            "metrics": {
+              "@id": "regen:metrics",
+              "@type": "regen:Metrics",
+              "rdfs:label": "Influence Metrics",
+              "rdfs:comment": "Quantitative measures for node sizing",
+              "regen:purpose": "node size/weight",
+              "schema:properties": {
+                "citations": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Citations"
+                },
+                "followers": {
+                  "@type": "schema:Integer", 
+                  "rdfs:label": "Followers"
+                },
+                "hIndex": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "H-Index"
+                },
+                "projects": {
+                  "@type": "schema:Integer",
+                  "rdfs:label": "Active Projects"
+                }
+              }
+            }
+          }
+        },
+
+        {
+          "@id": "regen:contactMedia",
+          "rdfs:label": "Contact & Media",
+          "regen:cluster": "Contact & Media", 
+          "schema:properties": {
+            "urls": {
+              "@id": "schema:url",
+              "@type": "schema:URL",
+              "rdfs:label": "URLs",
+              "rdfs:comment": "web, X, LinkedIn, ORCID",
+              "regen:purpose": "harvest pipelines",
+              "schema:isArray": true
+            }
+          }
+        },
+
+        {
+          "@id": "regen:meta",
+          "rdfs:label": "Meta Information",
+          "regen:cluster": "Meta",
+          "schema:properties": {
+            "lastVerified": {
+              "@id": "regen:lastVerified",
+              "@type": "schema:DateTime",
+              "rdfs:label": "Last Verified",
+              "rdfs:comment": "ISO 8601 timestamp",
+              "regen:purpose": "freshness filter"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "@id": "regen:EdgeTypes",
+      "@type": "schema:DefinedTermSet",
+      "rdfs:label": "Edge Types for Person Relationships",
+      "rdfs:comment": "Relationship types between people and organizations optimized for graph visualization",
+      "schema:hasDefinedTerm": [
+        {
+          "@id": "regen:Collaboration",
+          "@type": "schema:DefinedTerm",
+          "rdfs:label": "Collaboration",
+          "rdfs:comment": "Person↔Person, Person→Org, Org↔Org",
+          "regen:direction": "bidirectional",
+          "regen:minimalFields": ["since", "until", "projectName"],
+          "regen:optionalFields": ["weight", "fundingUSD"]
+        },
+        {
+          "@id": "regen:EmploymentAffiliation", 
+          "@type": "schema:DefinedTerm",
+          "rdfs:label": "Employment / Affiliation",
+          "rdfs:comment": "Person→Org",
+          "regen:direction": "unidirectional",
+          "regen:minimalFields": ["role", "start", "end", "FTE%"]
+        },
+        {
+          "@id": "regen:MentorAdvisor",
+          "@type": "schema:DefinedTerm",
+          "rdfs:label": "Mentor / Advisor", 
+          "rdfs:comment": "Person→Person",
+          "regen:direction": "unidirectional",
+          "regen:minimalFields": ["since", "intensity1-5"]
+        },
+        {
+          "@id": "regen:PublicationCoauthorship",
+          "@type": "schema:DefinedTerm",
+          "rdfs:label": "Publication Co-authorship",
+          "rdfs:comment": "Person↔Person",
+          "regen:direction": "bidirectional", 
+          "regen:minimalFields": ["workId"],
+          "regen:optionalFields": ["citations"]
+        },
+        {
+          "@id": "regen:EventParticipation",
+          "@type": "schema:DefinedTerm",
+          "rdfs:label": "Event Participation",
+          "rdfs:comment": "Person→Org (event host)",
+          "regen:direction": "unidirectional",
+          "regen:minimalFields": ["eventId", "role", "date"]
+        }
+      ]
+    },
+
+    {
+      "@id": "regen:VisualizationMapping",
+      "@type": "schema:CreativeWork",
+      "rdfs:label": "Visualization Encoding Recipe",
+      "rdfs:comment": "How person data maps to visual elements",
+      "regen:visualSurfaces": [
+        {
+          "@id": "regen:Globe3D",
+          "rdfs:label": "3-D Globe",
+          "regen:encodings": {
+            "position": "hqLat, hqLon → node position (Real world anchor)",
+            "size": "metrics.influence → easy scan",
+            "color": "top-level domainTags (12-color palette) → thematic clustering",
+            "halo": "methodTags frequency → show methods diversity"
+          }
+        },
+        {
+          "@id": "regen:ForceGraph",
+          "rdfs:label": "Force-Graph", 
+          "regen:encodings": {
+            "charge": "influence metric → denser hubs repel/attract",
+            "linkThickness": "weight or relationship strength → importance",
+            "linkColor": "edgeType (collab, mentor, etc.) → multi-layer legibility",
+            "dimensionality": "2-D or 3-D toggle → network vs geo-agnostic view"
+          }
+        }
+      ]
+    }
+  ]
+}

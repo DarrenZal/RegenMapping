@@ -38,24 +38,40 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ├── docs/                                        # Documentation
 │   ├── project-specifications.md               # Detailed project specs and UI mockups
 │   ├── seed-organizations.md                   # Organizations from Cascadia Conference
-│   └── schemas/                                 # Schema documentation
-│       ├── unified-organization-schema-comparison.md  # Comprehensive schema analysis
-│       └── schema-mapping-guide.md             # Transformation rules between schemas
+│   └── schemas/                                 # Schema documentation (organized by entity type)
+│       ├── Organization/                        # Organization schema documentation
+│       │   ├── unified-organization-schema-comparison.md  # Organization schema analysis
+│       │   └── organization-schema-mapping-guide.md       # Organization transformation rules
+│       ├── Person/                              # Person schema documentation
+│       │   ├── unified-person-schema-comparison.md        # Person schema analysis
+│       │   └── person-schema-mapping-guide.md             # Person transformation rules
+│       └── README.md                            # Schema documentation overview
 │
-└── Ontology/                                   # Schema definitions (JSON-LD files)
-    ├── unified-organization-schema.jsonld          # Practical unified implementation
-    ├── regen-org-shapes.ttl                       # SHACL shapes for data validation
-    ├── example-organization-profile.jsonld         # Complete usage example
-    ├── schemaorganizationDyllanTull.jsonld        # Dylan Tull's regenerative schema
-    │
-    ├── Murmurations/                               # Murmurations Network schemas
-    │   ├── murmurationsorganizations_schema-v1.0.0.jsonld
-    │   └── murmurationsorganizations_schema-v1.0.0-complete.jsonld
-    │
-    └── schmeaorg/                                  # Schema.org extracts
-        ├── schemaorg-current-https.jsonld
-        ├── schemaorganizationschemaorg.jsonld
-        └── schemaorganizationschemaorg-complete.jsonld
+└── Ontology/                                   # Schema definitions (organized by entity type)
+    ├── Person/                                  # Person schemas and examples
+    │   ├── unified-person-schema.jsonld        # Primary unified person schema
+    │   ├── example-person-profile.jsonld       # Person usage examples
+    │   ├── Dylan/
+    │   │   └── person-schema-dylantull.jsonld  # Dylan's visualization-optimized person schema
+    │   ├── Murmurations/
+    │   │   ├── murmurationspeople_schema-v0.1.0.jsonld         # People schema (basic)
+    │   │   └── murmurationspeople_schema-v0.1.0-complete.jsonld # People schema (complete)
+    │   └── SchemaOrg/
+    │       ├── person-schema-basic.jsonld      # Essential 28 Person properties
+    │       └── person-schema-complete.jsonld   # All 67 Person properties
+    ├── Organization/                            # Organization schemas and examples
+    │   ├── unified-organization-schema.jsonld  # Primary unified organization schema
+    │   ├── example-organization-profile.jsonld # Organization usage examples
+    │   ├── Dylan/
+    │   │   └── organization-schema-dylantull.jsonld # Dylan's visualization-optimized org schema
+    │   ├── Murmurations/
+    │   │   ├── murmurationsorganizations_schema-v1.0.0.jsonld         # Organizations (basic)
+    │   │   └── murmurationsorganizations_schema-v1.0.0-complete.jsonld # Organizations (complete)
+    │   └── SchemaOrg/
+    │       ├── organization-schema-basic.jsonld # Essential Organization properties
+    │       └── organization-schema-complete.jsonld # Complete Organization properties
+    └── Reference/                               # Reference vocabularies
+        └── schemaorg-current-https.jsonld      # Full Schema.org vocabulary
 ```
 
 ## 📚 Documentation
@@ -65,20 +81,28 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **[Seed Organizations](docs/seed-organizations.md)** - Initial dataset from Cascadia Bioregional Financing Conference
 
 ### Schema Documentation
-- **[Schema Comparison](docs/schemas/unified-organization-schema-comparison.md)** - Comprehensive analysis of Schema.org, Murmurations, and Dylan Tull's approaches
-- **[Schema Mapping Guide](docs/schemas/schema-mapping-guide.md)** - Transformation rules and conversion utilities between different schema formats
+- **[Organization Schema Comparison](docs/schemas/Organization/unified-organization-schema-comparison.md)** - Analysis of organization schema approaches
+- **[Person Schema Comparison](docs/schemas/Person/unified-person-schema-comparison.md)** - Analysis of person schema approaches  
+- **[Organization Schema Mapping](docs/schemas/Organization/organization-schema-mapping-guide.md)** - Organization transformation rules and conversion utilities
+- **[Person Schema Mapping](docs/schemas/Person/person-schema-mapping-guide.md)** - Person transformation rules and conversion utilities
 
 ## 🏗️ Work Completed
 
 ### Phase 1: Schema Research & Development ✅
-- **Downloaded and extracted Schema.org Organization schemas** from the official JSON-LD source
-- **Analyzed three major schema approaches**:
-  - Schema.org (web standards compliance)
-  - Murmurations (regenerative economy discovery)
-  - Dylan Tull's schema (rich categorization for mapping/visualization)
-- **Created unified schema proposal** combining the best elements of all three approaches
-- **Built complete Murmurations schema** with all field definitions expanded inline (no external references)
-- **Developed transformation guides** for converting between schema formats
+- **Organization Schema Development**:
+  - Downloaded and extracted Schema.org Organization schemas from official JSON-LD source
+  - Analyzed Murmurations organizations_schema-v1.0.0 with full field expansion  
+  - Created Dylan Tull's regenerative organization schema with visualization optimizations
+  - Built unified organization schema combining best elements of all three approaches
+- **Person Schema Development**:
+  - Extracted Schema.org Person class with 67 properties for comprehensive coverage
+  - Analyzed Murmurations people_schema-v0.1.0 for network discovery features
+  - Created Dylan Tull's regenerative person schema optimized for mapping visualization
+  - Built unified person schema with collaboration and matchmaking features
+- **Schema Integration & Documentation**:
+  - Developed transformation guides for converting between schema formats
+  - Created comprehensive comparison documents for both organizations and people
+  - Built example profiles demonstrating practical implementation
 
 ### Phase 2: Implementation Planning ✅
 - **Comprehensive data model** with Person and Organization node types

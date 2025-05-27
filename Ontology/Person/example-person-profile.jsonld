@@ -1,0 +1,320 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "regen": "https://regen-map.org/schema/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "https://regen-map.org/persons/karen-obrien",
+      "@type": ["schema:Person", "regen:RegenerativePerson"],
+      
+      "schema:name": "Dr. Karen O'Brien",
+      "schema:givenName": "Karen",
+      "schema:familyName": "O'Brien",
+      "schema:honorificPrefix": "Dr.",
+      "regen:pronouns": "she/her",
+      "regen:alsoKnownAs": ["Karen OBrien", "@karenobri"],
+      "schema:image": {
+        "@type": "schema:ImageObject",
+        "schema:url": "https://example.com/photos/karen-obrien.jpg",
+        "schema:caption": "Dr. Karen O'Brien"
+      },
+
+      "schema:jobTitle": "Professor of Human Geography",
+      "schema:worksFor": {
+        "@type": "schema:EducationalOrganization",
+        "@id": "https://regen-map.org/organizations/university-of-oslo",
+        "schema:name": "University of Oslo",
+        "schema:location": {
+          "@type": "schema:Place",
+          "schema:addressLocality": "Oslo",
+          "schema:addressCountry": "Norway"
+        }
+      },
+
+      "regen:affiliations": [
+        {
+          "@type": "schema:OrganizationRole",
+          "schema:memberOf": {
+            "@type": "schema:ResearchOrganization",
+            "schema:name": "cCHANGE - Centre for Climate Change, Energy and Environmental Decisions"
+          },
+          "schema:roleName": "Founder & Director",
+          "schema:startDate": "2018-01-01",
+          "regen:isCurrentRole": true
+        },
+        {
+          "@type": "schema:OrganizationRole", 
+          "schema:memberOf": {
+            "@type": "schema:Organization",
+            "schema:name": "IPCC Working Group II"
+          },
+          "schema:roleName": "Lead Author",
+          "schema:startDate": "1998-01-01",
+          "schema:endDate": "2023-12-31",
+          "regen:isCurrentRole": false
+        }
+      ],
+
+      "schema:homeLocation": {
+        "@type": "schema:Place",
+        "schema:addressLocality": "Oslo",
+        "schema:addressRegion": "Oslo",
+        "schema:addressCountry": "Norway",
+        "geo:lat": 59.91,
+        "geo:long": 10.75
+      },
+      "regen:hqLatitude": 59.91,
+      "regen:hqLongitude": 10.75,
+      "regen:locality": "Oslo, Norway",
+
+      "regen:domainTags": [
+        "Climate Adaptation",
+        "Biodiversity", 
+        "Culture & Story",
+        "Inner Development"
+      ],
+      "regen:methodTags": [
+        "Systems Mapping",
+        "Transdisciplinary Research",
+        "Participatory Methods"
+      ],
+      "regen:sdgAlignment": ["SDG03", "SDG13", "SDG17"],
+      "regen:theoreticalFrameworks": [
+        "Complexity Science",
+        "Metamodernism", 
+        "Integral Theory"
+      ],
+      "schema:keywords": [
+        "climate change",
+        "social transformation",
+        "resilience",
+        "human geography",
+        "sustainability science"
+      ],
+
+      "regen:keyWorks": [
+        {
+          "@type": "schema:Book",
+          "schema:name": "You Matter More Than You Think: Quantum Social Change in Response to a World in Crisis",
+          "schema:datePublished": "2018",
+          "schema:url": "https://example.com/books/you-matter",
+          "schema:description": "Explores how individual actions create collective transformation",
+          "schema:additionalType": "Book"
+        },
+        {
+          "@type": "schema:ScholarlyArticle",
+          "schema:name": "Climate Change, Intractability, and the Right to Development",
+          "schema:datePublished": "2009",
+          "schema:url": "https://example.com/articles/climate-development",
+          "schema:description": "Groundbreaking work on climate justice and development rights",
+          "schema:additionalType": "Academic Paper"
+        }
+      ],
+
+      "regen:influenceMetrics": {
+        "@type": "schema:PropertyValue",
+        "regen:socialMediaFollowers": 38000,
+        "regen:citationCount": 5412,
+        "regen:hIndex": 42,
+        "regen:projectCount": 8,
+        "regen:networkConnections": 128
+      },
+
+      "schema:url": "https://karenmobrien.com",
+      "schema:email": "karen.obrien@oslo.no",
+      "regen:additionalUrls": [
+        {
+          "schema:url": "https://twitter.com/karenobri",
+          "regen:platform": "Twitter",
+          "regen:handle": "@karenobri"
+        },
+        {
+          "schema:url": "https://orcid.org/0000-0002-4608-9330",
+          "regen:platform": "ORCID",
+          "regen:handle": "0000-0002-4608-9330"
+        },
+        {
+          "schema:url": "https://scholar.google.com/citations?user=abc123",
+          "regen:platform": "Google Scholar"
+        }
+      ],
+
+      "regen:currentNeeds": [
+        "Funding for transdisciplinary climate research",
+        "Connections to Indigenous knowledge holders",
+        "Platform partners for global south collaborations"
+      ],
+      "regen:currentOffers": [
+        "Mentorship in climate adaptation research",
+        "Speaking on transformation science", 
+        "Collaborative research partnerships",
+        "Grant writing expertise"
+      ],
+
+      "schema:colleague": [
+        {
+          "@type": "schema:Person",
+          "@id": "https://regen-map.org/persons/tim-odowd",
+          "schema:name": "Tim O'Dowd"
+        }
+      ],
+      "regen:collaborators": [
+        {
+          "@type": "schema:Person",
+          "@id": "https://regen-map.org/persons/robin-bronen",
+          "schema:name": "Robin Bronen"
+        }
+      ],
+      "schema:memberOf": [
+        {
+          "@type": "schema:Organization",
+          "@id": "https://regen-map.org/organizations/future-earth",
+          "schema:name": "Future Earth"
+        },
+        {
+          "@type": "schema:Organization",
+          "@id": "https://regen-map.org/organizations/norclim",
+          "schema:name": "Norwegian Research Centre for Climate Dynamics"
+        }
+      ],
+      "schema:alumniOf": [
+        {
+          "@type": "schema:EducationalOrganization",
+          "schema:name": "University of Colorado Boulder",
+          "schema:description": "PhD in Geography"
+        }
+      ],
+
+      "regen:degreeCentrality": 128,
+      "regen:betweennessCentrality": 0.42,
+      "regen:clusterId": "climate-adaptation-cluster",
+      "regen:bridgingScore": 0.85,
+      "regen:influenceScore": 0.91,
+
+      "regen:lastVerified": "2025-05-26T12:00:00Z",
+      "regen:dataSource": [
+        "ORCID",
+        "University of Oslo faculty page",
+        "Twitter API",
+        "Google Scholar",
+        "Manual verification"
+      ],
+      "regen:confidenceScore": 0.86,
+      "schema:dateModified": "2025-05-26T12:00:00Z",
+      "schema:dateCreated": "2025-05-26T10:00:00Z",
+      "schema:version": "1.0.0"
+    },
+
+    {
+      "@id": "https://regen-map.org/persons/dylan-tull",
+      "@type": ["schema:Person", "regen:RegenerativePerson"],
+      
+      "schema:name": "Dylan Tull",
+      "schema:givenName": "Dylan",
+      "schema:familyName": "Tull",
+      "regen:pronouns": "he/him",
+      "regen:alsoKnownAs": ["@dylantull"],
+      
+      "schema:jobTitle": "Regenerative Development Leader",
+      "schema:worksFor": {
+        "@type": "schema:Organization",
+        "@id": "https://regen-map.org/organizations/blue-horizon-properties",
+        "schema:name": "Blue Horizon Properties"
+      },
+
+      "schema:homeLocation": {
+        "@type": "schema:Place",
+        "schema:addressLocality": "Traverse City",
+        "schema:addressRegion": "Michigan", 
+        "schema:addressCountry": "United States",
+        "geo:lat": 45.7108,
+        "geo:long": -85.9846
+      },
+      "regen:hqLatitude": 45.7108,
+      "regen:hqLongitude": -85.9846,
+      "regen:locality": "Traverse City, Michigan",
+
+      "regen:domainTags": [
+        "Regenerative Design",
+        "Post-capitalist Finance",
+        "Distributed Governance"
+      ],
+      "regen:methodTags": [
+        "Holonic Finance",
+        "Biomimicry",
+        "Community Land Trust"
+      ],
+      "regen:theoreticalFrameworks": [
+        "Metamodernism",
+        "Integral Theory"
+      ],
+
+      "regen:keyWorks": [
+        {
+          "@type": "schema:CreativeWork",
+          "schema:name": "Regen Map Project",
+          "schema:datePublished": "2024",
+          "schema:url": "https://regen-map.org",
+          "schema:description": "3D visualization platform for regenerative organizations and people",
+          "schema:additionalType": "Software Project"
+        }
+      ],
+
+      "regen:influenceMetrics": {
+        "@type": "schema:PropertyValue",
+        "regen:socialMediaFollowers": 12000,
+        "regen:projectCount": 5,
+        "regen:networkConnections": 89
+      },
+
+      "schema:url": "https://dylantull.com",
+      "regen:additionalUrls": [
+        {
+          "schema:url": "https://linkedin.com/in/dylantull",
+          "regen:platform": "LinkedIn"
+        }
+      ],
+
+      "regen:currentNeeds": [
+        "Technical partnerships for visualization platform",
+        "Funding for regenerative mapping initiative"
+      ],
+      "regen:currentOffers": [
+        "Regenerative development consulting",
+        "Network mapping expertise",
+        "Platform building partnerships"
+      ],
+
+      "schema:founder": [
+        {
+          "@type": "schema:Organization",
+          "@id": "https://regen-map.org/organizations/blue-horizon-properties",
+          "schema:name": "Blue Horizon Properties"
+        }
+      ],
+
+      "regen:degreeCentrality": 89,
+      "regen:betweennessCentrality": 0.31,
+      "regen:clusterId": "regenerative-design-cluster",
+      "regen:bridgingScore": 0.67,
+      "regen:influenceScore": 0.73,
+
+      "regen:lastVerified": "2025-05-26T12:00:00Z",
+      "regen:dataSource": [
+        "LinkedIn",
+        "Personal website",
+        "Manual verification"
+      ],
+      "regen:confidenceScore": 0.92,
+      "schema:dateModified": "2025-05-26T12:00:00Z",
+      "schema:dateCreated": "2025-05-26T10:30:00Z",
+      "schema:version": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+# Unified Person Schema Comparison
+
+This document compares the three approaches to modeling people in the regenerative economy ecosystem and explains how they were synthesized into our unified schema.
+
+## Overview
+
+The unified person schema combines the best elements from three different approaches:
+
+1. **Schema.org Person** - Web standards compliance and semantic interoperability
+2. **Murmurations People Schema** - Network discovery and regenerative economy focus  
+3. **Dylan Tull's Visualization Schema** - Optimized for 3D globe and force-directed graph visualization
+
+## Schema Comparison Matrix
+
+### Core Identity Fields
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Full Name | `schema:name` | `name` (required) | `fullName` | `schema:name` | Primary identifier |
+| Given/Family Name | `schema:givenName`, `schema:familyName` | - | - | `schema:givenName`, `schema:familyName` | Name components |
+| Nickname | `schema:alternateName` | `nickname` | - | `schema:alternateName` | Informal names |
+| Aliases | - | - | `aka[]` | `regen:alsoKnownAs[]` | Search optimization |
+| Pronouns | - | - | `pronouns` | `regen:pronouns` | Inclusive UX |
+| Profile Image | `schema:image` | `image` | - | `schema:image` | Visual identification |
+
+### Professional Information
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Job Title | `schema:jobTitle` | - | `primaryRole` | `schema:jobTitle` | Professional identity |
+| Current Org | `schema:worksFor` | - | - | `schema:worksFor` | Primary affiliation |
+| Affiliations | `schema:memberOf` | - | `affiliations[]` | `regen:affiliations[]` | Time-sliced relationships |
+| Skills | `schema:skills` | `tags` (required) | - | `schema:skills` | Competencies |
+| Expertise | `schema:knowsAbout` | - | - | `schema:knowsAbout` | Knowledge domains |
+
+### Location Data
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Address | `schema:address` | `street_address`, `locality`, etc. | - | `schema:address` | Complete address |
+| Coordinates | - | `geolocation.lat/lon` | `hqLat`, `hqLon` | `geo:lat`, `geo:long` | Globe positioning |
+| Locality | `schema:addressLocality` | `locality` | `locality` | `schema:addressLocality` | Display name |
+| Country | `schema:addressCountry` | `country_name`, `country_iso_3166` | - | `schema:addressCountry` | Geographic context |
+
+### Regenerative Focus (Unique to Dylan/Unified)
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Domain Tags | - | - | `domainTags[]` | `regen:domainTags[]` | Work focus areas |
+| Method Tags | - | - | `methodTags[]` | `regen:methodTags[]` | Methodological approaches |
+| SDG Alignment | - | - | `sdgTags[]` | `regen:sdgAlignment[]` | UN goal mapping |
+| Theory Tags | - | - | - | `regen:theoreticalFrameworks[]` | Theoretical lenses |
+
+### Contact & Online Presence
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Primary URL | `schema:url` | `primary_url` (required) | - | `schema:url` | Main online presence |
+| Email | `schema:email` | `contact_details.email` | - | `schema:email` | Direct contact |
+| Phone | `schema:telephone` | `telephone` | - | `schema:telephone` | Phone contact |
+| Additional URLs | `schema:sameAs` | `urls[]` | `urls[]` | `regen:additionalUrls[]` | Social media, etc. |
+
+### Network Discovery (Murmurations Focus)
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Linked Schemas | - | `linked_schemas` (required) | - | - | Validation requirement |
+| Relationships | - | `relationships[]` | - | `murm:relationships[]` | Formal relationships |
+| Languages | `schema:knowsLanguage` | `knows_language[]` | - | `schema:knowsLanguage` | Communication |
+
+### Visualization Optimization (Dylan Focus)
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Key Works | `schema:subjectOf` | - | `keyWorks[]` | `regen:keyWorks[]` | Impact showcase |
+| Influence Metrics | `schema:interactionStatistic` | - | `metrics{}` | `regen:influenceMetrics{}` | Node sizing |
+| Network Metrics | - | - | - | `regen:networkMetrics{}` | Graph analysis |
+
+### Collaboration Features (Unified Innovation)
+
+| Field | Schema.org | Murmurations | Dylan Tull | Unified Schema | Purpose |
+|-------|------------|--------------|------------|----------------|---------|
+| Current Needs | - | - | - | `regen:currentNeeds[]` | Matchmaking |
+| Current Offers | - | - | - | `regen:currentOffers[]` | Resource sharing |
+| Collaborators | `schema:colleague` | - | - | `regen:collaborators[]` | Active partnerships |
+| Mentors/Mentees | - | - | - | `regen:mentors[]`, `regen:mentees[]` | Knowledge transfer |
+
+## Synthesis Approach
+
+### 1. Standards Compliance First
+We built on Schema.org as the foundation to ensure web standards compliance and semantic interoperability. This provides:
+- Established vocabulary for core person attributes
+- SEO and structured data benefits
+- Compatibility with existing systems
+
+### 2. Network Discovery Integration  
+We incorporated Murmurations' network discovery approach:
+- Required fields for index participation
+- Relationship modeling for network effects
+- Geographic and contact standardization
+
+### 3. Visualization Optimization
+We added Dylan's visualization-specific enhancements:
+- Regenerative economy categorization tags
+- Metrics for graph layout algorithms
+- Location data optimized for globe rendering
+
+### 4. Collaboration Innovation
+We extended all approaches with new collaboration features:
+- Needs/offers matching for serendipitous connections
+- Network analysis metrics for community insights
+- Enhanced relationship modeling
+
+## Implementation Benefits
+
+### For Web Standards
+- Full Schema.org compliance for existing tools
+- Rich structured data for search engines
+- Interoperability with other person databases
+
+### For Network Discovery
+- Murmurations Index compatibility
+- Automated relationship detection
+- Geographic clustering capabilities
+
+### For Visualization
+- Optimized for Three.js/Deck.gl rendering
+- Graph analysis algorithm integration
+- Multiple representation modes (globe + force-directed)
+
+### For Regenerative Economy
+- Domain-specific categorization
+- SDG alignment tracking
+- Method and theory framework mapping
+- Community collaboration features
+
+## Field Mapping Functions
+
+### From Schema.org to Unified
+```javascript
+function mapSchemaOrgToUnified(schemaPerson) {
+  return {
+    '@type': ['schema:Person', 'regen:RegenerativePerson'],
+    'schema:name': schemaPerson.name,
+    'schema:givenName': schemaPerson.givenName,
+    'schema:familyName': schemaPerson.familyName,
+    'schema:jobTitle': schemaPerson.jobTitle,
+    'schema:worksFor': schemaPerson.worksFor,
+    'schema:email': schemaPerson.email,
+    'schema:url': schemaPerson.url,
+    // Add regenerative-specific fields as needed
+    'regen:domainTags': [], // Manual categorization required
+    'regen:methodTags': []
+  };
+}
+```
+
+### From Murmurations to Unified  
+```javascript
+function mapMurmurationsToUnified(murmPerson) {
+  return {
+    '@type': ['schema:Person', 'regen:RegenerativePerson'],
+    'schema:name': murmPerson.name,
+    'schema:url': murmPerson.primary_url,
+    'schema:keywords': murmPerson.tags,
+    'schema:description': murmPerson.description,
+    'schema:image': murmPerson.image,
+    'schema:telephone': murmPerson.telephone,
+    'geo:lat': murmPerson.geolocation?.lat,
+    'geo:long': murmPerson.geolocation?.lon,
+    'regen:additionalUrls': murmPerson.urls,
+    'schema:knowsLanguage': murmPerson.knows_language
+  };
+}
+```
+
+### From Dylan Tull to Unified
+```javascript  
+function mapDyllanTullToUnified(dylanPerson) {
+  return {
+    '@type': ['schema:Person', 'regen:RegenerativePerson'], 
+    'schema:name': dylanPerson.fullName,
+    'regen:alsoKnownAs': dylanPerson.aka,
+    'regen:pronouns': dylanPerson.pronouns,
+    'schema:jobTitle': dylanPerson.primaryRole,
+    'regen:affiliations': dylanPerson.affiliations,
+    'geo:lat': dylanPerson.hqLat,
+    'geo:long': dylanPerson.hqLon,
+    'regen:locality': dylanPerson.locality,
+    'regen:domainTags': dylanPerson.domainTags,
+    'regen:methodTags': dylanPerson.methodTags,
+    'regen:sdgAlignment': dylanPerson.sdgTags,
+    'regen:keyWorks': dylanPerson.keyWorks,
+    'regen:influenceMetrics': dylanPerson.metrics
+  };
+}
+```
+
+## Validation and Quality
+
+### Required Fields (Minimum Viable Profile)
+- `schema:name` - Full name for identification
+- `schema:url` - Primary online presence
+- `geo:lat`, `geo:long` - Location for mapping
+- `regen:domainTags` - At least one focus area
+
+### Recommended Fields (Rich Profile)
+- Professional information (title, organization)
+- Contact details (email, phone)
+- Regenerative categorization (method, SDG, theory tags)
+- Key works and influence metrics
+
+### Data Quality Indicators
+- `regen:confidenceScore` (0-1) based on source authority
+- `regen:lastVerified` timestamp for freshness
+- `regen:dataSource[]` for provenance tracking
+- Validation against controlled vocabularies
+
+## Future Extensions
+
+### Planned Enhancements
+1. **Impact Measurement** - Quantified regenerative impact metrics
+2. **Learning Pathways** - Educational journey and skill development
+3. **Resource Sharing** - Formal resource exchange protocols
+4. **Event Integration** - Conference and gathering participation
+5. **Publication Network** - Academic and thought leadership connections
+
+### Technical Roadmap
+1. **GraphQL API** - Query interface for applications
+2. **Neo4j Integration** - Graph database optimization
+3. **Vector Embeddings** - Semantic search capabilities
+4. **Real-time Updates** - Live synchronization across platforms
+5. **Privacy Controls** - Granular data sharing permissions
+
+This unified approach provides a comprehensive foundation for mapping the regenerative economy ecosystem while maintaining compatibility with existing standards and enabling innovative visualization and collaboration features.
