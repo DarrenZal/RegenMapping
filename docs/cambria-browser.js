@@ -136,13 +136,14 @@ class CambriaBrowser {
      * Initialize with our lens files
      */
     async initializeLenses() {
-        const baseUrl = window.location.origin + window.location.pathname.replace('/index.html', '').replace(/\/$/, '');
+        // Use GitHub raw URLs for lens files since they're not in the docs folder
+        const baseUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main';
         
         try {
-            // Load our lens files
-            this.lenses.murmToUnified = await this.loadLensFromUrl(`${baseUrl}/../cambria-lenses/murmurations-to-unified-person.lens.yml`);
-            this.lenses.unifiedToMurm = await this.loadLensFromUrl(`${baseUrl}/../cambria-lenses/unified-to-murmurations-person.lens.yml`);
-            this.lenses.schemaorgToUnified = await this.loadLensFromUrl(`${baseUrl}/../cambria-lenses/schemaorg-to-unified-person.lens.yml`);
+            // Load our lens files from GitHub
+            this.lenses.murmToUnified = await this.loadLensFromUrl(`${baseUrl}/cambria-lenses/murmurations-to-unified-person.lens.yml`);
+            this.lenses.unifiedToMurm = await this.loadLensFromUrl(`${baseUrl}/cambria-lenses/unified-to-murmurations-person.lens.yml`);
+            this.lenses.schemaorgToUnified = await this.loadLensFromUrl(`${baseUrl}/cambria-lenses/schemaorg-to-unified-person.lens.yml`);
             
             console.log('🎯 Cambria lenses loaded successfully!');
             return true;
