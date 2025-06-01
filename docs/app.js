@@ -26,11 +26,65 @@ class RegenMappingApp {
     }
 
     async loadProfiles() {
-        // Load the Murmurations profiles from the repository
+        // Try to load from Murmurations index first
+        try {
+            await this.loadFromMurmurationsIndex();
+        } catch (error) {
+            console.warn('Failed to load from Murmurations index:', error);
+        }
+
+        // If no profiles loaded from Murmurations, try GitHub URLs
+        if (Object.keys(this.profiles).length === 0) {
+            await this.loadFromGitHub();
+        }
+
+        // If still no profiles, use mock data
+        if (Object.keys(this.profiles).length === 0) {
+            this.loadMockData();
+        }
+    }
+
+    async loadFromMurmurationsIndex() {
+        // Query the Murmurations test index for our profiles
+        const queries = [
+            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0&name=Dylan%20Tull',
+            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0&name=Dr.%20Karen%20O%27Brien',
+            'https://test-index.murmurations.network/v2/nodes?schema=organizations_schema-v1.0.0&name=Global%20Regenerative%20Cooperative'
+        ];
+
+        for (const queryUrl of queries) {
+            try {
+                const response = await fetch(queryUrl);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.data && result.data.length > 0) {
+                        // Get the profile URL from the first result
+                        const profileUrl = result.data[0].profile_url;
+                        const profileResponse = await fetch(profileUrl);
+                        if (profileResponse.ok) {
+                            const profile = await profileResponse.json();
+                            const id = this.generateProfileId(profile.name);
+                            this.profiles[id] = {
+                                murmurations: profile,
+                                unified: await this.convertToUnified(profile),
+                                schemaorg: await this.convertToSchemaOrg(profile)
+                            };
+                            console.log(`✅ Loaded from Murmurations: ${profile.name}`);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.warn(`Failed to query Murmurations for ${queryUrl}:`, error);
+            }
+        }
+    }
+
+    async loadFromGitHub() {
+        // Fallback: Load the Murmurations profiles from the repository
         const profileUrls = [
-            '../murmurations-profiles/person-dylan-tull.json',
-            '../murmurations-profiles/person-dr-karen-obrien.json',
-            '../murmurations-profiles/org-global-regenerative-cooperative.json'
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json'
         ];
 
         for (const url of profileUrls) {
@@ -44,16 +98,16 @@ class RegenMappingApp {
                         unified: await this.convertToUnified(profile),
                         schemaorg: await this.convertToSchemaOrg(profile)
                     };
+                    console.log(`✅ Loaded from GitHub: ${profile.name}`);
                 }
             } catch (error) {
                 console.warn(`Failed to load profile from ${url}:`, error);
             }
         }
+    }
 
-        // If no profiles loaded from files, use mock data
-        if (Object.keys(this.profiles).length === 0) {
-            this.loadMockData();
-        }
+    generateProfileId(name) {
+        return name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     }
 
     extractProfileId(url) {
@@ -145,15 +199,29 @@ class RegenMappingApp {
     loadMockData() {
         // Mock data for demonstration
         this.profiles = {
-            'person-dylan-tull': {
+            'dylan-tull': {
                 murmurations: {
                     name: "Dylan Tull",
                     primary_url: "https://dylantull.com",
                     locality: "Traverse City",
                     region: "Michigan",
                     country_name: "United States",
-                    tags: ["Regenerative Design", "Post-capitalist Finance"],
-                    geolocation: { lat: 45.7108, lon: -85.9846 }
+                    tags: ["Regenerative Design", "Post-capitalist Finance", "Cooperative Economics"],
+                    geolocation: { lat: 45.7108, lon: -85.9846 },
+                    relationships: [
+                        {
+                            type: "member",
+                            target: "Global Regenerative Cooperative",
+                            target_url: "https://global-regenerative.coop",
+                            description: "Co-founder and strategic advisor"
+                        },
+                        {
+                            type: "collaboration",
+                            target: "Dr. Karen O'Brien",
+                            target_url: "https://karenmobrien.com",
+                            description: "Research collaboration on regenerative systems"
+                        }
+                    ]
                 },
                 unified: {
                     "@type": ["schema:Person", "regen:RegenerativePerson"],
@@ -173,15 +241,29 @@ class RegenMappingApp {
                     }
                 }
             },
-            'person-dr-karen-obrien': {
+            'dr-karen-o-brien': {
                 murmurations: {
                     name: "Dr. Karen O'Brien",
                     primary_url: "https://karenmobrien.com",
                     locality: "Oslo",
                     region: "Oslo",
                     country_name: "Norway",
-                    tags: ["Climate Change Research", "Human Geography"],
-                    geolocation: { lat: 59.91, lon: 10.75 }
+                    tags: ["climate change", "social transformation", "resilience", "human geography", "sustainability science"],
+                    geolocation: { lat: 59.91, lon: 10.75 },
+                    relationships: [
+                        {
+                            type: "advisor",
+                            target: "Global Regenerative Cooperative",
+                            target_url: "https://global-regenerative.coop",
+                            description: "Climate resilience research advisor"
+                        },
+                        {
+                            type: "collaboration",
+                            target: "Dylan Tull",
+                            target_url: "https://dylantull.com",
+                            description: "Research collaboration on regenerative systems"
+                        }
+                    ]
                 },
                 unified: {
                     "@type": ["schema:Person", "regen:RegenerativePerson"],
@@ -201,16 +283,30 @@ class RegenMappingApp {
                     }
                 }
             },
-            'org-global-regenerative-cooperative': {
+            'global-regenerative-cooperative': {
                 murmurations: {
                     name: "Global Regenerative Cooperative",
-                    primary_url: "https://globalregenerativecooperative.com",
+                    primary_url: "https://global-regenerative.coop",
                     locality: "Global",
                     region: "Worldwide",
                     country_name: "International",
-                    tags: ["Cooperative Economics", "Regenerative Systems", "Global Network"],
+                    tags: ["regenerative agriculture", "worker cooperative", "renewable energy", "permaculture", "community resilience", "bioregional", "social enterprise"],
                     linked_schemas: ["organizations_schema-v1.0.0"],
-                    geolocation: { lat: 0, lon: 0 }
+                    geolocation: { lat: 0, lon: 0 },
+                    relationships: [
+                        {
+                            type: "member",
+                            target: "Dylan Tull",
+                            target_url: "https://dylantull.com",
+                            description: "Co-founder and strategic advisor"
+                        },
+                        {
+                            type: "advisor",
+                            target: "Dr. Karen O'Brien",
+                            target_url: "https://karenmobrien.com",
+                            description: "Climate resilience research advisor"
+                        }
+                    ]
                 },
                 unified: {
                     "@type": ["schema:Organization", "regen:RegenerativeOrganization"],
