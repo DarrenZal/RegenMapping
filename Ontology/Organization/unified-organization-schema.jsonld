@@ -115,16 +115,41 @@
     
     "dataSources": {"@id": "ex:dataSources", "@container": "@set"},
     "lastUpdated": {"@id": "ex:lastUpdated", "@type": "xsd:dateTime"},
-    "confidenceScore": "ex:confidenceScore"
+    "confidenceScore": "ex:confidenceScore",
+    "linked_schemas": "murm:linked_schemas"
   },
   
   "@graph": [
+    {
+      "@id": "regen:unified-organization-schema-v1.0.0",
+      "@type": "schema:CreativeWork",
+      "schema:name": "Unified Organization Schema for Regenerative Mapping",
+      "schema:description": "A comprehensive schema for modeling organizations in the regenerative economy ecosystem, combining Schema.org standards, Murmurations network discovery, and specialized visualization fields",
+      "schema:version": "1.0.0",
+      "schema:dateCreated": "2025-05-26",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "@id": "https://regen-map.org/"
+      },
+      "schema:license": "https://creativecommons.org/licenses/by/4.0/"
+    },
     {
       "@id": "ex:RegenerativeOrganization",
       "@type": "rdfs:Class",
       "rdfs:label": "Regenerative Organization",
       "rdfs:comment": "An organization focused on regenerative practices and positive impact",
       "rdfs:subClassOf": "schema:Organization"
+    },
+    
+    {
+      "@id": "murm:linked_schemas",
+      "@type": "rdf:Property",
+      "domainIncludes": "ex:RegenerativeOrganization",
+      "rangeIncludes": "schema:Text",
+      "cluster": "Murmurations",
+      "required": true,
+      "murmurationsField": "linked_schemas",
+      "rdfs:comment": "A list of schemas against which a profile must be validated"
     },
     
     {

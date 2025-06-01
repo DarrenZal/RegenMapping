@@ -2,6 +2,10 @@
   "@context": "https://regenmap.org/unified-organization-schema.jsonld",
   "@type": ["schema:Organization", "ex:RegenerativeOrganization"],
   "@id": "https://example-coop.org",
+  "linked_schemas": [
+    "organizations_schema-v1.0.0",
+    "regen:unified-organization-schema-v1.0.0"
+  ],
   
   "name": "Global Regenerative Cooperative",
   "legalName": "Global Regenerative Cooperative LLC",

@@ -1,0 +1,35 @@
+{
+  "name": "regen-mapping-murmurations-integration",
+  "version": "1.0.0",
+  "description": "Integration scripts for uploading unified schemas and profiles to Murmurations test network",
+  "main": "index.js",
+  "scripts": {
+    "upload-schemas": "node scripts/upload-schemas.js",
+    "upload-profiles": "node scripts/upload-profiles.js",
+    "test-queries": "node scripts/test-queries.js",
+    "test-integration": "npm run upload-schemas && npm run upload-profiles && sleep 300 && npm run test-queries",
+    "test": "npm run test-integration"
+  },
+  "keywords": [
+    "murmurations",
+    "regenerative-economy",
+    "schema",
+    "json-ld",
+    "network-discovery"
+  ],
+  "author": "Regen Mapping Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarrenZal/RegenMap"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "directories": {
+    "doc": "docs",
+    "test": "scripts"
+  }
+}

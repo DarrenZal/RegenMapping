@@ -46,11 +46,13 @@
     "dmLinks": {"@id": "regen:dmLinks", "@container": "@set"},
     "blueCheckX": "regen:blueCheckX",
     "credentialedLinkedIn": "regen:credentialedLinkedIn",
-    "humanIDProof": "regen:humanIDProof"
+    "humanIDProof": "regen:humanIDProof",
+    "linked_schemas": "murm:linked_schemas",
+    "primary_url": "murm:primary_url"
   },
   "@graph": [
     {
-      "@id": "regen:UnifiedPersonSchema",
+      "@id": "regen:unified-person-schema-v1.0.0",
       "@type": "schema:CreativeWork",
       "schema:name": "Unified Person Schema for Regenerative Mapping",
       "schema:description": "A comprehensive schema for modeling people in the regenerative economy ecosystem, combining Schema.org standards, Murmurations network discovery, and specialized visualization fields",
@@ -69,7 +71,21 @@
       "rdfs:comment": "A person engaged in regenerative economy activities, with enhanced properties for network discovery and visualization",
       "rdfs:subClassOf": "schema:Person",
       "schema:properties": [
-        
+        {
+          "@id": "murm:linked_schemas",
+          "@type": "schema:Text",
+          "rdfs:label": "Linked Schemas",
+          "rdfs:comment": "A list of schemas against which a profile must be validated",
+          "schema:required": true,
+          "schema:isArray": true
+        },
+        {
+          "@id": "murm:primary_url",
+          "@type": "schema:URL",
+          "rdfs:label": "Primary URL",
+          "rdfs:comment": "The unique and definitive website address for the person",
+          "schema:required": true
+        },
         {
           "@id": "regen:coreIdentity",
           "@type": "rdf:Property",

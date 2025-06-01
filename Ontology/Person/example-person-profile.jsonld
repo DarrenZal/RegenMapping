@@ -24,6 +24,11 @@
       "regen:birthYear": 1965,
       "regen:citizenship": "US/Norwegian dual",
       "regen:timeZone": "Europe/Oslo",
+      "murm:linked_schemas": [
+        "people_schema-v0.1.0",
+        "regen:unified-person-schema-v1.0.0"
+      ],
+      "murm:primary_url": "https://karenmobrien.com",
       "schema:image": {
         "@type": "schema:ImageObject",
         "schema:url": "https://example.com/photos/karen-obrien.jpg",
@@ -287,6 +292,12 @@
     {
       "@id": "https://regen-map.org/persons/dylan-tull",
       "@type": ["schema:Person", "regen:RegenerativePerson"],
+      "murm:linked_schemas": [
+        "people_schema-v0.1.0",
+        "regen:unified-person-schema-v1.0.0"
+      ],
+      "murm:primary_url": "https://dylantull.com",
+      "schema:keywords": [],
       
       "schema:name": "Dylan Tull",
       "schema:givenName": "Dylan",

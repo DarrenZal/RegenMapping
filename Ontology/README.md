@@ -163,8 +163,8 @@ Companies, nonprofits, DAOs, cooperatives, and communities with properties for:
 - Semantic interoperability with other knowledge graphs and databases
 - Rich structured data for improved web presence and discoverability
 
-### for Network Discovery
-- Murmurations Index compatibility for regenerative economy participation
+### For Network Discovery
+- **Murmurations Index Compatibility**: Our unified schemas are designed to be fully compatible with the Murmurations Index. By utilizing the `linked_schemas` property in our profiles, we ensure that data conforms to Murmurations' base schemas (`people_schema-v0.1.0` and `organizations_schema-v1.0.0`). This allows for seamless validation and discoverability of our richer profiles within the Murmurations network.
 - Automated relationship detection and collaboration recommendation
 - Geographic clustering and bioregional analysis capabilities
 
