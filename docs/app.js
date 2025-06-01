@@ -40,14 +40,14 @@ class RegenMappingApp {
             console.warn('Failed to load from Murmurations index:', error);
         }
 
-        // If no profiles loaded from Murmurations, try GitHub URLs
+        // If no profiles loaded from Murmurations, try GitHub URLs as fallback
         if (Object.keys(this.profiles).length === 0) {
+            console.log('📁 No profiles from Murmurations index, loading from GitHub...');
             await this.loadFromGitHub();
         }
 
-        // If still no profiles, use mock data
         if (Object.keys(this.profiles).length === 0) {
-            this.loadMockData();
+            throw new Error('No profiles could be loaded from any source');
         }
     }
 
@@ -137,278 +137,24 @@ class RegenMappingApp {
     }
 
     async convertToUnified(murmProfile) {
-        // Use Cambria if available, otherwise fallback to manual conversion
-        if (this.cambriaReady) {
-            console.log('🎯 Using Cambria for Murmurations → Unified conversion');
-            return this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
+        if (!this.cambriaReady) {
+            throw new Error('Cambria lenses not loaded - cannot convert to unified format');
         }
         
-        // Fallback: manual conversion
-        console.log('⚠️ Using manual conversion for Murmurations → Unified');
-        const isOrganization = murmProfile.linked_schemas && 
-            murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
-        
-        const baseContext = {
-            "@version": 1.1,
-            "@vocab": "https://schema.org/",
-            "schema": "https://schema.org/",
-            "murm": "https://murmurations.network/schemas/",
-            "regen": "https://regen-map.org/schema/"
-        };
-
-        if (isOrganization) {
-            return {
-                "@context": baseContext,
-                "@type": ["schema:Organization", "regen:RegenerativeOrganization"],
-                "schema:name": murmProfile.name,
-                "murm:primary_url": murmProfile.primary_url,
-                "regen:locality": murmProfile.locality,
-                "regen:geolocation": murmProfile.geolocation,
-                "regen:domainTags": murmProfile.tags || [],
-                "regen:relationships": murmProfile.relationships || [],
-                "schema:location": {
-                    "@type": "schema:Place",
-                    "schema:addressLocality": murmProfile.locality,
-                    "schema:addressRegion": murmProfile.region,
-                    "schema:addressCountry": murmProfile.country_name
-                }
-            };
-        } else {
-            return {
-                "@context": baseContext,
-                "@type": ["schema:Person", "regen:RegenerativePerson"],
-                "schema:name": murmProfile.name,
-                "murm:primary_url": murmProfile.primary_url,
-                "regen:locality": murmProfile.locality,
-                "regen:geolocation": murmProfile.geolocation,
-                "regen:domainTags": murmProfile.tags || [],
-                "regen:relationships": murmProfile.relationships || [],
-                "schema:homeLocation": {
-                    "@type": "schema:Place",
-                    "schema:addressLocality": murmProfile.locality,
-                    "schema:addressRegion": murmProfile.region,
-                    "schema:addressCountry": murmProfile.country_name
-                }
-            };
-        }
+        console.log('🎯 Using Cambria for Murmurations → Unified conversion');
+        return this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
     }
 
     async convertToSchemaOrg(murmProfile) {
-        // Use Cambria if available, otherwise fallback to manual conversion
-        if (this.cambriaReady) {
-            console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
-            return this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+        if (!this.cambriaReady) {
+            throw new Error('Cambria lenses not loaded - cannot convert to Schema.org format');
         }
         
-        // Fallback: manual conversion
-        console.log('⚠️ Using manual conversion for Murmurations → Schema.org');
-        const isOrganization = murmProfile.linked_schemas && 
-            murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
-        
-        if (isOrganization) {
-            return {
-                "@context": "https://schema.org/",
-                "@type": "Organization",
-                "name": murmProfile.name,
-                "url": murmProfile.primary_url,
-                "location": {
-                    "@type": "Place",
-                    "addressLocality": murmProfile.locality,
-                    "addressRegion": murmProfile.region,
-                    "addressCountry": murmProfile.country_name
-                }
-            };
-        } else {
-            return {
-                "@context": "https://schema.org/",
-                "@type": "Person",
-                "name": murmProfile.name,
-                "url": murmProfile.primary_url,
-                "homeLocation": {
-                    "@type": "Place",
-                    "addressLocality": murmProfile.locality,
-                    "addressRegion": murmProfile.region,
-                    "addressCountry": murmProfile.country_name
-                }
-            };
-        }
+        console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
+        return this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
     }
 
-    loadMockData() {
-        // Mock data for demonstration
-        this.profiles = {
-            'dylan-tull': {
-                murmurations: {
-                    name: "Dylan Tull",
-                    primary_url: "https://dylantull.com",
-                    locality: "Traverse City",
-                    region: "Michigan",
-                    country_name: "United States",
-                    tags: ["Regenerative Design", "Post-capitalist Finance", "Cooperative Economics"],
-                    geolocation: { lat: 45.7108, lon: -85.9846 },
-                    relationships: [
-                        {
-                            type: "member",
-                            target: "Global Regenerative Cooperative",
-                            target_url: "https://global-regenerative.coop",
-                            description: "Co-founder and strategic advisor"
-                        },
-                        {
-                            type: "collaboration",
-                            target: "Dr. Karen O'Brien",
-                            target_url: "https://karenmobrien.com",
-                            description: "Research collaboration on regenerative systems"
-                        }
-                    ]
-                },
-                unified: {
-                    "@type": ["schema:Person", "regen:RegenerativePerson"],
-                    "schema:name": "Dylan Tull",
-                    "murm:primary_url": "https://dylantull.com",
-                    "regen:locality": "Traverse City, Michigan",
-                    "regen:domainTags": ["Regenerative Design", "Post-capitalist Finance"],
-                    "regen:relationships": [
-                        {
-                            type: "member",
-                            target: "Global Regenerative Cooperative",
-                            target_url: "https://global-regenerative.coop",
-                            description: "Co-founder and strategic advisor"
-                        },
-                        {
-                            type: "collaboration",
-                            target: "Dr. Karen O'Brien",
-                            target_url: "https://karenmobrien.com",
-                            description: "Research collaboration on regenerative systems"
-                        }
-                    ]
-                },
-                schemaorg: {
-                    "@type": "Person",
-                    "name": "Dylan Tull",
-                    "url": "https://dylantull.com",
-                    "homeLocation": {
-                        "@type": "Place",
-                        "addressLocality": "Traverse City",
-                        "addressRegion": "Michigan"
-                    }
-                }
-            },
-            'dr-karen-o-brien': {
-                murmurations: {
-                    name: "Dr. Karen O'Brien",
-                    primary_url: "https://karenmobrien.com",
-                    locality: "Oslo",
-                    region: "Oslo",
-                    country_name: "Norway",
-                    tags: ["climate change", "social transformation", "resilience", "human geography", "sustainability science"],
-                    geolocation: { lat: 59.91, lon: 10.75 },
-                    relationships: [
-                        {
-                            type: "advisor",
-                            target: "Global Regenerative Cooperative",
-                            target_url: "https://global-regenerative.coop",
-                            description: "Climate resilience research advisor"
-                        },
-                        {
-                            type: "collaboration",
-                            target: "Dylan Tull",
-                            target_url: "https://dylantull.com",
-                            description: "Research collaboration on regenerative systems"
-                        }
-                    ]
-                },
-                unified: {
-                    "@type": ["schema:Person", "regen:RegenerativePerson"],
-                    "schema:name": "Dr. Karen O'Brien",
-                    "murm:primary_url": "https://karenmobrien.com",
-                    "regen:locality": "Oslo, Norway",
-                    "regen:domainTags": ["Climate Change Research", "Human Geography"],
-                    "regen:relationships": [
-                        {
-                            type: "advisor",
-                            target: "Global Regenerative Cooperative",
-                            target_url: "https://global-regenerative.coop",
-                            description: "Climate resilience research advisor"
-                        },
-                        {
-                            type: "collaboration",
-                            target: "Dylan Tull",
-                            target_url: "https://dylantull.com",
-                            description: "Research collaboration on regenerative systems"
-                        }
-                    ]
-                },
-                schemaorg: {
-                    "@type": "Person",
-                    "name": "Dr. Karen O'Brien",
-                    "url": "https://karenmobrien.com",
-                    "homeLocation": {
-                        "@type": "Place",
-                        "addressLocality": "Oslo",
-                        "addressCountry": "Norway"
-                    }
-                }
-            },
-            'global-regenerative-cooperative': {
-                murmurations: {
-                    name: "Global Regenerative Cooperative",
-                    primary_url: "https://global-regenerative.coop",
-                    locality: "Global",
-                    region: "Worldwide",
-                    country_name: "International",
-                    tags: ["regenerative agriculture", "worker cooperative", "renewable energy", "permaculture", "community resilience", "bioregional", "social enterprise"],
-                    linked_schemas: ["organizations_schema-v1.0.0"],
-                    geolocation: { lat: 0, lon: 0 },
-                    relationships: [
-                        {
-                            type: "member",
-                            target: "Dylan Tull",
-                            target_url: "https://dylantull.com",
-                            description: "Co-founder and strategic advisor"
-                        },
-                        {
-                            type: "advisor",
-                            target: "Dr. Karen O'Brien",
-                            target_url: "https://karenmobrien.com",
-                            description: "Climate resilience research advisor"
-                        }
-                    ]
-                },
-                unified: {
-                    "@type": ["schema:Organization", "regen:RegenerativeOrganization"],
-                    "schema:name": "Global Regenerative Cooperative",
-                    "murm:primary_url": "https://globalregenerativecooperative.com",
-                    "regen:locality": "Global, Worldwide",
-                    "regen:domainTags": ["Cooperative Economics", "Regenerative Systems", "Global Network"],
-                    "regen:relationships": [
-                        {
-                            type: "member",
-                            target: "Dylan Tull",
-                            target_url: "https://dylantull.com",
-                            description: "Co-founder and strategic advisor"
-                        },
-                        {
-                            type: "advisor",
-                            target: "Dr. Karen O'Brien",
-                            target_url: "https://karenmobrien.com",
-                            description: "Climate resilience research advisor"
-                        }
-                    ]
-                },
-                schemaorg: {
-                    "@type": "Organization",
-                    "name": "Global Regenerative Cooperative",
-                    "url": "https://globalregenerativecooperative.com",
-                    "location": {
-                        "@type": "Place",
-                        "addressLocality": "Global",
-                        "addressRegion": "Worldwide",
-                        "addressCountry": "International"
-                    }
-                }
-            }
-        };
-    }
+
 
     setupGraph() {
         const graphData = this.generateGraphData();
@@ -503,11 +249,11 @@ class RegenMappingApp {
                 node.profile.murmurations.linked_schemas.some(schema => schema.includes('organizations_schema'));
             
             if (node.id === this.expandedNode) {
-                // Active profile colors
-                return isOrganization ? '#2980b9' : '#c0392b'; // Dark blue for org, dark red for person
+                // Active profile colors - dark blue for both people and organizations
+                return '#2980b9'; // Dark blue for active profiles
             } else {
-                // Inactive profile colors
-                return isOrganization ? '#85c1e9' : '#ffb3ba'; // Light blue for org, much lighter pink for person
+                // Inactive profile colors - light blue for both people and organizations
+                return '#85c1e9'; // Light blue for inactive profiles
             }
         }
         
@@ -603,11 +349,26 @@ class RegenMappingApp {
             type: 'schema-link'
         }));
 
-        // Create links between schema nodes (representing Cambria lenses)
+        // Create links between schema nodes (representing Cambria lenses) with descriptive labels
         const lensLinks = [
-            { source: `${node.id}-murmurations`, target: `${node.id}-unified`, type: 'lens' },
-            { source: `${node.id}-unified`, target: `${node.id}-schemaorg`, type: 'lens' },
-            { source: `${node.id}-murmurations`, target: `${node.id}-schemaorg`, type: 'lens' }
+            { 
+                source: `${node.id}-murmurations`, 
+                target: `${node.id}-unified`, 
+                type: 'lens',
+                label: 'lens: murmurations→unified'
+            },
+            { 
+                source: `${node.id}-unified`, 
+                target: `${node.id}-schemaorg`, 
+                type: 'lens',
+                label: 'lens: unified→schemaorg'
+            },
+            { 
+                source: `${node.id}-murmurations`, 
+                target: `${node.id}-schemaorg`, 
+                type: 'lens',
+                label: 'lens: murmurations→schemaorg'
+            }
         ];
 
         // Update graph data
@@ -698,9 +459,9 @@ class RegenMappingApp {
         }
 
         if (data.relationships && data.relationships.length > 0) {
-            const relationshipsHtml = data.relationships.map(rel => 
+            const relationshipsHtml = data.relationships.map((rel, index) => 
                 `<div class="relationship-item">
-                    <strong>${rel.type}</strong>: <a href="${rel.target_url}" target="_blank">${rel.target}</a>
+                    <strong>${rel.type}</strong>: <a href="#" class="profile-link" data-target="${rel.target}">${rel.target}</a>
                     <br><em>${rel.description}</em>
                 </div>`
             ).join('');
@@ -735,7 +496,7 @@ class RegenMappingApp {
         if (data['regen:relationships'] && data['regen:relationships'].length > 0) {
             const relationshipsHtml = data['regen:relationships'].map(rel => 
                 `<div class="relationship-item">
-                    <strong>${rel.type}</strong>: <a href="${rel.target_url}" target="_blank">${rel.target}</a>
+                    <strong>${rel.type}</strong>: <a href="#" class="profile-link" data-target="${rel.target}">${rel.target}</a>
                     <br><em>${rel.description}</em>
                 </div>`
             ).join('');
@@ -826,6 +587,17 @@ class RegenMappingApp {
                 }
             });
         });
+        
+        // Profile link listeners (using event delegation)
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('profile-link')) {
+                e.preventDefault();
+                const targetName = e.target.dataset.target;
+                if (targetName) {
+                    this.navigateToProfile(targetName);
+                }
+            }
+        });
     }
 
     updateSchemaButtons() {
@@ -845,6 +617,48 @@ class RegenMappingApp {
 
     openSidebar() {
         document.getElementById('sidebar').classList.add('open');
+    }
+
+    navigateToProfile(profileName) {
+        console.log(`🔍 Navigating to profile: "${profileName}"`);
+        
+        // Debug: List all available profile names
+        const availableNames = Object.keys(this.profiles).map(id => 
+            `${id}: "${this.profiles[id].murmurations.name}"`
+        );
+        console.log('📋 Available profiles:', availableNames);
+        
+        // Find the profile by name
+        const profileId = Object.keys(this.profiles).find(id => 
+            this.profiles[id].murmurations.name === profileName
+        );
+        
+        console.log(`🎯 Found profile ID: ${profileId}`);
+        
+        if (profileId) {
+            // Find the node in the graph
+            const currentData = this.graph.graphData();
+            const targetNode = currentData.nodes.find(node => node.id === profileId);
+            
+            console.log(`📍 Found target node:`, targetNode ? targetNode.name : 'Not found');
+            
+            if (targetNode) {
+                // Expand the target node and show its profile
+                this.expandNode(targetNode);
+                this.showProfile(targetNode.profile);
+                
+                // Focus the camera on the target node
+                this.graph.cameraPosition(
+                    { x: targetNode.x, y: targetNode.y, z: targetNode.z + 100 }, // position
+                    { x: targetNode.x, y: targetNode.y, z: targetNode.z }, // lookAt
+                    1000 // transition duration
+                );
+            } else {
+                console.error(`❌ Target node not found for profile ID: ${profileId}`);
+            }
+        } else {
+            console.error(`❌ Profile not found for name: "${profileName}"`);
+        }
     }
 
     hideLoading() {
@@ -869,7 +683,10 @@ function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
 }
 
+// Global app instance for onclick handlers
+let app;
+
 // Initialize the app when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    new RegenMappingApp();
+    app = new RegenMappingApp();
 });

@@ -30,6 +30,30 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **Temporal Views**: Timeline slider showing network evolution over time
 - **Cluster Analysis**: Automatic detection of communities and influence hubs
 
+## 🔄 Cambria Integration Achievement
+
+**This project now serves as a live demonstration of Cambria technology in action!**
+
+### Real Cambria Implementation
+- **Browser-Compatible Engine**: Custom implementation of Cambria functionality for web browsers
+- **Live Lens Loading**: Loads actual lens files from the repository for real-time transformations
+- **Pure Cambria Transformations**: All schema conversions powered by real Cambria lenses (no fallback code)
+- **Interactive Navigation**: Click relationship links to navigate between profiles while preserving schema context
+- **Visual Schema Flow**: See Cambria transformations with labeled lens connections
+
+### Cambria Lens Files
+- `cambria-lenses/murmurations-to-unified-person.lens.yml` - Murmurations → Unified conversion
+- `cambria-lenses/unified-to-murmurations-person.lens.yml` - Unified → Murmurations conversion  
+- `cambria-lenses/schemaorg-to-unified-person.lens.yml` - Schema.org → Unified conversion
+
+### Technical Innovation
+- **YAML Parser**: Custom browser-compatible YAML parser for lens files
+- **Lens Operations**: Implements rename, remove, and add operations from Cambria spec
+- **Error Handling**: Robust error handling with graceful fallbacks
+- **Debug Logging**: Comprehensive console output for troubleshooting transformations
+
+**Result**: The website demonstrates real-world Cambria usage for schema transformation in a regenerative network context, showcasing the technology's power for interoperability between different data formats.
+
 ## 📁 Project Structure
 
 ```

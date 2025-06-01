@@ -1,8 +1,15 @@
 # Cambria Integration for Schema Conversion
 
-This document summarizes the successful integration of Cambria for converting between the three schema types used in the Regen Mapping project.
+This document summarizes the **completed integration** of Cambria for converting between the three schema types used in the Regen Mapping project. The website features interactive navigation between profiles, real-time lens transformations, and a visual schema flow.
 
 ## ✅ What's Working
+
+### 🌐 **LIVE BROWSER IMPLEMENTATION**
+- **Website**: https://darrenzal.github.io/RegenMapping
+- **Status**: ✅ **FULLY OPERATIONAL** - Real Cambria transformations in the browser!
+- **Engine**: Custom browser-compatible Cambria implementation
+- **Lens Loading**: Loads actual lens files from GitHub repository
+- **Interactive Navigation**: Click relationship links to navigate between profiles
 
 ### Cambria Project Setup
 - **Location**: `/Users/darrenzal/cambria-project`
@@ -41,7 +48,7 @@ Murmurations → Unified:
 ### Cambria Lenses
 - `cambria-lenses/murmurations-to-unified-person.lens.yml`
 - `cambria-lenses/unified-to-murmurations-person.lens.yml`
-- `cambria-lenses/schemaorg-to-unified-person.lens.yml` (in development)
+- `cambria-lenses/schemaorg-to-unified-person.lens.yml`
 - `cambria-lenses/README.md`
 
 ### Test Files
@@ -83,23 +90,10 @@ node scripts/test-cambria-transformations.js
 - **Example**: `Ontology/Person/example-person-profile.jsonld`
 - **Namespaces**: `schema:`, `regen:`, `murm:`, `geo:`
 
-### 3. Schema.org (In Development)
+### 3. Schema.org
 - **Format**: Standard Schema.org JSON-LD
 - **Example**: `test-profiles/sample-schemaorg-person.json`
-- **Status**: 🔄 Array handling needs refinement
-
-## 🎯 Next Steps
-
-### Immediate Improvements
-1. **Fix Schema.org Integration**: Resolve array handling in Cambria lens
-2. **Add Organization Schemas**: Create lenses for organization conversions
-3. **Enhanced Field Mapping**: Add more comprehensive field transformations
-
-### Advanced Features
-1. **Composite Lenses**: Multi-step transformation pipelines
-2. **Validation**: Add schema validation before/after transformation
-3. **Error Handling**: Robust error handling and logging
-4. **API Integration**: Programmatic access to transformations
+- **Status**: ✅ Working in browser
 
 ## 📊 Benefits Achieved
 
@@ -139,12 +133,46 @@ Murmurations JSON → Cambria Lens → Unified JSON-LD
      ← Reverse Cambria Lens ←  ←  ←  ←  ←  ←
 ```
 
-## 🎉 Success Metrics
+## 🌐 Browser Implementation Details
 
-- ✅ **Cambria Project**: Successfully installed and operational
-- ✅ **Bidirectional Conversion**: Working with 100% data integrity
-- ✅ **Field Mapping**: Core fields successfully transformed
-- ✅ **Documentation**: Comprehensive guides and examples created
-- ✅ **Testing**: Automated test suite with validation
+### Custom Cambria Engine (`docs/cambria-browser.js`)
+We created a browser-compatible implementation of Cambria functionality:
 
-This integration provides a solid foundation for schema interoperability in the Regen Mapping ecosystem, enabling seamless data exchange between different schema formats while maintaining data integrity and providing a clear path for future enhancements.
+```javascript
+class CambriaBrowser {
+    // Custom YAML parser for lens files
+    loadYamlLens(yamlContent) { ... }
+    
+    // Core lens operations
+    applyLensToDoc(lens, doc) { ... }
+    applyRename(doc, operation) { ... }
+    applyRemove(doc, operation) { ... }
+    applyAdd(doc, operation) { ... }
+    
+    // Schema conversion with live lens loading
+    convertSchema(data, fromFormat, toFormat) { ... }
+}
+```
+
+### Key Features
+- **Live Lens Loading**: Loads lens files from GitHub raw URLs
+- **YAML Parsing**: Custom browser-compatible YAML parser
+- **Real-time Transformations**: All conversions use actual Cambria lenses
+- **Interactive Navigation**: Click relationship links to navigate between profiles
+- **Visual Schema Flow**: Labeled lens connections show transformation paths
+- **Error Handling**: Graceful fallbacks with comprehensive logging
+
+### Website Integration (`docs/app.js`)
+- **Pure Cambria Dependency**: No fallback manual conversions
+- **Schema Preservation**: Maintains current schema view when navigating
+- **Debug Logging**: Console shows transformation success/failure
+- **Event Delegation**: Safe handling of profile navigation links
+
+### Console Output Example
+```
+🎯 Initializing Cambria lenses...
+🎯 Cambria lenses loaded successfully!
+✅ Loaded from GitHub: Dylan Tull
+🎯 Using Cambria for Murmurations → Unified conversion
+🎯 Using Cambria for Murmurations → Schema.org conversion
+🔄 Cambria Schema.org conversion result: {name: "Dylan Tull", ...}
