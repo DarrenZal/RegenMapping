@@ -46,31 +46,47 @@ class RegenMappingApp {
     }
 
     async loadFromMurmurationsIndex() {
-        // Query the Murmurations test index for our profiles
+        // Query the Murmurations test index for all regenerative profiles
         const queries = [
-            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0&name=Dylan%20Tull',
-            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0&name=Dr.%20Karen%20O%27Brien',
-            'https://test-index.murmurations.network/v2/nodes?schema=organizations_schema-v1.0.0&name=Global%20Regenerative%20Cooperative'
+            // Get all people profiles using the unified schema
+            'https://test-index.murmurations.network/v2/nodes?schema=regen-person-schema-v1.0.0',
+            // Get all organization profiles using the unified schema  
+            'https://test-index.murmurations.network/v2/nodes?schema=regen-organization-schema-v1.0.0',
+            // Fallback to original schemas if unified schemas don't exist yet
+            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0',
+            'https://test-index.murmurations.network/v2/nodes?schema=organizations_schema-v1.0.0'
         ];
 
         for (const queryUrl of queries) {
             try {
+                console.log(`🔍 Querying: ${queryUrl}`);
                 const response = await fetch(queryUrl);
                 if (response.ok) {
                     const result = await response.json();
+                    console.log(`📊 Found ${result.data?.length || 0} profiles`);
+                    
                     if (result.data && result.data.length > 0) {
-                        // Get the profile URL from the first result
-                        const profileUrl = result.data[0].profile_url;
-                        const profileResponse = await fetch(profileUrl);
-                        if (profileResponse.ok) {
-                            const profile = await profileResponse.json();
-                            const id = this.generateProfileId(profile.name);
-                            this.profiles[id] = {
-                                murmurations: profile,
-                                unified: await this.convertToUnified(profile),
-                                schemaorg: await this.convertToSchemaOrg(profile)
-                            };
-                            console.log(`✅ Loaded from Murmurations: ${profile.name}`);
+                        // Load all profiles from this schema
+                        for (const node of result.data) {
+                            try {
+                                const profileResponse = await fetch(node.profile_url);
+                                if (profileResponse.ok) {
+                                    const profile = await profileResponse.json();
+                                    const id = this.generateProfileId(profile.name);
+                                    
+                                    // Skip if we already have this profile
+                                    if (this.profiles[id]) continue;
+                                    
+                                    this.profiles[id] = {
+                                        murmurations: profile,
+                                        unified: await this.convertToUnified(profile),
+                                        schemaorg: await this.convertToSchemaOrg(profile)
+                                    };
+                                    console.log(`✅ Loaded from Murmurations: ${profile.name}`);
+                                }
+                            } catch (profileError) {
+                                console.warn(`Failed to load individual profile:`, profileError);
+                            }
                         }
                     }
                 }
@@ -78,6 +94,8 @@ class RegenMappingApp {
                 console.warn(`Failed to query Murmurations for ${queryUrl}:`, error);
             }
         }
+        
+        console.log(`🎉 Total profiles loaded: ${Object.keys(this.profiles).length}`);
     }
 
     async loadFromGitHub() {
