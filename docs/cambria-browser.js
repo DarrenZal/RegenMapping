@@ -232,6 +232,32 @@ class CambriaBrowser {
                     };
                 }
                 
+                console.log('🔄 Cambria Schema.org conversion result:', result);
+                return result;
+            } else if (fromFormat === 'murmurations' && toFormat === 'schemaorg') {
+                // Direct conversion from Murmurations to Schema.org
+                const isOrganization = data.linked_schemas && 
+                    data.linked_schemas.some(schema => schema.includes('organizations_schema'));
+                
+                const result = {
+                    "@context": "https://schema.org/",
+                    "@type": isOrganization ? "Organization" : "Person",
+                    "name": data.name,
+                    "url": data.primary_url
+                };
+                
+                // Add location
+                if (data.locality) {
+                    const locationKey = isOrganization ? 'location' : 'homeLocation';
+                    result[locationKey] = {
+                        "@type": "Place",
+                        "addressLocality": data.locality,
+                        "addressRegion": data.region,
+                        "addressCountry": data.country_name
+                    };
+                }
+                
+                console.log('🔄 Cambria direct Murm→Schema.org conversion result:', result);
                 return result;
             }
             
