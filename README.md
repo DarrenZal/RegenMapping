@@ -180,8 +180,9 @@ npm run serve
 ```
 
 **Website Structure:**
-- `website/` - Interactive visualization application
-- `docs/` - Project documentation and guides
+- `docs/` - Interactive visualization website AND project documentation
+- `docs/index.html` - Main interactive visualization
+- `docs/schemas/` - Schema documentation and guides
 
 ### ✅ Schema Conversion with Cambria
 We've integrated Cambria for seamless schema transformations between different formats:
