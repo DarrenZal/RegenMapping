@@ -487,7 +487,7 @@ class RegenMappingApp {
                 return isOrganization ? '#2980b9' : '#c0392b'; // Dark blue for org, dark red for person
             } else {
                 // Inactive profile colors
-                return isOrganization ? '#85c1e9' : '#f1948a'; // Light blue for org, light red for person
+                return isOrganization ? '#85c1e9' : '#ffb3ba'; // Light blue for org, much lighter pink for person
             }
         }
         
@@ -687,6 +687,9 @@ class RegenMappingApp {
             html += this.renderField('Relationships', relationshipsHtml);
         }
 
+        // Add profile source link
+        html += this.renderProfileSource(data.name);
+
         return html;
     }
 
@@ -719,6 +722,9 @@ class RegenMappingApp {
             html += this.renderField('Relationships', relationshipsHtml);
         }
 
+        // Add profile source link
+        html += this.renderProfileSource(data['schema:name']);
+
         return html;
     }
 
@@ -745,6 +751,9 @@ class RegenMappingApp {
             html += this.renderField('Schema Type', data['@type']);
         }
 
+        // Add profile source link
+        html += this.renderProfileSource(data.name);
+
         return html;
     }
 
@@ -755,6 +764,29 @@ class RegenMappingApp {
                 <div class="field-value">${value}</div>
             </div>
         `;
+    }
+
+    renderProfileSource(profileName) {
+        // Generate GitHub URL based on profile name
+        const profileId = this.generateProfileId(profileName);
+        let githubUrl;
+        
+        if (profileId.includes('person') || profileId === 'dylan-tull' || profileId === 'dr-karen-o-brien') {
+            githubUrl = `https://github.com/DarrenZal/RegenMapping/blob/main/murmurations-profiles/person-${profileId.replace('dr-', '').replace('person-', '')}.json`;
+        } else {
+            githubUrl = `https://github.com/DarrenZal/RegenMapping/blob/main/murmurations-profiles/org-${profileId.replace('org-', '')}.json`;
+        }
+        
+        // Handle specific cases
+        if (profileId === 'dylan-tull') {
+            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/murmurations-profiles/person-dylan-tull.json';
+        } else if (profileId === 'dr-karen-o-brien') {
+            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/murmurations-profiles/person-dr-karen-obrien.json';
+        } else if (profileId === 'global-regenerative-cooperative') {
+            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/murmurations-profiles/org-global-regenerative-cooperative.json';
+        }
+        
+        return this.renderField('Profile Source', `<a href="${githubUrl}" target="_blank">View Raw Profile on GitHub</a>`);
     }
 
     setupEventListeners() {
