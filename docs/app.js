@@ -665,6 +665,12 @@ class RegenMappingApp {
                 this.currentSchema = e.target.dataset.schema;
                 this.updateSchemaButtons();
                 
+                // Update the active schema node in the graph
+                if (this.expandedNode) {
+                    this.activeSchemaNode = `${this.expandedNode}-${this.currentSchema}`;
+                    this.updateGraphColors();
+                }
+                
                 if (this.currentProfile) {
                     this.displayProfile(this.currentProfile, this.currentSchema);
                 }
