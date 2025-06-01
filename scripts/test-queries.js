@@ -20,7 +20,7 @@ async function queryBySchema(schema, page = 1, allResults = []) {
     const options = {
       hostname: 'test-index.murmurations.network',
       port: 443,
-      path: `/v2/nodes?schema=${encodeURIComponent(schema)}&page=${page}&items_per_page=100`,
+      path: `/v2/nodes?schema=${encodeURIComponent(schema)}&page=${page}`,
       method: 'GET',
       headers: {
         'Accept': 'application/json'
