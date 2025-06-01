@@ -1,0 +1,21 @@
+{
+  "linked_schemas": [
+    "people_schema-v0.1.0"
+  ],
+  "name": "Dr. Karen O'Brien",
+  "primary_url": "https://karenmobrien.com",
+  "tags": [
+    "climate change",
+    "social transformation",
+    "resilience",
+    "human geography",
+    "sustainability science"
+  ],
+  "geolocation": {
+    "lat": 59.91,
+    "lon": 10.75
+  },
+  "locality": "Oslo",
+  "region": "Oslo",
+  "country_name": "Norway"
+}

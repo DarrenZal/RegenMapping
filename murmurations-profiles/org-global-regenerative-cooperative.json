@@ -1,0 +1,21 @@
+{
+  "linked_schemas": [
+    "organizations_schema-v1.0.0"
+  ],
+  "name": "Global Regenerative Cooperative",
+  "primary_url": "https://global-regenerative.coop",
+  "tags": [
+    "regenerative agriculture",
+    "worker cooperative",
+    "renewable energy",
+    "permaculture",
+    "community resilience",
+    "bioregional",
+    "social enterprise"
+  ],
+  "description": "A worker-owned cooperative focused on regenerative agriculture, renewable energy, and community resilience globally",
+  "nickname": "GRC",
+  "mission": "To foster ecological restoration and community resilience through cooperative ownership and regenerative agriculture practices globally",
+  "status": "active",
+  "full_address": "123 Regenerative Way, Seattle, WA 98101, USA"
+}
