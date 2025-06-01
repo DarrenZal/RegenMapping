@@ -21,18 +21,23 @@
         .container {
             display: flex;
             height: 100vh;
+            width: 100vw;
+            overflow: hidden;
         }
 
         .graph-container {
             flex: 1;
             position: relative;
             background: rgba(0, 0, 0, 0.1);
+            min-width: 0;
         }
 
         .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
             width: 400px;
-            min-width: 350px;
-            max-width: 90vw;
+            height: 100vh;
             background: rgba(255, 255, 255, 0.95);
             color: #333;
             padding: 20px;
@@ -40,7 +45,6 @@
             transform: translateX(100%);
             transition: transform 0.3s ease;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-            position: relative;
             z-index: 1000;
         }
 
@@ -57,7 +61,6 @@
         @media (max-width: 768px) {
             .sidebar {
                 width: 100vw;
-                max-width: 100vw;
             }
         }
 
