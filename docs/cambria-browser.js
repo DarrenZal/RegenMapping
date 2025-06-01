@@ -168,7 +168,7 @@ class CambriaBrowser {
                         "@vocab": "https://schema.org/",
                         "schema": "https://schema.org/",
                         "murm": "https://murmurations.network/schemas/",
-                        "regen": "https://regen-map.org/schema/"
+                        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
                     };
                     
                     // Determine type based on linked_schemas
@@ -178,6 +178,9 @@ class CambriaBrowser {
                     result['@type'] = isOrganization ? 
                         ["schema:Organization", "regen:RegenerativeOrganization"] :
                         ["schema:Person", "regen:RegenerativePerson"];
+                    
+                    // Preserve the name property
+                    result.name = data.name;
                     
                     // Add location information
                     if (data.locality) {
@@ -217,7 +220,7 @@ class CambriaBrowser {
                 const result = {
                     "@context": "https://schema.org/",
                     "@type": isOrganization ? "Organization" : "Person",
-                    "name": data['schema:name'],
+                    "name": data.name || data['schema:name'],
                     "url": data['murm:primary_url']
                 };
                 

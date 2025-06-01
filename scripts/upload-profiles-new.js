@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * Submit profiles from the new profiles/murmurations directory to Murmurations test network
+ * Submit profiles from the profiles/murmurations directory to Murmurations test network
  * 
  * This script:
  * 1. Reads profiles from profiles/murmurations/
  * 2. Validates profiles using Murmurations test API
  * 3. Submits profile URLs to test index for indexing
+ * 
+ * Note: This script has been updated to use the new profile location in profiles/murmurations/
+ * instead of the old location in murmurations-profiles/
  */
 
 const fs = require('fs');

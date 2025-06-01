@@ -52,12 +52,23 @@ class RegenMappingApp {
     }
 
     async loadFromMurmurationsIndex() {
-        // Query the Murmurations test index ONLY for our unified regenerative schemas
+        // Query the Murmurations test index for the basic Murmurations schemas
         const queries = [
-            // Get all people profiles using our unified regenerative schema
-            'https://test-index.murmurations.network/v2/nodes?schema=regen-person-schema-v1.0.0',
-            // Get all organization profiles using our unified regenerative schema  
-            'https://test-index.murmurations.network/v2/nodes?schema=regen-organization-schema-v1.0.0'
+            // Get all people profiles using the basic Murmurations people schema
+            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0',
+            // Get all organization profiles using the basic Murmurations organizations schema
+            'https://test-index.murmurations.network/v2/nodes?schema=organizations_schema-v1.0.0'
+        ];
+
+        // Our specific profile URLs to filter for
+        const ourProfileUrls = [
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json',
+            // Also include the old URLs in case they're still indexed
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json',
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json'
         ];
 
         for (const queryUrl of queries) {
@@ -66,12 +77,20 @@ class RegenMappingApp {
                 const response = await fetch(queryUrl);
                 if (response.ok) {
                     const result = await response.json();
-                    console.log(`📊 Found ${result.data?.length || 0} profiles`);
+                    console.log(`📊 Found ${result.data?.length || 0} profiles in total`);
                     
                     if (result.data && result.data.length > 0) {
-                        // Load all profiles from this schema
-                        for (const node of result.data) {
+                        // Filter for our specific profiles
+                        const ourProfiles = result.data.filter(node => 
+                            ourProfileUrls.some(url => node.profile_url.includes('DarrenZal/RegenMapping'))
+                        );
+                        
+                        console.log(`📊 Found ${ourProfiles.length} of our profiles`);
+                        
+                        // Load our filtered profiles
+                        for (const node of ourProfiles) {
                             try {
+                                console.log(`🔍 Loading profile from: ${node.profile_url}`);
                                 const profileResponse = await fetch(node.profile_url);
                                 if (profileResponse.ok) {
                                     const profile = await profileResponse.json();
@@ -436,7 +455,7 @@ class RegenMappingApp {
     }
 
     getDisplayName(data) {
-        return data.name || data['schema:name'] || 'Unknown';
+        return data.name || 'Unknown';
     }
 
     renderMurmurationsFields(data) {
@@ -504,7 +523,7 @@ class RegenMappingApp {
         }
 
         // Add profile source link
-        html += this.renderProfileSource(data['schema:name']);
+        html += this.renderProfileSource(this.getDisplayName(data));
 
         return html;
     }
@@ -548,28 +567,92 @@ class RegenMappingApp {
     }
 
     renderProfileSource(profileName) {
+        console.log(`🔍 renderProfileSource called with name: "${profileName}", schema: ${this.currentSchema}`);
+        
         // Handle undefined or null profile names
         if (!profileName) {
-            return this.renderField('Profile Source', 'Source information not available');
+            console.log('❌ Profile name is undefined or null');
+            return this.renderField('Profile Source', 'Source information not available (no name)');
         }
         
-        // Generate GitHub URL based on profile name
-        const profileId = this.generateProfileId(profileName);
+        // Find the current profile by name
+        let currentProfileId = null;
+        let murmurationsName = null;
+        
+        // Debug: Log all profiles
+        console.log('📋 All profiles:');
+        for (const id in this.profiles) {
+            const profile = this.profiles[id];
+            console.log(`  • ID: ${id}`);
+            console.log(`    • Murmurations name: "${profile.murmurations.name}"`);
+            console.log(`    • Unified name: "${profile.unified.name}"`);
+            console.log(`    • SchemaOrg name: "${profile.schemaorg.name}"`);
+        }
+        
+        // Loop through all profiles to find the current one
+        for (const id in this.profiles) {
+            const profile = this.profiles[id];
+            
+            // Check if this is the current profile based on the current schema
+            if (this.currentSchema === 'unified' && profile.unified.name === profileName) {
+                console.log(`✅ Found matching unified profile: ${id}`);
+                currentProfileId = id;
+                murmurationsName = profile.murmurations.name;
+                break;
+            } else if (this.currentSchema === 'murmurations' && profile.murmurations.name === profileName) {
+                console.log(`✅ Found matching murmurations profile: ${id}`);
+                currentProfileId = id;
+                murmurationsName = profile.murmurations.name;
+                break;
+            } else if (this.currentSchema === 'schemaorg' && profile.schemaorg.name === profileName) {
+                console.log(`✅ Found matching schemaorg profile: ${id}`);
+                currentProfileId = id;
+                murmurationsName = profile.murmurations.name;
+                break;
+            }
+        }
+        
+        // If we couldn't find the profile, use the name as is
+        if (!currentProfileId) {
+            console.log(`❌ No matching profile found for name: "${profileName}"`);
+            currentProfileId = this.generateProfileId(profileName);
+            murmurationsName = profileName;
+        }
+        
+        // Generate GitHub URL based on profile name and current schema
         let githubUrl;
         
-        if (profileId.includes('person') || profileId === 'dylan-tull' || profileId === 'dr-karen-o-brien') {
-            githubUrl = `https://github.com/DarrenZal/RegenMapping/blob/main/profiles/murmurations/murm-person-${profileId.replace('dr-', '').replace('person-', '')}.json`;
+        // Different URL patterns based on schema type
+        if (this.currentSchema === 'murmurations') {
+            // Handle specific cases for Murmurations
+            if (murmurationsName === 'Dylan Tull') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json';
+            } else if (murmurationsName === 'Dr. Karen O\'Brien') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json';
+            } else if (murmurationsName === 'Global Regenerative Cooperative') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json';
+            } else {
+                // Generic case
+                githubUrl = 'https://github.com/DarrenZal/RegenMapping/tree/main/profiles/murmurations/';
+            }
+        } else if (this.currentSchema === 'unified') {
+            // Handle specific cases for Unified
+            if (murmurationsName === 'Dylan Tull') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld';
+            } else if (murmurationsName === 'Dr. Karen O\'Brien') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld';
+            } else if (murmurationsName === 'Global Regenerative Cooperative') {
+                githubUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld';
+            } else {
+                // Generic case
+                githubUrl = 'https://github.com/DarrenZal/RegenMapping/tree/main/profiles/unified/';
+            }
+        } else if (this.currentSchema === 'schemaorg') {
+            // For Schema.org, we don't have actual files, so we'll point to the converter
+            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/cambria-lenses/README.md';
+            return this.renderField('Profile Source', `<a href="${githubUrl}" target="_blank">View Cambria Conversion Lenses on GitHub</a>`);
         } else {
-            githubUrl = `https://github.com/DarrenZal/RegenMapping/blob/main/profiles/murmurations/murm-org-${profileId.replace('org-', '')}.json`;
-        }
-        
-        // Handle specific cases
-        if (profileId === 'dylan-tull') {
-            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/profiles/murmurations/murm-person-dylan-tull.json';
-        } else if (profileId === 'dr-karen-o-brien') {
-            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/profiles/murmurations/murm-person-karen-obrien.json';
-        } else if (profileId === 'global-regenerative-cooperative') {
-            githubUrl = 'https://github.com/DarrenZal/RegenMapping/blob/main/profiles/murmurations/murm-org-global-regenerative-coop.json';
+            return this.renderField('Profile Source', 'Source information not available');
         }
         
         return this.renderField('Profile Source', `<a href="${githubUrl}" target="_blank">View Raw Profile on GitHub</a>`);
