@@ -20,6 +20,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 
 ### Rich Data Integration
 - **Multi-Schema Support**: Unified approach combining Schema.org standards, Murmurations discovery features, and custom regenerative categorization
+- **Murmurations Interoperability**: Profiles are designed to be discoverable and validated by the Murmurations Index. By leveraging the `linked_schemas` property, our unified Person and Organization profiles explicitly link to Murmurations' base schemas (`people_schema-v0.1.0` and `organizations_schema-v1.0.0`). This ensures that when users query the Murmurations Index for basic Person or Organization profiles, they will seamlessly discover and access the richer, more detailed profiles defined by our unified schemas. This approach maximizes discoverability while maintaining data richness.
 - **Comprehensive Profiles**: Organizations and individuals with detailed metadata, impact metrics, and relationship mapping
 - **Live Matching**: AI-powered suggestions connecting complementary needs and offers
 
@@ -33,6 +34,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ```
 /RegenMapping/
 ├── README.md                                    # This file
+├── package.json                                 # NPM configuration and scripts
 ├── .gitignore                                   # Git ignore patterns
 │
 ├── docs/                                        # Documentation
@@ -46,6 +48,20 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 │       │   ├── unified-person-schema-comparison.md        # Person schema analysis
 │       │   └── person-schema-mapping-guide.md             # Person transformation rules
 │       └── README.md                            # Schema documentation overview
+│
+├── scripts/                                     # Murmurations integration scripts
+│   ├── README.md                                # Integration documentation
+│   ├── upload-schemas.js                       # Schema conversion script
+│   ├── upload-profiles.js                      # Profile processing script
+│   └── test-queries.js                         # Discovery testing script
+│
+├── murmurations-profiles/                      # Generated Murmurations profiles
+│   ├── person-dr-karen-obrien.json             # Dr. Karen O'Brien profile
+│   ├── person-dylan-tull.json                  # Dylan Tull profile
+│   └── org-global-regenerative-cooperative.json # Organization profile
+│
+├── schemas-for-upload/                         # Generated schemas for Murmurations
+│   └── regen-person-schema-v1.0.0.json         # Converted person schema
 │
 └── Ontology/                                   # Schema definitions (organized by entity type)
     ├── Person/                                  # Person schemas and examples
@@ -113,12 +129,38 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **UI/UX wireframes** including side panels, filtering systems, and interaction flows
 - **Technical architecture** recommendations (Neo4j, Deck.gl, Three.js)
 
-### Phase 3: Seed Data Collection 🔄
+### Phase 3: Murmurations Integration ✅
+- **Successfully integrated** with Murmurations test network for decentralized discovery
+- **Validated approach**: `linked_schemas` strategy enables backward compatibility with base schemas
+- **Live profiles**: 3 test profiles indexed and discoverable through Murmurations queries
+- **Automated pipeline**: Complete scripts for schema conversion, profile validation, and submission
+
+### Phase 4: Seed Data Collection 🔄
 - **Identified 20+ organizations** from various regenerative finance conferences and networks
 - **Categorized by focus areas**: Economic Justice, Housing, Food Systems/Land Use, Environmental Justice, Mutual Aid
 - **Documented key relationships** and event connections
 
 ## 🚀 Next Steps
+
+### ✅ Murmurations Integration (WORKING)
+Our integration with Murmurations is successfully operational:
+
+```bash
+# Test the complete integration
+npm run test-integration
+
+# Or run individually:
+npm run upload-schemas    # Generate Murmurations-compatible schemas
+npm run upload-profiles   # Convert, validate, and submit profiles
+npm run test-queries      # Verify discoverability (✅ People schema working!)
+```
+
+**Live Test Profiles:**
+- **Dr. Karen O'Brien**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json)
+- **Dylan Tull**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json)
+- **Global Regenerative Cooperative**: [Indexed via organizations_schema-v1.0.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json)
+
+See `scripts/README.md` for detailed documentation.
 
 ### Immediate (Next 2-4 weeks)
 1. **Set up development environment**

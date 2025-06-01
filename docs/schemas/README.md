@@ -41,6 +41,18 @@ Practical transformation functions and mapping tables for developers:
 
 This documentation provides comprehensive tools and guidance for working with multiple schema formats across both organizations and people in the regenerative economy ecosystem.
 
+### Murmurations Integration Strategy ✅ WORKING
+Our unified schemas are successfully integrated with the Murmurations Index. By including Murmurations' base schemas (e.g., `people_schema-v0.1.0`, `organizations_schema-v1.0.0`) in the `linked_schemas` array of our profiles, we ensure:
+- **Validation**: ✅ Profiles validate against both our comprehensive unified schemas and the Murmurations base schemas
+- **Discoverability**: ✅ Profiles created using our unified schemas are discoverable when queried through the Murmurations Index using standard base schemas
+- **Live Testing**: ✅ 3 test profiles successfully indexed and discoverable via Murmurations test network
+- **Automated Pipeline**: ✅ Complete scripts for schema conversion, profile validation, and submission
+
+**Live Test Results:**
+- **People Schema Discovery**: ✅ Both person profiles discoverable via `people_schema-v0.1.0` queries
+- **Organization Schema**: ✅ Organization profile validated and indexed via `organizations_schema-v1.0.0`
+- **GitHub Hosting**: ✅ All profiles accessible via GitHub raw URLs for reliable hosting
+
 ### Transformation Capabilities
 
 **Bidirectional Transformations** between:
