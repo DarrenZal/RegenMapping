@@ -25,11 +25,97 @@
             overflow: hidden;
         }
 
+        /* Left Menu Bar */
+        .left-menu {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            height: 100vh;
+            padding: 20px 0;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .menu-logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+
+        .menu-logo h2 {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-items li {
+            margin-bottom: 5px;
+        }
+
+        .menu-items a, .menu-items button {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            background: none;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 1em;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .menu-items a:hover, .menu-items a.active, 
+        .menu-items button:hover, .menu-items button.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid #3498db;
+        }
+
+        .menu-section {
+            margin-top: 20px;
+            padding: 0 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-content {
+            flex: 1;
+            position: relative;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
         .graph-container {
             flex: 1;
             position: relative;
             background: rgba(0, 0, 0, 0.1);
             min-width: 0;
+        }
+
+        .docs-container {
+            flex: 1;
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 30px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .docs-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .sidebar {
@@ -62,6 +148,9 @@
             .sidebar {
                 width: 100vw;
             }
+            .left-menu {
+                width: 200px;
+            }
         }
 
         .header {
@@ -81,6 +170,7 @@
             font-size: 1.1em;
             opacity: 0.9;
             max-width: 500px;
+            margin-bottom: 15px;
         }
 
         .schema-selector {
@@ -246,44 +336,74 @@
 </head>
 <body>
     <div class="container">
-        <div class="graph-container">
-            <div class="header">
-                <h1>🌱 Regen Mapping</h1>
-                <p>Interactive visualization of regenerative organizations and people with multi-schema support</p>
+        <!-- Left Menu Bar -->
+        <aside class="left-menu">
+            <div class="menu-logo">
+                <h2>🌱 Regen Mapping</h2>
             </div>
-
-            <div class="instructions">
-                <h3>How to Use</h3>
-                <ul>
-                    <li>Click any node to view profile</li>
-                    <li>Expanded nodes show schema types</li>
-                    <li>Switch between schema formats</li>
-                    <li>Drag nodes to explore connections</li>
-                </ul>
-            </div>
-
-            <div id="graph">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading network data...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="sidebar" id="sidebar">
-            <button class="close-btn" onclick="closeSidebar()">&times;</button>
             
-            <div class="schema-selector">
-                <h3>Schema Format</h3>
-                <div class="schema-buttons">
-                    <button class="schema-btn active" data-schema="unified">Unified</button>
-                    <button class="schema-btn" data-schema="murmurations">Murmurations</button>
-                    <button class="schema-btn" data-schema="schemaorg">Schema.org</button>
+            <ul class="menu-items">
+                <li>
+                    <button id="view-graph" class="active">Graph View</button>
+                </li>
+                <li>
+                    <button id="view-docs">Documentation</button>
+                </li>
+                
+                <li class="menu-section">Resources</li>
+                <li>
+                    <a href="https://github.com/DarrenZal/RegenMapping" target="_blank">GitHub Repository</a>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="main-content">
+            <!-- Graph View -->
+            <div class="graph-container" id="graph-view">
+                <div class="header">
+                    <h1>🌱 Regen Mapping</h1>
+                    <p>Interactive visualization of regenerative organizations and people with multi-schema support</p>
+                </div>
+
+                <div class="instructions">
+                    <h3>How to Use</h3>
+                    <ul>
+                        <li>Click any node to view profile</li>
+                        <li>Expanded nodes show schema types</li>
+                        <li>Switch between schema formats</li>
+                        <li>Drag nodes to explore connections</li>
+                    </ul>
+                </div>
+
+                <div id="graph">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading network data...</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="profile-content" id="profile-content">
-                <p>Select a node to view profile details</p>
+            <!-- Documentation View -->
+            <div class="docs-container" id="docs-view">
+                <iframe src="docs.html" title="Documentation"></iframe>
+            </div>
+
+            <!-- Sidebar for Profile Details -->
+            <div class="sidebar" id="sidebar">
+                <button class="close-btn" onclick="closeSidebar()">&times;</button>
+                
+                <div class="schema-selector">
+                    <h3>Schema Format</h3>
+                    <div class="schema-buttons">
+                        <button class="schema-btn active" data-schema="unified">Unified</button>
+                        <button class="schema-btn" data-schema="murmurations">Murmurations</button>
+                        <button class="schema-btn" data-schema="schemaorg">Schema.org</button>
+                    </div>
+                </div>
+
+                <div class="profile-content" id="profile-content">
+                    <p>Select a node to view profile details</p>
+                </div>
             </div>
         </div>
     </div>
@@ -291,5 +411,35 @@
     <script src="https://unpkg.com/3d-force-graph"></script>
     <script src="cambria-browser.js"></script>
     <script src="app.js"></script>
+    <script>
+        // View switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const graphView = document.getElementById('graph-view');
+            const docsView = document.getElementById('docs-view');
+            const viewGraphBtn = document.getElementById('view-graph');
+            const viewDocsBtn = document.getElementById('view-docs');
+            
+            // Switch to graph view
+            viewGraphBtn.addEventListener('click', function() {
+                graphView.style.display = 'block';
+                docsView.style.display = 'none';
+                viewGraphBtn.classList.add('active');
+                viewDocsBtn.classList.remove('active');
+            });
+            
+            // Switch to docs view
+            viewDocsBtn.addEventListener('click', function() {
+                graphView.style.display = 'none';
+                docsView.style.display = 'block';
+                viewDocsBtn.classList.add('active');
+                viewGraphBtn.classList.remove('active');
+            });
+        });
+        
+        // Sidebar functionality
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+    </script>
 </body>
 </html>
