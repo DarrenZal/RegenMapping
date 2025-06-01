@@ -43,6 +43,11 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 │   ├── seed-organizations.md                   # Organizations from Cascadia Conference
 │   ├── cambria-integration.md                  # Schema conversion system documentation
 │   └── schemas/                                 # Schema documentation (organized by entity type)
+│
+├── website/                                     # Interactive visualization website
+│   ├── index.html                              # Main website page
+│   ├── app.js                                  # Force-directed graph application
+│   └── _config.yml                             # GitHub Pages configuration
 │       ├── Organization/                        # Organization schema documentation
 │       │   ├── unified-organization-schema-comparison.md  # Organization schema analysis
 │       │   └── organization-schema-mapping-guide.md       # Organization transformation rules
@@ -156,7 +161,29 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 
 ## 🚀 Next Steps
 
-### ✅ Schema Conversion with Cambria (NEW!)
+### ✅ Interactive Website (NEW!)
+Explore the schema conversion system through our interactive visualization:
+
+🌐 **Live Demo**: https://darrenzal.github.io/RegenMapping
+
+**Features:**
+- 🎯 **Force-directed graph** showing profile connections
+- 🔄 **Real-time schema switching** between Murmurations, Unified, and Schema.org formats
+- 📱 **Interactive nodes** that expand to show schema relationships
+- 🎨 **Visual representation** of Cambria lens transformations
+- 📊 **Live profile data** from actual Murmurations network
+
+```bash
+# Run locally for development
+npm run serve
+# Visit http://localhost:8000
+```
+
+**Website Structure:**
+- `website/` - Interactive visualization application
+- `docs/` - Project documentation and guides
+
+### ✅ Schema Conversion with Cambria
 We've integrated Cambria for seamless schema transformations between different formats:
 
 ```bash

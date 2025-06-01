@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regen Mapping - Schema Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .graph-container {
+            flex: 1;
+            position: relative;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            width: 400px;
+            min-width: 350px;
+            max-width: 90vw;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100vw;
+                max-width: 100vw;
+            }
+        }
+
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 500px;
+        }
+
+        .schema-selector {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .schema-selector h3 {
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .schema-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .schema-btn {
+            padding: 8px 16px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .schema-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .schema-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .profile-content {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .profile-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .profile-header .subtitle {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .field-group {
+            margin-bottom: 15px;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .field-value {
+            color: #2c3e50;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #e74c3c;
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 300px;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .instructions li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+
+        #graph {
+            width: 100%;
+            height: 100%;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="graph-container">
+            <div class="header">
+                <h1>🌱 Regen Mapping</h1>
+                <p>Interactive visualization of regenerative organizations and people with multi-schema support</p>
+            </div>
+
+            <div class="instructions">
+                <h3>How to Use</h3>
+                <ul>
+                    <li>Click any node to view profile</li>
+                    <li>Expanded nodes show schema types</li>
+                    <li>Switch between schema formats</li>
+                    <li>Drag nodes to explore connections</li>
+                </ul>
+            </div>
+
+            <div id="graph">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading network data...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <button class="close-btn" onclick="closeSidebar()">&times;</button>
+            
+            <div class="schema-selector">
+                <h3>Schema Format</h3>
+                <div class="schema-buttons">
+                    <button class="schema-btn active" data-schema="unified">Unified</button>
+                    <button class="schema-btn" data-schema="murmurations">Murmurations</button>
+                    <button class="schema-btn" data-schema="schemaorg">Schema.org</button>
+                </div>
+            </div>
+
+            <div class="profile-content" id="profile-content">
+                <p>Select a node to view profile details</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/3d-force-graph"></script>
+    <script src="app.js"></script>
+</body>
+</html>

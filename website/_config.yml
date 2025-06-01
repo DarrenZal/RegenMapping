@@ -1,0 +1,25 @@
+# GitHub Pages configuration for Regen Mapping Interactive Website
+title: "Regen Mapping - Interactive Schema Visualization"
+description: "Explore regenerative organizations and people through an interactive force-directed graph with multi-schema support"
+
+# GitHub Pages settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Custom settings
+url: "https://darrenzal.github.io"
+baseurl: "/RegenMapping"
+
+# Navigation
+header_pages:
+  - index.html
+
+# Exclude files from processing
+exclude:
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - README.md
+  - .gitignore
