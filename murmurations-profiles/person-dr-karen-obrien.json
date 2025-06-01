@@ -17,5 +17,19 @@
   },
   "locality": "Oslo",
   "region": "Oslo",
-  "country_name": "Norway"
+  "country_name": "Norway",
+  "relationships": [
+    {
+      "type": "advisor",
+      "target": "Global Regenerative Cooperative",
+      "target_url": "https://global-regenerative.coop",
+      "description": "Climate resilience research advisor"
+    },
+    {
+      "type": "collaboration",
+      "target": "Dylan Tull",
+      "target_url": "https://dylantull.com",
+      "description": "Research collaboration on regenerative systems"
+    }
+  ]
 }

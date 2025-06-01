@@ -4,12 +4,30 @@
   ],
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
-  "tags": [],
+  "tags": [
+    "Regenerative Design",
+    "Post-capitalist Finance",
+    "Cooperative Economics"
+  ],
   "geolocation": {
     "lat": 45.7108,
     "lon": -85.9846
   },
   "locality": "Traverse City",
   "region": "Michigan",
-  "country_name": "United States"
+  "country_name": "United States",
+  "relationships": [
+    {
+      "type": "member",
+      "target": "Global Regenerative Cooperative",
+      "target_url": "https://global-regenerative.coop",
+      "description": "Co-founder and strategic advisor"
+    },
+    {
+      "type": "collaboration",
+      "target": "Dr. Karen O'Brien",
+      "target_url": "https://karenmobrien.com",
+      "description": "Research collaboration on regenerative systems"
+    }
+  ]
 }

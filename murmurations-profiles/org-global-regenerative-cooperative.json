@@ -17,5 +17,19 @@
   "nickname": "GRC",
   "mission": "To foster ecological restoration and community resilience through cooperative ownership and regenerative agriculture practices globally",
   "status": "active",
-  "full_address": "123 Regenerative Way, Seattle, WA 98101, USA"
+  "full_address": "123 Regenerative Way, Seattle, WA 98101, USA",
+  "relationships": [
+    {
+      "type": "member",
+      "target": "Dylan Tull",
+      "target_url": "https://dylantull.com",
+      "description": "Co-founder and strategic advisor"
+    },
+    {
+      "type": "advisor",
+      "target": "Dr. Karen O'Brien",
+      "target_url": "https://karenmobrien.com",
+      "description": "Climate resilience research advisor"
+    }
+  ]
 }
