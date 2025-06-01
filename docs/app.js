@@ -61,44 +61,85 @@ class RegenMappingApp {
     }
 
     async convertToUnified(murmProfile) {
-        // Simulate Cambria conversion - in real implementation, this would use the actual Cambria library
-        return {
-            "@context": {
-                "@version": 1.1,
-                "@vocab": "https://schema.org/",
-                "schema": "https://schema.org/",
-                "murm": "https://murmurations.network/schemas/",
-                "regen": "https://regen-map.org/schema/"
-            },
-            "@type": ["schema:Person", "regen:RegenerativePerson"],
-            "schema:name": murmProfile.name,
-            "murm:primary_url": murmProfile.primary_url,
-            "regen:locality": murmProfile.locality,
-            "regen:geolocation": murmProfile.geolocation,
-            "regen:domainTags": murmProfile.tags || [],
-            "schema:homeLocation": {
-                "@type": "schema:Place",
-                "schema:addressLocality": murmProfile.locality,
-                "schema:addressRegion": murmProfile.region,
-                "schema:addressCountry": murmProfile.country_name
-            }
+        // Detect if this is a person or organization profile
+        const isOrganization = murmProfile.linked_schemas && 
+            murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
+        
+        const baseContext = {
+            "@version": 1.1,
+            "@vocab": "https://schema.org/",
+            "schema": "https://schema.org/",
+            "murm": "https://murmurations.network/schemas/",
+            "regen": "https://regen-map.org/schema/"
         };
+
+        if (isOrganization) {
+            return {
+                "@context": baseContext,
+                "@type": ["schema:Organization", "regen:RegenerativeOrganization"],
+                "schema:name": murmProfile.name,
+                "murm:primary_url": murmProfile.primary_url,
+                "regen:locality": murmProfile.locality,
+                "regen:geolocation": murmProfile.geolocation,
+                "regen:domainTags": murmProfile.tags || [],
+                "schema:location": {
+                    "@type": "schema:Place",
+                    "schema:addressLocality": murmProfile.locality,
+                    "schema:addressRegion": murmProfile.region,
+                    "schema:addressCountry": murmProfile.country_name
+                }
+            };
+        } else {
+            return {
+                "@context": baseContext,
+                "@type": ["schema:Person", "regen:RegenerativePerson"],
+                "schema:name": murmProfile.name,
+                "murm:primary_url": murmProfile.primary_url,
+                "regen:locality": murmProfile.locality,
+                "regen:geolocation": murmProfile.geolocation,
+                "regen:domainTags": murmProfile.tags || [],
+                "schema:homeLocation": {
+                    "@type": "schema:Place",
+                    "schema:addressLocality": murmProfile.locality,
+                    "schema:addressRegion": murmProfile.region,
+                    "schema:addressCountry": murmProfile.country_name
+                }
+            };
+        }
     }
 
     async convertToSchemaOrg(murmProfile) {
-        // Simulate conversion to Schema.org format
-        return {
-            "@context": "https://schema.org/",
-            "@type": "Person",
-            "name": murmProfile.name,
-            "url": murmProfile.primary_url,
-            "homeLocation": {
-                "@type": "Place",
-                "addressLocality": murmProfile.locality,
-                "addressRegion": murmProfile.region,
-                "addressCountry": murmProfile.country_name
-            }
-        };
+        // Detect if this is a person or organization profile
+        const isOrganization = murmProfile.linked_schemas && 
+            murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
+        
+        if (isOrganization) {
+            return {
+                "@context": "https://schema.org/",
+                "@type": "Organization",
+                "name": murmProfile.name,
+                "url": murmProfile.primary_url,
+                "location": {
+                    "@type": "Place",
+                    "addressLocality": murmProfile.locality,
+                    "addressRegion": murmProfile.region,
+                    "addressCountry": murmProfile.country_name
+                }
+            };
+        } else {
+            return {
+                "@context": "https://schema.org/",
+                "@type": "Person",
+                "name": murmProfile.name,
+                "url": murmProfile.primary_url,
+                "homeLocation": {
+                    "@type": "Place",
+                    "addressLocality": murmProfile.locality,
+                    "addressRegion": murmProfile.region,
+                    "addressCountry": murmProfile.country_name
+                }
+            };
+        }
     }
 
     loadMockData() {
@@ -159,6 +200,36 @@ class RegenMappingApp {
                         "addressCountry": "Norway"
                     }
                 }
+            },
+            'org-global-regenerative-cooperative': {
+                murmurations: {
+                    name: "Global Regenerative Cooperative",
+                    primary_url: "https://globalregenerativecooperative.com",
+                    locality: "Global",
+                    region: "Worldwide",
+                    country_name: "International",
+                    tags: ["Cooperative Economics", "Regenerative Systems", "Global Network"],
+                    linked_schemas: ["organizations_schema-v1.0.0"],
+                    geolocation: { lat: 0, lon: 0 }
+                },
+                unified: {
+                    "@type": ["schema:Organization", "regen:RegenerativeOrganization"],
+                    "schema:name": "Global Regenerative Cooperative",
+                    "murm:primary_url": "https://globalregenerativecooperative.com",
+                    "regen:locality": "Global, Worldwide",
+                    "regen:domainTags": ["Cooperative Economics", "Regenerative Systems", "Global Network"]
+                },
+                schemaorg: {
+                    "@type": "Organization",
+                    "name": "Global Regenerative Cooperative",
+                    "url": "https://globalregenerativecooperative.com",
+                    "location": {
+                        "@type": "Place",
+                        "addressLocality": "Global",
+                        "addressRegion": "Worldwide",
+                        "addressCountry": "International"
+                    }
+                }
             }
         };
     }
@@ -172,8 +243,11 @@ class RegenMappingApp {
             .nodeLabel('name')
             .nodeColor(node => this.getNodeColor(node))
             .nodeVal(node => node.size || 4)
-            .linkColor(() => 'rgba(255, 255, 255, 0.6)')
+            .linkColor(link => this.getLinkColor(link))
             .linkWidth(2)
+            .linkLabel(link => link.label || '')
+            .linkDirectionalArrowLength(link => link.type && link.type !== 'schema-link' && link.type !== 'lens' ? 4 : 0)
+            .linkDirectionalArrowColor(() => 'rgba(255, 255, 255, 0.8)')
             .backgroundColor('rgba(0,0,0,0)')
             .onNodeClick(this.handleNodeClick.bind(this))
             .onNodeDragEnd(node => {
@@ -182,18 +256,8 @@ class RegenMappingApp {
                 node.fz = node.z;
             });
 
-        // Auto-rotate the graph
+        // Set initial camera position (no auto-rotation)
         this.graph.cameraPosition({ z: 300 });
-        
-        // Add some gentle rotation
-        let angle = 0;
-        setInterval(() => {
-            angle += 0.005;
-            this.graph.cameraPosition({
-                x: 200 * Math.sin(angle),
-                z: 200 * Math.cos(angle)
-            });
-        }, 50);
     }
 
     generateGraphData() {
@@ -212,14 +276,28 @@ class RegenMappingApp {
             });
         });
 
-        // Create some example connections
-        if (nodes.length >= 2) {
-            links.push({
-                source: nodes[0].id,
-                target: nodes[1].id,
-                type: 'collaboration'
+        // Create links based on relationships in the profiles
+        Object.keys(this.profiles).forEach(profileId => {
+            const profile = this.profiles[profileId];
+            const relationships = profile.murmurations.relationships || [];
+            
+            relationships.forEach(rel => {
+                // Find the target profile by name
+                const targetProfileId = Object.keys(this.profiles).find(id => 
+                    this.profiles[id].murmurations.name === rel.target
+                );
+                
+                if (targetProfileId) {
+                    links.push({
+                        source: profileId,
+                        target: targetProfileId,
+                        type: rel.type,
+                        description: rel.description,
+                        label: `${rel.type}: ${rel.description}`
+                    });
+                }
             });
-        }
+        });
 
         return { nodes, links };
     }
@@ -239,6 +317,17 @@ class RegenMappingApp {
         }
         
         return '#9b59b6'; // Purple for profile nodes
+    }
+
+    getLinkColor(link) {
+        const colors = {
+            'member': '#2ecc71',      // Green for membership
+            'advisor': '#3498db',     // Blue for advisory
+            'collaboration': '#e67e22', // Orange for collaboration
+            'schema-link': 'rgba(255, 255, 255, 0.4)',
+            'lens': 'rgba(255, 255, 255, 0.6)'
+        };
+        return colors[link.type] || 'rgba(255, 255, 255, 0.6)';
     }
 
     handleNodeClick(node) {
@@ -425,14 +514,16 @@ class RegenMappingApp {
             html += this.renderField('URL', `<a href="${data.url}" target="_blank">${data.url}</a>`);
         }
         
-        if (data.homeLocation) {
-            const location = data.homeLocation;
+        // Handle both homeLocation (Person) and location (Organization)
+        const locationData = data.homeLocation || data.location;
+        if (locationData) {
             const locationStr = [
-                location.addressLocality,
-                location.addressRegion,
-                location.addressCountry
+                locationData.addressLocality,
+                locationData.addressRegion,
+                locationData.addressCountry
             ].filter(Boolean).join(', ');
-            html += this.renderField('Home Location', locationStr);
+            const locationLabel = data['@type'] === 'Organization' ? 'Location' : 'Home Location';
+            html += this.renderField(locationLabel, locationStr);
         }
         
         if (data['@type']) {
