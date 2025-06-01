@@ -9,6 +9,7 @@ class RegenMappingApp {
         this.expandedNode = null;
         this.profiles = {};
         this.schemaNodes = [];
+        this.activeSchemaNode = null;
         
         this.init();
     }
@@ -400,12 +401,12 @@ class RegenMappingApp {
 
     getNodeColor(node) {
         if (node.type === 'schema') {
-            const colors = {
-                'murmurations': '#e74c3c',
-                'unified': '#2ecc71',
-                'schemaorg': '#3498db'
-            };
-            return colors[node.schema] || '#95a5a6';
+            // Active schema node is green, others are light gray
+            if (node.id === this.activeSchemaNode) {
+                return '#2ecc71'; // Green for active schema
+            } else {
+                return '#bdc3c7'; // Light gray for inactive schemas
+            }
         }
         
         if (node.id === this.expandedNode) {
@@ -416,12 +417,20 @@ class RegenMappingApp {
     }
 
     getLinkColor(link) {
+        // Handle schema transformation flow
+        if (link.type === 'lens' && this.activeSchemaNode) {
+            // Check if this link connects to the active schema node
+            if (link.target.id === this.activeSchemaNode || link.source.id === this.activeSchemaNode) {
+                return '#2ecc71'; // Green flow to/from active schema
+            }
+        }
+        
         const colors = {
             'member': '#2ecc71',      // Green for membership
             'advisor': '#3498db',     // Blue for advisory
             'collaboration': '#e67e22', // Orange for collaboration
             'schema-link': 'rgba(255, 255, 255, 0.4)',
-            'lens': 'rgba(255, 255, 255, 0.6)'
+            'lens': 'rgba(255, 255, 255, 0.3)' // Dimmer for inactive lens connections
         };
         return colors[link.type] || 'rgba(255, 255, 255, 0.6)';
     }
@@ -447,8 +456,13 @@ class RegenMappingApp {
     }
 
     handleSchemaNodeClick(schemaNode) {
+        // Set the active schema node for visual flow effect
+        this.activeSchemaNode = schemaNode.id;
         this.currentSchema = schemaNode.schema;
         this.updateSchemaButtons();
+        
+        // Update the graph colors to show the flow
+        this.updateGraphColors();
         
         if (this.currentProfile) {
             this.displayProfile(this.currentProfile, this.currentSchema);
@@ -657,6 +671,15 @@ class RegenMappingApp {
         document.querySelectorAll('.schema-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.schema === this.currentSchema);
         });
+    }
+
+    updateGraphColors() {
+        // Force the graph to re-evaluate node and link colors
+        if (this.graph) {
+            this.graph
+                .nodeColor(node => this.getNodeColor(node))
+                .linkColor(link => this.getLinkColor(link));
+        }
     }
 
     openSidebar() {
