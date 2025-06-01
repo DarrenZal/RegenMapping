@@ -46,15 +46,12 @@ class RegenMappingApp {
     }
 
     async loadFromMurmurationsIndex() {
-        // Query the Murmurations test index for all regenerative profiles
+        // Query the Murmurations test index ONLY for our unified regenerative schemas
         const queries = [
-            // Get all people profiles using the unified schema
+            // Get all people profiles using our unified regenerative schema
             'https://test-index.murmurations.network/v2/nodes?schema=regen-person-schema-v1.0.0',
-            // Get all organization profiles using the unified schema  
-            'https://test-index.murmurations.network/v2/nodes?schema=regen-organization-schema-v1.0.0',
-            // Fallback to original schemas if unified schemas don't exist yet
-            'https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0',
-            'https://test-index.murmurations.network/v2/nodes?schema=organizations_schema-v1.0.0'
+            // Get all organization profiles using our unified regenerative schema  
+            'https://test-index.murmurations.network/v2/nodes?schema=regen-organization-schema-v1.0.0'
         ];
 
         for (const queryUrl of queries) {
