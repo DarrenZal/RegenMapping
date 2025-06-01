@@ -2,6 +2,11 @@
 
 This guide provides mapping tables and transformation rules for converting between Schema.org, Murmurations, and Dylan Tull's person schemas.
 
+> **Related Documentation:**
+> - For schema registration process and strategy, see [Schema Mapping and Registration Guide](../schema-mapping-guide.md)
+> - For organization schema mappings, see [Organization Schema Mapping Guide](../Organization/organization-schema-mapping-guide.md)
+> - For Cambria lens implementation details, see [Cambria Integration](../../cambria-integration.md)
+
 ## Quick Reference Mapping Table
 
 | Unified Schema Field | Schema.org | Murmurations | Dylan's Schema |

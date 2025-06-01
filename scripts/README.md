@@ -26,26 +26,76 @@ node scripts/upload-schemas.js
 
 **Note:** Custom schemas must be submitted to Murmurations production library via GitHub, not uploaded via API.
 
-### 2. `upload-profiles.js`
-Converts example profiles to Murmurations format, validates them, and submits to test index.
+### 2. `patch-cambria-json-schema.js`
+Patches the Cambria library to fix array handling issues.
 
 ```bash
-node scripts/upload-profiles.js
+node scripts/patch-cambria-json-schema.js
 ```
 
 **What it does:**
-- Converts JSON-LD example profiles to Murmurations format
-- Uses only base Murmurations schemas (`people_schema-v0.1.0`, `organizations_schema-v1.0.0`)
-- Validates profiles using Murmurations test API
-- Saves profiles to `murmurations-profiles/` for GitHub hosting
-- Submits profile URLs to Murmurations test index
+- Creates a backup of the original json-schema.ts file
+- Adds null checks and error handling to the updateSchema function
+- Fixes "Cannot read properties of null (reading 'type')" errors
+- Applies the patch to the local Cambria fork
+
+### 3. `patch-to-json-schema-helpers.js`
+Patches the to-json-schema library used by Cambria to fix array handling.
+
+```bash
+node scripts/patch-to-json-schema-helpers.js
+```
+
+**What it does:**
+- Creates a backup of the original helpers.js file
+- Adds null checks to the mergeSchemaObjs function
+- Fixes array handling issues in schema generation
+- Applies the patch to the local node_modules
+
+### 4. `push-cambria-patch-to-github.js`
+Pushes the Cambria patch to the GitHub fork.
+
+```bash
+node scripts/push-cambria-patch-to-github.js
+```
+
+**What it does:**
+- Creates a new branch for the patch
+- Commits the changes to the json-schema.ts file
+- Provides instructions for pushing to GitHub
+- Enables others to use the fixed version via package.json
+
+### 2. `convert-unified-to-murmurations.js`
+Converts unified profiles to Murmurations format using Cambria lenses.
+
+```bash
+node scripts/convert-unified-to-murmurations.js
+```
+
+**What it does:**
+- Reads unified profiles from `profiles/unified/` directory
+- Applies Cambria lenses to convert them to Murmurations format
+- Adds required relationship properties (predicate_url and object_url)
+- Saves the converted profiles to `profiles/murmurations/` directory
 
 **Generated profiles:**
-- `person-dr-karen-obrien.json`
-- `person-dylan-tull.json`
-- `org-global-regenerative-cooperative.json`
+- `murm-person-dylan-tull.json`
+- `murm-person-karen-obrien.json`
+- `murm-org-global-regenerative-coop.json`
 
-### 3. `test-queries.js`
+### 3. `upload-profiles-new.js`
+Validates and submits Murmurations profiles to the test index.
+
+```bash
+node scripts/upload-profiles-new.js
+```
+
+**What it does:**
+- Reads profiles from `profiles/murmurations/` directory
+- Validates profiles using Murmurations test API
+- Submits profile URLs to Murmurations test index
+
+### 4. `test-queries.js`
 Tests that uploaded profiles are discoverable through Murmurations index queries.
 
 ```bash
@@ -57,6 +107,18 @@ node scripts/test-queries.js
 - Queries base organizations schema (`organizations_schema-v1.0.0`)
 - Checks general index for our profiles
 - Validates discoverability and reports results
+
+### 5. `update-and-publish-profiles.js`
+Combines all the steps needed to update and publish profiles.
+
+```bash
+node scripts/update-and-publish-profiles.js
+```
+
+**What it does:**
+- Runs `convert-unified-to-murmurations.js` to convert unified profiles to Murmurations format
+- Runs `upload-profiles-new.js` to validate and submit profiles to Murmurations
+- Runs `test-queries.js` to verify that profiles are discoverable
 
 ## 🚀 Complete Integration Workflow
 
@@ -166,9 +228,9 @@ When working correctly, the integration demonstrates:
 
 Current test profiles hosted on GitHub:
 
-- **Dr. Karen O'Brien**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json
-- **Dylan Tull**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json
-- **Global Regenerative Cooperative**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json
+- **Dr. Karen O'Brien**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json
+- **Dylan Tull**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json
+- **Global Regenerative Cooperative**: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json
 
 ## 📚 Resources
 

@@ -1,48 +1,50 @@
 {
   "@context": {
-    "schema": "http://schema.org/",
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "https://regenmap.org/ontology/",
-    "murm": "https://murmurations.network/fields/",
     
-    "domainIncludes": {"@id": "schema:domainIncludes", "@type": "@id"},
-    "rangeIncludes": {"@id": "schema:rangeIncludes", "@type": "@id"},
-    "cluster": "ex:cluster",
-    "required": "ex:required",
-    "murmurationsField": "ex:murmurationsField",
+    "Organization": "schema:Organization",
+    "id": "@id",
+    "type": "@type",
+    
+    "latitude": {"@id": "geo:lat", "@type": "xsd:decimal"},
+    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"},
     
     "name": "schema:name",
     "legalName": "schema:legalName",
     "nickname": "murm:nickname",
     "aka": {"@id": "schema:alternateName", "@container": "@set"},
-    "legalType": "ex:legalType",
+    "legalType": "regen:legalType",
     "logo": {"@id": "schema:logo", "@type": "@id"},
     
     "tagline": "schema:slogan",
     "mission": "murm:mission",
-    "missionStatement": "ex:missionStatement",
-    "vision": "ex:visionStatement",
-    "coreValues": {"@id": "ex:coreValues", "@container": "@set"},
+    "missionStatement": "regen:missionStatement",
+    "vision": "regen:visionStatement",
+    "coreValues": {"@id": "regen:coreValues", "@container": "@set"},
     "description": "schema:description",
-    "foundedYear": "ex:foundedYear",
-    "programAreas": {"@id": "ex:programAreas", "@container": "@set"},
+    "foundedYear": "regen:foundedYear",
+    "programAreas": {"@id": "regen:programAreas", "@container": "@set"},
     
     "tags": {"@id": "murm:tags", "@container": "@set"},
     "keywords": {"@id": "schema:keywords", "@container": "@set"},
-    "keyWords": {"@id": "ex:keyWords", "@container": "@set"},
+    "keyWords": {"@id": "regen:keyWords", "@container": "@set"},
     "industryCodes": {"@id": "schema:naics", "@container": "@set"},
-    "sdgFocus": {"@id": "ex:sdgFocus", "@container": "@set"},
-    "keyActivities": {"@id": "ex:keyActivities", "@container": "@set"},
-    "structureType": "ex:structureType",
-    "beneficiaryType": "ex:beneficiaryType",
+    "sdgFocus": {"@id": "regen:sdgFocus", "@container": "@set"},
+    "keyActivities": {"@id": "regen:keyActivities", "@container": "@set"},
+    "structureType": "regen:structureType",
+    "beneficiaryType": "regen:beneficiaryType",
     
     "geolocation": "murm:geolocation",
     "address": "schema:address",
     "fullAddress": "murm:full_address",
-    "headquarters": "ex:headquarters",
-    "operatingRegions": {"@id": "ex:operatingRegions", "@container": "@set"},
+    "headquarters": "regen:headquarters",
+    "operatingRegions": {"@id": "regen:operatingRegions", "@container": "@set"},
     "countryCode": "murm:country_iso_3166",
     "geographicScope": "murm:geographic_scope",
     "areaServed": "schema:areaServed",
@@ -58,26 +60,26 @@
     "startsAt": {"@id": "murm:starts_at", "@type": "xsd:integer"},
     "endsAt": {"@id": "murm:ends_at", "@type": "xsd:integer"},
     
-    "employeeRange": "ex:employeeRange",
+    "employeeRange": "regen:employeeRange",
     "numberOfEmployees": "schema:numberOfEmployees",
-    "numEmployees": "ex:numEmployees",
-    "revenueRange": "ex:revenueRangeUSD",
-    "annualRevenue": "ex:annualRevenue",
-    "volunteerCount": "ex:volunteerCount",
+    "numEmployees": "regen:numEmployees",
+    "revenueRange": "regen:revenueRangeUSD",
+    "annualRevenue": "regen:annualRevenue",
+    "volunteerCount": "regen:volunteerCount",
     
-    "impactKPIs": {"@id": "ex:impactKPIs", "@container": "@set"},
-    "impactMetrics": {"@id": "ex:impactMetrics", "@container": "@set"},
-    "impactAssessments": {"@id": "ex:impactAssessments", "@container": "@set"},
-    "sdgContribution": {"@id": "ex:sdgContribution", "@container": "@set"},
-    "socialApproach": "ex:socialApproach",
-    "environmentalApproach": "ex:environmentalApproach",
-    "economicApproach": "ex:economicApproach",
+    "impactKPIs": {"@id": "regen:impactKPIs", "@container": "@set"},
+    "impactMetrics": {"@id": "regen:impactMetrics", "@container": "@set"},
+    "impactAssessments": {"@id": "regen:impactAssessments", "@container": "@set"},
+    "sdgContribution": {"@id": "regen:sdgContribution", "@container": "@set"},
+    "socialApproach": "regen:socialApproach",
+    "environmentalApproach": "regen:environmentalApproach",
+    "economicApproach": "regen:economicApproach",
     "hasCertification": {"@id": "schema:hasCertification", "@container": "@set"},
-    "bcorpScore": "ex:bcorpScore",
+    "bcorpScore": "regen:bcorpScore",
     "nonprofitStatus": "schema:nonprofitStatus",
     
-    "fundingRounds": {"@id": "ex:fundingRounds", "@container": "@set"},
-    "fundingModel": "ex:fundingModel",
+    "fundingRounds": {"@id": "regen:fundingRounds", "@container": "@set"},
+    "fundingModel": "regen:fundingModel",
     "funding": "schema:funding",
     "funder": "schema:funder",
     "taxID": "schema:taxID",
@@ -86,7 +88,7 @@
     "url": {"@id": "schema:url", "@type": "@id"},
     "urls": {"@id": "murm:urls", "@container": "@set"},
     "rss": "murm:rss",
-    "socialMedia": {"@id": "ex:socialMedia", "@container": "@set"},
+    "socialMedia": {"@id": "regen:socialMedia", "@container": "@set"},
     
     "email": "schema:email",
     "telephone": "schema:telephone",
@@ -95,27 +97,27 @@
     
     "knowsAbout": {"@id": "schema:knowsAbout", "@container": "@set"},
     "skills": {"@id": "schema:skills", "@container": "@set"},
-    "openSourceRepos": {"@id": "ex:openSourceRepos", "@container": "@set"},
-    "flagshipProjects": {"@id": "ex:flagshipProjects", "@container": "@set"},
-    "patentIds": {"@id": "ex:patentIds", "@container": "@set"},
-    "datasets": {"@id": "ex:datasets", "@container": "@set"},
-    "assetsUSD": "ex:assetsUSD",
-    "grantsReceived": {"@id": "ex:grantsReceived", "@container": "@set"},
-    "grantsGiven": {"@id": "ex:grantsGiven", "@container": "@set"},
-    "iso14k": "ex:iso14k",
-    "fairTrade": "ex:fairTrade",
-    "scienceBasedTargets": "ex:scienceBasedTargets",
-    "boardMembers": {"@id": "ex:boardMembers", "@container": "@set"},
-    "execTeam": {"@id": "ex:execTeam", "@container": "@set"},
-    "eventSeries": {"@id": "ex:eventSeries", "@container": "@set"},
-    "daoTokenContract": "ex:daoTokenContract",
-    "followersX": "ex:followersX",
-    "followersLinkedIn": "ex:followersLinkedIn",
-    "newsletterSubs": "ex:newsletterSubs",
+    "openSourceRepos": {"@id": "regen:openSourceRepos", "@container": "@set"},
+    "flagshipProjects": {"@id": "regen:flagshipProjects", "@container": "@set"},
+    "patentIds": {"@id": "regen:patentIds", "@container": "@set"},
+    "datasets": {"@id": "regen:datasets", "@container": "@set"},
+    "assetsUSD": "regen:assetsUSD",
+    "grantsReceived": {"@id": "regen:grantsReceived", "@container": "@set"},
+    "grantsGiven": {"@id": "regen:grantsGiven", "@container": "@set"},
+    "iso14k": "regen:iso14k",
+    "fairTrade": "regen:fairTrade",
+    "scienceBasedTargets": "regen:scienceBasedTargets",
+    "boardMembers": {"@id": "regen:boardMembers", "@container": "@set"},
+    "execTeam": {"@id": "regen:execTeam", "@container": "@set"},
+    "eventSeries": {"@id": "regen:eventSeries", "@container": "@set"},
+    "daoTokenContract": "regen:daoTokenContract",
+    "followersX": "regen:followersX",
+    "followersLinkedIn": "regen:followersLinkedIn",
+    "newsletterSubs": "regen:newsletterSubs",
     
-    "dataSources": {"@id": "ex:dataSources", "@container": "@set"},
-    "lastUpdated": {"@id": "ex:lastUpdated", "@type": "xsd:dateTime"},
-    "confidenceScore": "ex:confidenceScore",
+    "dataSources": {"@id": "regen:dataSources", "@container": "@set"},
+    "lastUpdated": {"@id": "regen:lastUpdated", "@type": "xsd:dateTime"},
+    "confidenceScore": "regen:confidenceScore",
     "linked_schemas": "murm:linked_schemas"
   },
   
@@ -129,368 +131,40 @@
       "schema:dateCreated": "2025-05-26",
       "schema:creator": {
         "@type": "schema:Organization",
-        "@id": "https://regen-map.org/"
+        "@id": "https://darrenzal.github.io/RegenMapping/"
       },
       "schema:license": "https://creativecommons.org/licenses/by/4.0/"
     },
     {
-      "@id": "ex:RegenerativeOrganization",
+      "@id": "regen:RegenerativeOrganization",
       "@type": "rdfs:Class",
       "rdfs:label": "Regenerative Organization",
       "rdfs:comment": "An organization focused on regenerative practices and positive impact",
-      "rdfs:subClassOf": "schema:Organization"
-    },
-    
-    {
-      "@id": "murm:linked_schemas",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Murmurations",
-      "required": true,
-      "murmurationsField": "linked_schemas",
-      "rdfs:comment": "A list of schemas against which a profile must be validated"
-    },
-    
-    {
-      "@id": "ex:Relationship",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Relationship",
-      "rdfs:comment": "A relationship between organizations"
-    },
-    
-    {
-      "@id": "ex:ImpactKPI",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Impact KPI",
-      "rdfs:comment": "A measurable impact indicator with name, value, unit, and year"
-    },
-    
-    {
-      "@id": "ex:SDGContribution",
-      "@type": "rdfs:Class",
-      "rdfs:label": "SDG Contribution",
-      "rdfs:comment": "Contribution to a specific UN Sustainable Development Goal"
-    },
-    
-    {
-      "@id": "ex:SocialMediaAccount",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Social Media Account",
-      "rdfs:comment": "A social media account with platform and metrics"
-    },
-    
-    {
-      "@id": "ex:FundingRound",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Funding Round",
-      "rdfs:comment": "A funding round with type, amount, date, and investors"
-    },
-    
-    {
-      "@id": "schema:name",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Identity",
-      "required": true,
-      "murmurationsField": "name",
-      "rdfs:comment": "The name of the organization (max 200 characters)"
-    },
-    
-    {
-      "@id": "schema:legalName",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Identity",
-      "rdfs:comment": "The official legal name of the organization"
-    },
-    
-    {
-      "@id": "murm:nickname",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Identity",
-      "murmurationsField": "nickname",
-      "rdfs:comment": "A familiar name or nickname for the organization"
-    },
-    
-    {
-      "@id": "ex:legalType",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Identity",
-      "rdfs:comment": "Legal structure type (e.g., LLC, Corporation, Cooperative, Non-profit)"
-    },
-    
-    {
-      "@id": "ex:visionStatement",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Mission",
-      "rdfs:comment": "The organization's vision statement"
-    },
-    
-    {
-      "@id": "ex:coreValues",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Mission",
-      "rdfs:comment": "Array of core organizational values"
-    },
-    
-    {
-      "@id": "murm:mission",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Mission",
-      "murmurationsField": "mission",
-      "rdfs:comment": "The organization's mission or purpose statement"
-    },
-    
-    {
-      "@id": "murm:tags",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Discovery",
-      "murmurationsField": "tags",
-      "rdfs:comment": "Keywords for categorization in regenerative economy networks"
-    },
-    
-    {
-      "@id": "murm:geolocation",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:GeoCoordinates",
-      "cluster": "Geographic",
-      "murmurationsField": "geolocation",
-      "rdfs:comment": "Geographic coordinates (lat, lon) for the organization's location"
-    },
-    
-    {
-      "@id": "murm:full_address",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Geographic",
-      "murmurationsField": "full_address",
-      "rdfs:comment": "Complete address as a single text field"
-    },
-    
-    {
-      "@id": "murm:country_iso_3166",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Geographic",
-      "murmurationsField": "country_iso_3166",
-      "rdfs:comment": "Two-letter ISO 3166 country code"
-    },
-    
-    {
-      "@id": "murm:geographic_scope",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["local", "regional", "national", "global", "international"]},
-      "cluster": "Geographic",
-      "murmurationsField": "geographic_scope",
-      "rdfs:comment": "The geographic scope of the organization's activities"
-    },
-    
-    {
-      "@id": "murm:relationships",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "ex:Relationship",
-      "cluster": "Network",
-      "murmurationsField": "relationships",
-      "rdfs:comment": "Formal relationships with other organizations"
-    },
-    
-    {
-      "@id": "murm:status",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": {"@type": "schema:Text", "schema:validValues": ["active", "completed", "cancelled", "on_hold", "in_planning"]},
-      "cluster": "Status",
-      "murmurationsField": "status",
-      "rdfs:comment": "Current operational status of the organization"
-    },
-    
-    {
-      "@id": "murm:starts_at",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "xsd:integer",
-      "cluster": "Temporal",
-      "murmurationsField": "starts_at",
-      "rdfs:comment": "Unix timestamp for when the organization was founded"
-    },
-    
-    {
-      "@id": "murm:ends_at",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "xsd:integer",
-      "cluster": "Temporal",
-      "murmurationsField": "ends_at",
-      "rdfs:comment": "Unix timestamp for when the organization was dissolved"
-    },
-    
-    {
-      "@id": "ex:employeeRange",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Scale",
-      "rdfs:comment": "Employee count range (e.g., '1-10', '11-50', '51-200')"
-    },
-    
-    {
-      "@id": "ex:revenueRangeUSD",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Scale",
-      "rdfs:comment": "Annual revenue range in USD (e.g., '$100K-$1M', '$1M-$10M')"
-    },
-    
-    {
-      "@id": "ex:volunteerCount",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Integer",
-      "cluster": "Scale",
-      "rdfs:comment": "Number of active volunteers"
-    },
-    
-    {
-      "@id": "ex:impactKPIs",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "ex:ImpactKPI",
-      "cluster": "Impact",
-      "rdfs:comment": "Key performance indicators for measuring impact"
-    },
-    
-    {
-      "@id": "ex:sdgContribution",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "ex:SDGContribution",
-      "cluster": "Impact",
-      "rdfs:comment": "Contributions to UN Sustainable Development Goals"
-    },
-    
-    {
-      "@id": "ex:bcorpScore",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Number",
-      "cluster": "Certifications",
-      "rdfs:comment": "B Corporation assessment score (0-200)"
-    },
-    
-    {
-      "@id": "ex:fundingRounds",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "ex:FundingRound",
-      "cluster": "Financial",
-      "rdfs:comment": "Investment or funding rounds received"
-    },
-    
-    {
-      "@id": "murm:primary_url",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:URL",
-      "cluster": "Digital",
-      "required": true,
-      "murmurationsField": "primary_url",
-      "rdfs:comment": "Primary website URL for the organization"
-    },
-    
-    {
-      "@id": "murm:urls",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:URL",
-      "cluster": "Digital",
-      "murmurationsField": "urls",
-      "rdfs:comment": "Additional website and social media URLs"
-    },
-    
-    {
-      "@id": "murm:rss",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:URL",
-      "cluster": "Digital",
-      "murmurationsField": "rss",
-      "rdfs:comment": "RSS feed URL for the organization's content"
-    },
-    
-    {
-      "@id": "ex:socialMedia",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "ex:SocialMediaAccount",
-      "cluster": "Digital",
-      "rdfs:comment": "Social media accounts with platform and metrics"
-    },
-    
-    {
-      "@id": "murm:contact_details",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Contact",
-      "murmurationsField": "contact_details",
-      "rdfs:comment": "General contact information"
-    },
-    
-    {
-      "@id": "ex:openSourceRepos",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:URL",
-      "cluster": "Innovation",
-      "rdfs:comment": "URLs to open source repositories maintained by the organization"
-    },
-    
-    {
-      "@id": "ex:dataSources",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "schema:Text",
-      "cluster": "Meta",
-      "rdfs:comment": "Sources of data used to compile this organization profile"
-    },
-    
-    {
-      "@id": "ex:lastUpdated",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "xsd:dateTime",
-      "cluster": "Meta",
-      "rdfs:comment": "ISO 8601 timestamp of when this profile was last updated"
-    },
-    
-    {
-      "@id": "ex:confidenceScore",
-      "@type": "rdf:Property",
-      "domainIncludes": "ex:RegenerativeOrganization",
-      "rangeIncludes": "xsd:decimal",
-      "cluster": "Meta",
-      "rdfs:comment": "Confidence score for data quality (0.0-1.0)"
+      "rdfs:subClassOf": "schema:Organization",
+      "schema:properties": [
+        {
+          "@id": "murm:linked_schemas",
+          "@type": "schema:Text",
+          "rdfs:label": "Linked Schemas",
+          "rdfs:comment": "A list of schemas against which a profile must be validated",
+          "schema:required": true,
+          "schema:isArray": true
+        },
+        {
+          "@id": "schema:name",
+          "@type": "schema:Text",
+          "rdfs:label": "Name",
+          "rdfs:comment": "The name of the organization (max 200 characters)",
+          "schema:required": true
+        },
+        {
+          "@id": "murm:primary_url",
+          "@type": "schema:URL",
+          "rdfs:label": "Primary URL",
+          "rdfs:comment": "Primary website URL for the organization",
+          "schema:required": true
+        }
+      ]
     }
   ]
 }

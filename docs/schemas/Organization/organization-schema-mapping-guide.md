@@ -1,6 +1,11 @@
-# Schema Mapping Guide
+# Organization Schema Mapping Guide
 
 This guide provides mapping tables and transformation rules for converting between Schema.org, Murmurations, and Dylan Tull's organization schemas.
+
+> **Related Documentation:**
+> - For schema registration process and strategy, see [Schema Mapping and Registration Guide](../schema-mapping-guide.md)
+> - For person schema mappings, see [Person Schema Mapping Guide](../Person/person-schema-mapping-guide.md)
+> - For Cambria lens implementation details, see [Cambria Integration](../../cambria-integration.md)
 
 ## Quick Reference Mapping Table
 

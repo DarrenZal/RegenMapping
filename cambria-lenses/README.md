@@ -10,16 +10,26 @@ This directory contains Cambria lenses for converting between different schema f
    - Converts from Murmurations Person format to Unified Person format
    - Maps basic fields like name, primary_url, locality, geolocation
    - Adds schema prefixes and regen-specific fields
+   - Preserves linked_schemas for Murmurations compatibility
 
 2. **unified-to-murmurations-person.lens.yml**
    - Converts from Unified Person format back to Murmurations Person format
    - Reverse transformation of the above lens
    - Strips unified-specific fields and removes prefixes
+   - Transforms geolocation structure (latitude/longitude to lat/lon)
 
 3. **schemaorg-to-unified-person.lens.yml**
    - Converts from Schema.org Person format to Unified Person format
    - Maps standard Schema.org properties to unified schema
    - Handles nested objects like homeLocation, worksFor, etc.
+
+### Organization Schema Conversions
+
+4. **unified-to-murmurations-organization.lens.yml**
+   - Converts from Unified Organization format to Murmurations Organization format
+   - Maps organization-specific fields like mission, tagline, legalType
+   - Transforms geolocation structure (latitude/longitude to lat/lon)
+   - Preserves organization-specific fields like sdgFocus and keyActivities
 
 ## Usage Examples
 

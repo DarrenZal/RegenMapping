@@ -183,8 +183,8 @@ async function main() {
   console.log('• Note: Custom unified schemas require GitHub submission to Murmurations\n');
 
   // Expected profile URLs (based on our GitHub repo)
-  const expectedPersons = ['person-dr-karen-obrien.json', 'person-dylan-tull.json'];
-  const expectedOrganizations = ['org-global-regenerative-cooperative.json'];
+  const expectedPersons = ['murm-person-karen-obrien.json', 'murm-person-dylan-tull.json'];
+  const expectedOrganizations = ['murm-org-global-regenerative-coop.json'];
 
   const testResults = {
     baseSchemas: { person: false, organization: false },
@@ -285,9 +285,9 @@ async function main() {
     }
 
     console.log('\n🔗 Profile URLs for manual verification:');
-    console.log('   • Dr. Karen O\'Brien: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json');
-    console.log('   • Dylan Tull: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json');
-    console.log('   • Global Regenerative Cooperative: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json');
+    console.log('   • Dr. Karen O\'Brien: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json');
+    console.log('   • Dylan Tull: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json');
+    console.log('   • Global Regenerative Cooperative: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json');
 
   } catch (error) {
     console.error('\n❌ Error during testing:', error);

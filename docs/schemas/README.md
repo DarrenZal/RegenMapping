@@ -17,6 +17,10 @@ schemas/
 
 ## Documentation Overview
 
+### 🆕 Schema Registration and Transformation Guide
+- **[schema-mapping-guide.md](schema-mapping-guide.md)** - **NEW!** Comprehensive guide for registering schemas with Murmurations and implementing transformations
+- **Purpose**: Step-by-step instructions for schema registration, profile creation, and Cambria lens usage
+
 ### Entity Schema Analysis
 Compare and understand the different approaches to modeling entities in the regenerative economy:
 
@@ -88,19 +92,48 @@ This strategy enables profiles that work seamlessly across:
 
 **Example Impact:** A contact field using `schema:telephone` gets automatically recognized by Google for rich snippets, imported by CRM systems, mapped by Murmurations for regenerative discovery, AND provides full data for visualization platforms.
 
-### Murmurations Integration Strategy ✅ WORKING
-Our unified schemas are successfully integrated with the Murmurations Index. By including Murmurations' base schemas (e.g., `people_schema-v0.1.0`, `organizations_schema-v1.0.0`) in the `linked_schemas` array of our profiles, we ensure:
-- **Validation**: ✅ Profiles validate against both our comprehensive unified schemas and the Murmurations base schemas
-- **Discoverability**: ✅ Profiles created using our unified schemas are discoverable when queried through the Murmurations Index using standard base schemas
-- **Live Testing**: ✅ 3 test profiles successfully indexed and discoverable via Murmurations test network
-- **Automated Pipeline**: ✅ Complete scripts for schema conversion, profile validation, and submission
+### Murmurations Integration Strategy
 
-**Live Test Results:**
-- **People Schema Discovery**: ✅ Both person profiles discoverable via `people_schema-v0.1.0` queries
-- **Organization Schema**: ✅ Organization profile validated and indexed via `organizations_schema-v1.0.0`
+#### Current Status ⚠️ PARTIAL
+Our profiles are currently indexed in Murmurations using only the base schemas:
+- **Person Profiles**: Using `people_schema-v0.1.0` only
+- **Organization Profiles**: Using `organizations_schema-v1.0.0` only
 - **GitHub Hosting**: ✅ All profiles accessible via GitHub raw URLs for reliable hosting
 
-### Transformation Capabilities
+#### Registering Unified Schemas with Murmurations 🚀
+To fully register our unified schemas with Murmurations, we need to:
+
+1. **Submit schemas via GitHub PR**:
+   - Fork the [Murmurations library repo](https://github.com/MurmurationsNetwork/library)
+   - Create a new branch including our schema name
+   - Add our schema files (`regen-person-schema-v1.0.0.json` and `regen-organization-schema-v1.0.0.json`) to the `/schemas/` directory
+   - Create a PR to the `test` branch of the upstream repo
+   - Wait for review and approval
+
+2. **After approval and merging to the test branch**:
+   - Our schemas will be available in the test environment
+   - We can test creating profiles based on these schemas
+
+3. **Update our profiles to use both schemas**:
+   ```json
+   "linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"]
+   ```
+
+4. **Re-upload our updated profiles**:
+   - Use the `upload-profiles.js` script (after modifying it to use our new schemas)
+   - Or manually update the profiles in our GitHub repo
+
+#### Dual Schema Discovery Benefit ✨
+When our unified schemas are registered and our profiles include both base and unified schemas in their `linked_schemas` array:
+
+- **Broader Discovery**: Profiles will be discoverable by BOTH queries for base schemas AND queries for our unified schemas
+- **Enhanced Data**: Applications using our unified schemas will get richer data with regenerative-specific fields
+- **Base Compatibility**: Applications using only base Murmurations schemas will still discover and use our profiles
+- **No Duplication**: A single profile can serve both ecosystem needs without maintaining separate versions
+
+This approach creates a "superset" relationship where our unified schemas extend the base schemas with additional fields while maintaining full compatibility and discoverability.
+
+### Transformation Capabilities with Cambria Lenses
 
 **Bidirectional Transformations** between:
 - **Schema.org** format (web standards compliance)
@@ -110,6 +143,38 @@ Our unified schemas are successfully integrated with the Murmurations Index. By 
 **Supported Entity Types**:
 - **Organizations** - Companies, nonprofits, DAOs, cooperatives, communities
 - **People** - Individuals engaged in regenerative economy activities
+
+#### Cambria Lens Implementation ✅
+We use [Cambria](https://github.com/cambria-project/cambria) to handle schema transformations:
+
+- **Lens Files**: Located in `/cambria-lenses/` directory
+- **Bidirectional Conversion**: Each schema pair has forward and reverse lenses
+- **Browser Integration**: Working in-browser implementation for live transformations
+- **CLI Support**: Command-line transformation capabilities for automation
+
+**Example Lens Pairs**:
+- `murmurations-to-unified-person.lens.yml` / `unified-to-murmurations-person.lens.yml`
+- `schemaorg-to-unified-person.lens.yml`
+
+#### Profile Storage Strategy
+For maximum flexibility and interoperability:
+
+1. **Store Primary Profiles**: Store primary profiles using our unified schemas on GitHub Pages
+   - Location: `https://darrenzal.github.io/RegenMapping/profiles/unified/`
+   - Format: JSON-LD with full unified schema
+
+2. **Generate Derived Profiles**: Use Cambria to generate Murmurations-compatible versions
+   - Location: `https://darrenzal.github.io/RegenMapping/profiles/murmurations/`
+   - Format: Simple JSON with Murmurations base schema fields
+   - Purpose: For Murmurations indexing until our unified schemas are registered
+
+3. **Automated Conversion**: Use scripts to maintain consistency between versions
+   - Script: `scripts/convert-schema.js` for one-time conversions
+   - Future: Add GitHub Action for automatic synchronization
+
+This approach allows us to maintain a single source of truth (unified schemas) while ensuring compatibility with the Murmurations ecosystem.
+
+See [Cambria Integration](../cambria-integration.md) for detailed implementation information.
 
 ### Mapping Features
 

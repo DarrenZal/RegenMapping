@@ -4,7 +4,7 @@
     "@vocab": "https://schema.org/",
     "schema": "https://schema.org/",
     "murm": "https://murmurations.network/schemas/",
-    "regen": "https://regen-map.org/schema/",
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
     "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     
@@ -60,7 +60,7 @@
       "schema:dateCreated": "2025-05-26",
       "schema:creator": {
         "@type": "schema:Organization",
-        "@id": "https://regen-map.org/"
+        "@id": "https://darrenzal.github.io/RegenMapping/"
       },
       "schema:license": "https://creativecommons.org/licenses/by/4.0/"
     },

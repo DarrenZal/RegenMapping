@@ -4,7 +4,7 @@
     "rdf":     "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs":    "http://www.w3.org/2000/01/rdf-schema#",
     "xsd":     "http://www.w3.org/2001/XMLSchema#",
-    "ex":      "https://kg.example.org/ontology/",
+    "ex":      "https://darrenzal.github.io/RegenMapping/ontology/",
 
     "domainIncludes": {"@id":"schema:domainIncludes","@type":"@id"},
     "rangeIncludes":  {"@id":"schema:rangeIncludes","@type":"@id"},

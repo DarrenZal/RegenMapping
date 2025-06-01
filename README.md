@@ -88,10 +88,16 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 │   ├── convert-schema.js                       # Cambria schema conversion utility
 │   └── test-cambria-transformations.js         # Cambria integration demo
 │
-├── murmurations-profiles/                      # Generated Murmurations profiles
-│   ├── person-dr-karen-obrien.json             # Dr. Karen O'Brien profile
-│   ├── person-dylan-tull.json                  # Dylan Tull profile
-│   └── org-global-regenerative-cooperative.json # Organization profile
+├── profiles/                                   # Profile data organized by schema type
+│   ├── README.md                               # Profile documentation and usage
+│   ├── murmurations/                           # Murmurations format profiles
+│   │   ├── murm-person-dylan-tull.json         # Dylan Tull profile (Murmurations format)
+│   │   ├── murm-person-karen-obrien.json       # Dr. Karen O'Brien profile (Murmurations format)
+│   │   └── murm-org-global-regenerative-coop.json # Organization profile (Murmurations format)
+│   └── unified/                                # Unified schema profiles (source of truth)
+│       ├── regen-person-dylan-tull.jsonld      # Dylan Tull profile (unified format)
+│       ├── regen-person-karen-obrien.jsonld    # Dr. Karen O'Brien profile (unified format)
+│       └── regen-org-global-regenerative-coop.jsonld # Organization profile (unified format)
 │
 ├── cambria-lenses/                             # Cambria transformation lenses
 │   ├── README.md                                # Lens documentation and usage
@@ -233,22 +239,28 @@ echo '{"name": "Test"}' | node scripts/convert-schema.js murm-to-unified
 - 🔄 **Organization schemas**: Coming soon
 
 ### ✅ Murmurations Integration (WORKING)
-Our integration with Murmurations is successfully operational:
+Our integration with Murmurations is successfully operational, with unified profiles as the source of truth:
 
 ```bash
-# Test the complete integration
-npm run test-integration
+# Complete workflow: convert, validate, submit, and test
+node scripts/update-and-publish-profiles.js
 
-# Or run individually:
-npm run upload-schemas    # Generate Murmurations-compatible schemas
-npm run upload-profiles   # Convert, validate, and submit profiles
-npm run test-queries      # Verify discoverability (✅ People schema working!)
+# Or run individual steps:
+node scripts/convert-unified-to-murmurations.js  # Convert unified profiles to Murmurations format
+node scripts/upload-profiles-new.js              # Validate and submit profiles to Murmurations
+node scripts/test-queries.js                     # Verify discoverability
 ```
 
+**Profile Workflow:**
+1. Edit unified profiles in `profiles/unified/` (source of truth)
+2. Run the conversion script to generate Murmurations profiles
+3. Submit the profiles to the Murmurations index
+4. Verify discoverability through the Murmurations API
+
 **Live Test Profiles:**
-- **Dr. Karen O'Brien**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json)
-- **Dylan Tull**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json)
-- **Global Regenerative Cooperative**: [Indexed via organizations_schema-v1.0.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json)
+- **Dr. Karen O'Brien**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json)
+- **Dylan Tull**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json)
+- **Global Regenerative Cooperative**: [Indexed via organizations_schema-v1.0.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json)
 
 See `scripts/README.md` for detailed documentation.
 

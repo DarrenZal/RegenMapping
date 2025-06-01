@@ -1,9 +1,9 @@
 {
   "@context": {
     "@version": 1.1,
-    "@vocab": "https://regen-map.org/schema/",
+    "@vocab": "https://darrenzal.github.io/RegenMapping/ontology/",
     "schema": "https://schema.org/",
-    "regen": "https://regen-map.org/schema/",
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
     "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },

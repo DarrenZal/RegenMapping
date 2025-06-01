@@ -7,22 +7,47 @@ lens:
   # Basic field mappings
   - rename:
       source: name
-      destination: "schema:name"
+      destination: name
   
   - rename:
       source: primary_url
-      destination: "murm:primary_url"
+      destination: primary_url
   
   # Map location fields
   - rename:
       source: locality
-      destination: "regen:locality"
+      destination: locality
   
-  # Copy geolocation lat to multiple destinations
   - rename:
-      source: geolocation
-      destination: "regen:geolocation"
+      source: region
+      destination: region
   
-  # Remove original linked_schemas since we'll add our own
-  - remove:
-      name: linked_schemas
+  - rename:
+      source: country_name
+      destination: country_name
+  
+  # Transform geolocation structure
+  - in:
+      name: "geolocation"
+      lens:
+        - rename:
+            source: "lat"
+            destination: "latitude"
+        - rename:
+            source: "lon"
+            destination: "longitude"
+  
+  # Keep tags
+  - rename:
+      source: tags
+      destination: tags
+  
+  # Keep relationships
+  - rename:
+      source: relationships
+      destination: relationships
+  
+  # Keep linked_schemas
+  - rename:
+      source: linked_schemas
+      destination: linked_schemas

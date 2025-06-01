@@ -28,12 +28,12 @@
   "metadata": {
     "creator": {
       "name": "Regen Mapping Project",
-      "url": "https://regen-map.org/"
+      "url": "https://darrenzal.github.io/RegenMapping/"
     },
     "schema": {
       "name": "regen-person-schema-v1.0.0",
       "purpose": "Enhanced regenerative person schema schema for regenerative economy visualization and network discovery",
-      "url": "https://regen-map.org"
+      "url": "https://darrenzal.github.io/RegenMapping/"
     }
   }
 }

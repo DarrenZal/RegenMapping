@@ -15,7 +15,7 @@ const LENS_DIR = path.join(__dirname, '..', 'cambria-lenses');
 const PROFILES_DIR = path.join(__dirname, '..');
 
 // Test files
-const MURMURATIONS_PERSON = path.join(PROFILES_DIR, 'murmurations-profiles', 'person-dylan-tull.json');
+const MURMURATIONS_PERSON = path.join(PROFILES_DIR, 'profiles', 'murmurations', 'murm-person-dylan-tull.json');
 const SCHEMAORG_PERSON = path.join(PROFILES_DIR, 'test-profiles', 'sample-schemaorg-person.json');
 
 // Lens files

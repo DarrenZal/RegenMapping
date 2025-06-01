@@ -1,0 +1,61 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": "Person",
+  "linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"],
+  "name": "Dr. Karen O'Brien",
+  "primary_url": "https://karenmobrien.com",
+  "tags": [
+    "Climate Change",
+    "Transformative Adaptation",
+    "Social Change",
+    "Human Geography"
+  ],
+  "geolocation": {
+    "latitude": 59.9139,
+    "longitude": 10.7522
+  },
+  "locality": "Oslo",
+  "region": "Oslo",
+  "country_name": "Norway",
+  "relationships": [
+    {
+      "type": "member",
+      "target": "University of Oslo",
+      "target_url": "https://www.uio.no/english/",
+      "description": "Professor of Human Geography"
+    },
+    {
+      "type": "collaboration",
+      "target": "Dylan Tull",
+      "target_url": "https://dylantull.com",
+      "description": "Research collaboration on regenerative systems"
+    }
+  ],
+  "headline": "Climate Change Researcher & Professor of Human Geography",
+  "currentTitle": "Professor",
+  "currentOrgId": "University of Oslo",
+  "displayHandle": "@karenobrien",
+  "pronouns": "she/her",
+  "domainTags": [
+    "Climate Change",
+    "Systems Literacy",
+    "Inner Development (IDGs)"
+  ],
+  "methodTags": [
+    "Adaptive Management",
+    "Citizen Science"
+  ],
+  "theoryTags": [
+    "Complexity Science",
+    "Deep Adaptation"
+  ],
+  "lastUpdated": "2025-05-30T12:00:00Z"
+}

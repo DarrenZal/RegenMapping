@@ -1,6 +1,18 @@
-# Regen Mapping - Interactive Visualization Website
+# Regen Mapping - Documentation
 
-This directory contains the interactive force-directed graph visualization for exploring regenerative organizations and people with multi-schema support.
+This directory contains documentation for the Regen Mapping project, including the interactive visualization website and schema documentation.
+
+## 📚 Documentation Sections
+
+### [Schema Documentation](schemas/README.md)
+- **[Schema Mapping and Registration Guide](schemas/schema-mapping-guide.md)** - NEW! Step-by-step guide for registering schemas with Murmurations
+- **Schema Comparisons** - Analysis of different schema approaches
+- **Transformation Guides** - Converting between schema formats
+- **Cambria Integration** - Using Cambria lenses for schema conversion
+
+### Interactive Visualization Website
+
+The interactive force-directed graph visualization for exploring regenerative organizations and people with multi-schema support.
 
 ## 🌐 Live Demo
 
