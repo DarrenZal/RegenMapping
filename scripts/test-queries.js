@@ -129,6 +129,14 @@ function validateProfilesFound(results, expectedProfiles, schemaName) {
     return false;
   }
 
+  // Print all profile URLs for debugging
+  console.log(`   📋 All profiles for ${schemaName}:`);
+  results.data.forEach(node => {
+    if (node.profile_url) {
+      console.log(`      • ${node.profile_url}`);
+    }
+  });
+
   const foundProfiles = results.data.filter(node => {
     return expectedProfiles.some(expected => 
       node.profile_url && node.profile_url.includes(expected)
@@ -203,8 +211,17 @@ async function main() {
   console.log('• Note: Custom unified schemas require GitHub submission to Murmurations\n');
 
   // Expected profile URLs (based on our GitHub repo)
-  const expectedPersons = ['murm-person-karen-obrien.json', 'murm-person-dylan-tull.json'];
-  const expectedOrganizations = ['murm-org-global-regenerative-coop.json'];
+  // Include both old and new paths since we've moved the files
+  const expectedPersons = [
+    'murmurations-profiles/person-dr-karen-obrien.json', 
+    'murmurations-profiles/person-dylan-tull.json',
+    'profiles/murmurations/murm-person-karen-obrien.json', 
+    'profiles/murmurations/murm-person-dylan-tull.json'
+  ];
+  const expectedOrganizations = [
+    'murmurations-profiles/org-global-regenerative-cooperative.json',
+    'profiles/murmurations/murm-org-global-regenerative-coop.json'
+  ];
 
   const testResults = {
     baseSchemas: { person: false, organization: false },
