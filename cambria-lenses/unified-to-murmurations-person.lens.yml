@@ -1,0 +1,27 @@
+# Cambria lens to convert from Unified Person schema back to Murmurations Person schema
+# This lens transforms the comprehensive unified format back to the simple Murmurations format
+
+schemaName: Person
+
+lens:
+  # Reverse the basic field mappings
+  - rename:
+      source: "schema:name"
+      destination: name
+  
+  - rename:
+      source: "murm:primary_url"
+      destination: primary_url
+  
+  # Map location fields back
+  - rename:
+      source: "regen:locality"
+      destination: locality
+  
+  # Convert geolocation back to flat structure
+  - rename:
+      source: "regen:geolocation"
+      destination: geolocation
+  
+  # Keep only the fields that exist in the original Murmurations format
+  # The transformation will naturally only include the renamed fields

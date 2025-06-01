@@ -1,0 +1,25 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Person",
+  "name": "Dylan Tull",
+  "givenName": "Dylan",
+  "familyName": "Tull",
+  "jobTitle": "Regenerative Development Leader",
+  "email": "dylan@example.com",
+  "url": "https://dylantull.com",
+  "homeLocation": {
+    "@type": "Place",
+    "addressLocality": "Traverse City",
+    "addressRegion": "Michigan",
+    "addressCountry": "United States"
+  },
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Blue Horizon Properties"
+  },
+  "knowsAbout": ["Regenerative Design", "Post-capitalist Finance", "Distributed Governance"],
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "University of Michigan"
+  }
+}

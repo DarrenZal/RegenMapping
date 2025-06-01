@@ -8,6 +8,9 @@
     "upload-profiles": "node scripts/upload-profiles.js",
     "test-queries": "node scripts/test-queries.js",
     "test-integration": "npm run upload-schemas && npm run upload-profiles && sleep 300 && npm run test-queries",
+    "test-cambria": "node scripts/test-cambria-transformations.js",
+    "convert-murm-to-unified": "node scripts/convert-schema.js murm-to-unified",
+    "convert-unified-to-murm": "node scripts/convert-schema.js unified-to-murm",
     "test": "npm run test-integration"
   },
   "keywords": [
@@ -26,7 +29,9 @@
     "type": "git",
     "url": "https://github.com/DarrenZal/RegenMap"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cambria": "^0.1.2"
+  },
   "devDependencies": {},
   "directories": {
     "doc": "docs",

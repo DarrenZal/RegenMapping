@@ -1,0 +1,58 @@
+# Cambria lens to convert from Schema.org Person to Unified Person schema
+# This lens transforms standard Schema.org format into the comprehensive unified format
+
+schemaName: Person
+
+lens:
+  # Basic field mappings - Schema.org fields are already prefixed correctly
+  - rename:
+      source: name
+      destination: "schema:name"
+  
+  - rename:
+      source: givenName
+      destination: "schema:givenName"
+  
+  - rename:
+      source: familyName
+      destination: "schema:familyName"
+  
+  - rename:
+      source: jobTitle
+      destination: "schema:jobTitle"
+  
+  - rename:
+      source: email
+      destination: "schema:email"
+  
+  - rename:
+      source: url
+      destination: "schema:url"
+  
+  # Map knowsAbout to regen domain tags
+  - rename:
+      source: knowsAbout
+      destination: "regen:domainTags"
+  
+  # Keep existing nested structures
+  - rename:
+      source: homeLocation
+      destination: "schema:homeLocation"
+  
+  - rename:
+      source: worksFor
+      destination: "schema:worksFor"
+  
+  - rename:
+      source: alumniOf
+      destination: "schema:alumniOf"
+  
+  # Update context to include all namespaces
+  - rename:
+      source: "@context"
+      destination: "@context"
+  
+  # Keep type but extend it
+  - rename:
+      source: "@type"
+      destination: "@type"

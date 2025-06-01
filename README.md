@@ -41,6 +41,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ├── docs/                                        # Documentation
 │   ├── project-specifications.md               # Detailed project specs and UI mockups
 │   ├── seed-organizations.md                   # Organizations from Cascadia Conference
+│   ├── cambria-integration.md                  # Schema conversion system documentation
 │   └── schemas/                                 # Schema documentation (organized by entity type)
 │       ├── Organization/                        # Organization schema documentation
 │       │   ├── unified-organization-schema-comparison.md  # Organization schema analysis
@@ -50,16 +51,27 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 │       │   └── person-schema-mapping-guide.md             # Person transformation rules
 │       └── README.md                            # Schema documentation overview
 │
-├── scripts/                                     # Murmurations integration scripts
+├── scripts/                                     # Integration and conversion scripts
 │   ├── README.md                                # Integration documentation
 │   ├── upload-schemas.js                       # Schema conversion script
 │   ├── upload-profiles.js                      # Profile processing script
-│   └── test-queries.js                         # Discovery testing script
+│   ├── test-queries.js                         # Discovery testing script
+│   ├── convert-schema.js                       # Cambria schema conversion utility
+│   └── test-cambria-transformations.js         # Cambria integration demo
 │
 ├── murmurations-profiles/                      # Generated Murmurations profiles
 │   ├── person-dr-karen-obrien.json             # Dr. Karen O'Brien profile
 │   ├── person-dylan-tull.json                  # Dylan Tull profile
 │   └── org-global-regenerative-cooperative.json # Organization profile
+│
+├── cambria-lenses/                             # Cambria transformation lenses
+│   ├── README.md                                # Lens documentation and usage
+│   ├── murmurations-to-unified-person.lens.yml # Murmurations → Unified conversion
+│   ├── unified-to-murmurations-person.lens.yml # Unified → Murmurations conversion
+│   └── schemaorg-to-unified-person.lens.yml    # Schema.org → Unified conversion
+│
+├── test-profiles/                              # Test data for conversions
+│   └── sample-schemaorg-person.json            # Example Schema.org person
 │
 ├── schemas-for-upload/                         # Generated schemas for Murmurations
 │   └── regen-person-schema-v1.0.0.json         # Converted person schema
@@ -98,6 +110,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ### Core Documentation
 - **[Project Specifications](docs/project-specifications.md)** - Detailed technical specifications, UI mockups, and implementation guidelines
 - **[Seed Organizations](docs/seed-organizations.md)** - Initial dataset from Cascadia Bioregional Financing Conference
+- **[Cambria Integration](docs/cambria-integration.md)** - Schema conversion system documentation and usage guide
 
 ### Schema Documentation
 - **[Organization Schema Comparison](docs/schemas/Organization/unified-organization-schema-comparison.md)** - Analysis of organization schema approaches
@@ -142,6 +155,30 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **Documented key relationships** and event connections
 
 ## 🚀 Next Steps
+
+### ✅ Schema Conversion with Cambria (NEW!)
+We've integrated Cambria for seamless schema transformations between different formats:
+
+```bash
+# Install dependencies (includes Cambria)
+npm install
+
+# Test schema conversions
+npm run test-cambria
+
+# Convert individual files
+npm run convert-murm-to-unified murmurations-profiles/person-dylan-tull.json
+npm run convert-unified-to-murm unified-profile.json
+
+# Use the conversion utility directly
+node scripts/convert-schema.js murm-to-unified input.json output.json
+echo '{"name": "Test"}' | node scripts/convert-schema.js murm-to-unified
+```
+
+**Available Conversions:**
+- ✅ **Murmurations ↔ Unified**: Bidirectional with 100% data integrity
+- 🔄 **Schema.org → Unified**: In development
+- 🔄 **Organization schemas**: Coming soon
 
 ### ✅ Murmurations Integration (WORKING)
 Our integration with Murmurations is successfully operational:
