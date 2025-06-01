@@ -20,6 +20,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 
 ### Rich Data Integration
 - **Multi-Schema Support**: Unified approach combining Schema.org standards, Murmurations discovery features, and custom regenerative categorization
+- **Strategic Namespace Hierarchy**: Uses Schema.org first (maximum interoperability), Murmurations second (regenerative ecosystem), and custom third (domain innovation) to ensure profiles work across web search, business tools, and regenerative discovery networks
 - **Murmurations Interoperability**: Profiles are designed to be discoverable and validated by the Murmurations Index. By leveraging the `linked_schemas` property, our unified Person and Organization profiles explicitly link to Murmurations' base schemas (`people_schema-v0.1.0` and `organizations_schema-v1.0.0`). This ensures that when users query the Murmurations Index for basic Person or Organization profiles, they will seamlessly discover and access the richer, more detailed profiles defined by our unified schemas. This approach maximizes discoverability while maintaining data richness.
 - **Comprehensive Profiles**: Organizations and individuals with detailed metadata, impact metrics, and relationship mapping
 - **Live Matching**: AI-powered suggestions connecting complementary needs and offers

@@ -41,6 +41,53 @@ Practical transformation functions and mapping tables for developers:
 
 This documentation provides comprehensive tools and guidance for working with multiple schema formats across both organizations and people in the regenerative economy ecosystem.
 
+### Namespace Priority Strategy
+
+Our unified schemas use a strategic namespace hierarchy to maximize discoverability and interoperability across multiple ecosystems:
+
+#### **1. Schema.org First Priority** 🌐
+```json
+"telephone": "schema:telephone",
+"name": "schema:name",
+"description": "schema:description"
+```
+**Benefits:**
+- ✅ **Google/Search Engine** recognition and rich snippets
+- ✅ **Existing Business Tools** (CRMs, APIs) automatic compatibility
+- ✅ **JSON-LD Processors** built-in support
+- ✅ **Linked Data Web** connectivity to billions of web pages
+
+#### **2. Murmurations Second Priority** 🌱
+```json
+"nickname": "murm:nickname",
+"primary_url": "murm:primary_url",
+"linked_schemas": "murm:linked_schemas"
+```
+**Benefits:**
+- ✅ **Regenerative Network** discovery and validation
+- ✅ **Community Tools** built for regenerative economy
+- ✅ **Base Schema Compatibility** for Murmurations Index
+
+#### **3. Custom Domain-Specific Third Priority** 🎯
+```json
+"domainTags": "regen:domainTags",
+"methodTags": "regen:methodTags",
+"influenceMetrics": "regen:influenceMetrics"
+```
+**Benefits:**
+- ✅ **Regenerative-Specific** categorization and analysis
+- ✅ **Visualization Optimization** for mapping platforms
+- ✅ **Domain Innovation** without namespace conflicts
+
+#### **Multi-Ecosystem Compatibility Result**
+This strategy enables profiles that work seamlessly across:
+- **Web Search** (Schema.org recognition)
+- **Regenerative Discovery** (Murmurations compatibility)
+- **Business Integration** (CRM/contact system compatibility)
+- **Rich Applications** (Full unified schema data)
+
+**Example Impact:** A contact field using `schema:telephone` gets automatically recognized by Google for rich snippets, imported by CRM systems, mapped by Murmurations for regenerative discovery, AND provides full data for visualization platforms.
+
 ### Murmurations Integration Strategy ✅ WORKING
 Our unified schemas are successfully integrated with the Murmurations Index. By including Murmurations' base schemas (e.g., `people_schema-v0.1.0`, `organizations_schema-v1.0.0`) in the `linked_schemas` array of our profiles, we ensure:
 - **Validation**: ✅ Profiles validate against both our comprehensive unified schemas and the Murmurations base schemas
