@@ -491,7 +491,8 @@ class RegenMappingApp {
         // Create links between schema nodes (representing Cambria lenses)
         const lensLinks = [
             { source: `${node.id}-murmurations`, target: `${node.id}-unified`, type: 'lens' },
-            { source: `${node.id}-unified`, target: `${node.id}-schemaorg`, type: 'lens' }
+            { source: `${node.id}-unified`, target: `${node.id}-schemaorg`, type: 'lens' },
+            { source: `${node.id}-murmurations`, target: `${node.id}-schemaorg`, type: 'lens' }
         ];
 
         // Update graph data
