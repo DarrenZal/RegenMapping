@@ -1,4 +1,18 @@
 {
+  "theory_tags": [
+    "Metamodernism",
+    "Complexity Science"
+  ],
+  "method_tags": [
+    "Permaculture",
+    "Doughnut Economics",
+    "Web3/DAO"
+  ],
+  "domain_tags": [
+    "Regenerative Ag",
+    "Post-capitalist Finance",
+    "Distributed Governance"
+  ],
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
@@ -29,28 +43,14 @@
     "lat": 45.7108,
     "lon": -85.9846
   },
-  "domainTags": [
-    "Regenerative Ag",
-    "Post-capitalist Finance",
-    "Distributed Governance"
-  ],
-  "methodTags": [
-    "Permaculture",
-    "Doughnut Economics",
-    "Web3/DAO"
-  ],
-  "theoryTags": [
-    "Metamodernism",
-    "Complexity Science"
-  ],
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
   "locality": "Traverse City",
   "region": "Michigan",
   "country_name": "United States",
   "headline": "Regenerative Economy Researcher & Designer",
-  "currentTitle": "Co-founder",
-  "currentOrgId": "Global Regenerative Cooperative",
-  "displayHandle": "@dylantull",
-  "lastUpdated": "2025-05-30T12:00:00Z"
+  "current_title": "Co-founder",
+  "current_org_id": "Global Regenerative Cooperative",
+  "display_handle": "@dylantull",
+  "last_updated": "2025-05-30T12:00:00Z"
 }

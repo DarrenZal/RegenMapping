@@ -13,19 +13,21 @@ const https = require('https');
 const MURMURATIONS_TEST_BASE = 'https://test-index.murmurations.network';
 
 /**
- * Query Murmurations index by schema
+ * Query Murmurations index by schema with pagination
  */
-async function queryBySchema(schema) {
+async function queryBySchema(schema, page = 1, allResults = []) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'test-index.murmurations.network',
       port: 443,
-      path: `/v2/nodes?schema=${encodeURIComponent(schema)}`,
+      path: `/v2/nodes?schema=${encodeURIComponent(schema)}&page=${page}&items_per_page=100`,
       method: 'GET',
       headers: {
         'Accept': 'application/json'
       }
     };
+
+    console.log(`   🔍 Querying page ${page} for schema ${schema}...`);
 
     const req = https.request(options, (res) => {
       let responseData = '';
@@ -38,7 +40,25 @@ async function queryBySchema(schema) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           try {
             const response = JSON.parse(responseData);
-            resolve(response);
+            
+            // Add current page results to all results
+            if (response.data && Array.isArray(response.data)) {
+              allResults = allResults.concat(response.data);
+            }
+            
+            // Check if there are more pages
+            if (response.meta && response.meta.current_page < response.meta.last_page) {
+              // Recursively fetch next page
+              queryBySchema(schema, page + 1, allResults)
+                .then(resolve)
+                .catch(reject);
+            } else {
+              // Return all results when done
+              resolve({
+                data: allResults,
+                meta: response.meta
+              });
+            }
           } catch (e) {
             reject(new Error(`Failed to parse response: ${e.message}`));
           }

@@ -1,11 +1,11 @@
 {
-  "keyActivities": [
+  "key_activities": [
     "Regenerative Business Incubation",
     "Cooperative Development",
     "Climate Finance",
     "Regenerative Agriculture"
   ],
-  "sdgFocus": [
+  "sdg_focus": [
     "SDG08",
     "SDG11",
     "SDG12",
@@ -49,8 +49,8 @@
   "country_name": "United States",
   "tagline": "Building the regenerative economy, together",
   "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
-  "legalType": "Cooperative",
-  "foundedYear": 2023,
-  "employeeRange": "11-50",
-  "lastUpdated": "2025-05-30T12:00:00Z"
+  "legal_type": "Cooperative",
+  "founded_year": 2023,
+  "employee_range": "11-50",
+  "last_updated": "2025-05-30T12:00:00Z"
 }

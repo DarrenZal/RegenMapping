@@ -8,24 +8,24 @@ lens:
   - rename:
       source: "name"
       destination: name
-  
+
   - rename:
       source: "primary_url"
       destination: primary_url
-  
+
   # Map location fields
   - rename:
       source: "locality"
       destination: locality
-  
+
   - rename:
       source: "region"
       destination: region
-  
+
   - rename:
       source: "country_name"
       destination: country_name
-  
+
   # Transform geolocation structure
   - in:
       name: "geolocation"
@@ -36,22 +36,22 @@ lens:
         - rename:
             source: "longitude"
             destination: "lon"
-  
+
   # Keep tags
   - rename:
       source: "tags"
       destination: tags
-  
+
   # Keep relationships
   - rename:
       source: "relationships"
       destination: relationships
-  
+
   # Keep linked_schemas
   - rename:
       source: "linked_schemas"
       destination: linked_schemas
-  
+
   # Organization-specific fields
   - rename:
       source: "mission"
@@ -61,30 +61,30 @@ lens:
       source: "tagline"
       destination: tagline
 
-  # Keep other fields that exist in the original profile
+  # Convert camelCase to snake_case for Murmurations compatibility
   - rename:
       source: "legalType"
-      destination: legalType
+      destination: legal_type
 
   - rename:
       source: "foundedYear"
-      destination: foundedYear
+      destination: founded_year
 
   - rename:
       source: "employeeRange"
-      destination: employeeRange
+      destination: employee_range
 
   - rename:
       source: "sdgFocus"
-      destination: sdgFocus
+      destination: sdg_focus
 
   - rename:
       source: "keyActivities"
-      destination: keyActivities
+      destination: key_activities
 
   - rename:
       source: "lastUpdated"
-      destination: lastUpdated
-  
+      destination: last_updated
+
   # Keep only the fields that exist in the original Murmurations format
   # The transformation will naturally only include the renamed fields

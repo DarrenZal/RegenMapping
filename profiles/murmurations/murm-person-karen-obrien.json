@@ -1,4 +1,17 @@
 {
+  "theory_tags": [
+    "Complexity Science",
+    "Deep Adaptation"
+  ],
+  "method_tags": [
+    "Adaptive Management",
+    "Citizen Science"
+  ],
+  "domain_tags": [
+    "Climate Change",
+    "Systems Literacy",
+    "Inner Development (IDGs)"
+  ],
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
@@ -30,28 +43,15 @@
     "lat": 59.9139,
     "lon": 10.7522
   },
-  "domainTags": [
-    "Climate Change",
-    "Systems Literacy",
-    "Inner Development (IDGs)"
-  ],
-  "methodTags": [
-    "Adaptive Management",
-    "Citizen Science"
-  ],
-  "theoryTags": [
-    "Complexity Science",
-    "Deep Adaptation"
-  ],
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
   "locality": "Oslo",
   "region": "Oslo",
   "country_name": "Norway",
   "headline": "Climate Change Researcher & Professor of Human Geography",
-  "currentTitle": "Professor",
-  "currentOrgId": "University of Oslo",
-  "displayHandle": "@karenobrien",
+  "current_title": "Professor",
+  "current_org_id": "University of Oslo",
+  "display_handle": "@karenobrien",
   "pronouns": "she/her",
-  "lastUpdated": "2025-05-30T12:00:00Z"
+  "last_updated": "2025-05-30T12:00:00Z"
 }
