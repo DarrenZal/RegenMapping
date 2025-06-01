@@ -409,11 +409,21 @@ class RegenMappingApp {
             }
         }
         
-        if (node.id === this.expandedNode) {
-            return '#f39c12'; // Orange for expanded node
+        if (node.type === 'profile') {
+            // Determine if this is an organization or person
+            const isOrganization = node.profile && node.profile.murmurations.linked_schemas && 
+                node.profile.murmurations.linked_schemas.some(schema => schema.includes('organizations_schema'));
+            
+            if (node.id === this.expandedNode) {
+                // Active profile colors
+                return isOrganization ? '#2980b9' : '#c0392b'; // Dark blue for org, dark red for person
+            } else {
+                // Inactive profile colors
+                return isOrganization ? '#85c1e9' : '#f1948a'; // Light blue for org, light red for person
+            }
         }
         
-        return '#9b59b6'; // Purple for profile nodes
+        return '#9b59b6'; // Fallback purple
     }
 
     getLinkColor(link) {
@@ -475,6 +485,9 @@ class RegenMappingApp {
         
         this.expandedNode = node.id;
         
+        // Set the default active schema to unified
+        this.activeSchemaNode = `${node.id}-unified`;
+        
         // Create schema nodes around the main node
         const schemaTypes = ['murmurations', 'unified', 'schemaorg'];
         const radius = 30;
@@ -515,6 +528,9 @@ class RegenMappingApp {
             nodes: [...currentData.nodes, ...this.schemaNodes],
             links: [...currentData.links, ...schemaLinks, ...lensLinks]
         });
+        
+        // Update colors to show the default active schema
+        this.updateGraphColors();
     }
 
     collapseNode() {
