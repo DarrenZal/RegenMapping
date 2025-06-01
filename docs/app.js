@@ -10,12 +10,18 @@ class RegenMappingApp {
         this.profiles = {};
         this.schemaNodes = [];
         this.activeSchemaNode = null;
+        this.cambria = new CambriaBrowser();
+        this.cambriaReady = false;
         
         this.init();
     }
 
     async init() {
         try {
+            // Initialize Cambria lenses first
+            console.log('🎯 Initializing Cambria lenses...');
+            this.cambriaReady = await this.cambria.initializeLenses();
+            
             await this.loadProfiles();
             this.setupGraph();
             this.setupEventListeners();
@@ -131,7 +137,14 @@ class RegenMappingApp {
     }
 
     async convertToUnified(murmProfile) {
-        // Detect if this is a person or organization profile
+        // Use Cambria if available, otherwise fallback to manual conversion
+        if (this.cambriaReady) {
+            console.log('🎯 Using Cambria for Murmurations → Unified conversion');
+            return this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
+        }
+        
+        // Fallback: manual conversion
+        console.log('⚠️ Using manual conversion for Murmurations → Unified');
         const isOrganization = murmProfile.linked_schemas && 
             murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
         
@@ -181,7 +194,14 @@ class RegenMappingApp {
     }
 
     async convertToSchemaOrg(murmProfile) {
-        // Detect if this is a person or organization profile
+        // Use Cambria if available, otherwise fallback to manual conversion
+        if (this.cambriaReady) {
+            console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
+            return this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+        }
+        
+        // Fallback: manual conversion
+        console.log('⚠️ Using manual conversion for Murmurations → Schema.org');
         const isOrganization = murmProfile.linked_schemas && 
             murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
         
