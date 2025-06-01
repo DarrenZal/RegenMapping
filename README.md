@@ -176,7 +176,7 @@ Explore the schema conversion system through our interactive visualization:
 ```bash
 # Run locally for development
 npm run serve
-# Visit http://localhost:8000
+# Visit http://localhost:8080
 ```
 
 **Website Structure:**
