@@ -137,6 +137,7 @@ class RegenMappingApp {
                 "regen:locality": murmProfile.locality,
                 "regen:geolocation": murmProfile.geolocation,
                 "regen:domainTags": murmProfile.tags || [],
+                "regen:relationships": murmProfile.relationships || [],
                 "schema:location": {
                     "@type": "schema:Place",
                     "schema:addressLocality": murmProfile.locality,
@@ -153,6 +154,7 @@ class RegenMappingApp {
                 "regen:locality": murmProfile.locality,
                 "regen:geolocation": murmProfile.geolocation,
                 "regen:domainTags": murmProfile.tags || [],
+                "regen:relationships": murmProfile.relationships || [],
                 "schema:homeLocation": {
                     "@type": "schema:Place",
                     "schema:addressLocality": murmProfile.locality,
@@ -229,7 +231,21 @@ class RegenMappingApp {
                     "schema:name": "Dylan Tull",
                     "murm:primary_url": "https://dylantull.com",
                     "regen:locality": "Traverse City, Michigan",
-                    "regen:domainTags": ["Regenerative Design", "Post-capitalist Finance"]
+                    "regen:domainTags": ["Regenerative Design", "Post-capitalist Finance"],
+                    "regen:relationships": [
+                        {
+                            type: "member",
+                            target: "Global Regenerative Cooperative",
+                            target_url: "https://global-regenerative.coop",
+                            description: "Co-founder and strategic advisor"
+                        },
+                        {
+                            type: "collaboration",
+                            target: "Dr. Karen O'Brien",
+                            target_url: "https://karenmobrien.com",
+                            description: "Research collaboration on regenerative systems"
+                        }
+                    ]
                 },
                 schemaorg: {
                     "@type": "Person",
@@ -271,7 +287,21 @@ class RegenMappingApp {
                     "schema:name": "Dr. Karen O'Brien",
                     "murm:primary_url": "https://karenmobrien.com",
                     "regen:locality": "Oslo, Norway",
-                    "regen:domainTags": ["Climate Change Research", "Human Geography"]
+                    "regen:domainTags": ["Climate Change Research", "Human Geography"],
+                    "regen:relationships": [
+                        {
+                            type: "advisor",
+                            target: "Global Regenerative Cooperative",
+                            target_url: "https://global-regenerative.coop",
+                            description: "Climate resilience research advisor"
+                        },
+                        {
+                            type: "collaboration",
+                            target: "Dylan Tull",
+                            target_url: "https://dylantull.com",
+                            description: "Research collaboration on regenerative systems"
+                        }
+                    ]
                 },
                 schemaorg: {
                     "@type": "Person",
@@ -314,7 +344,21 @@ class RegenMappingApp {
                     "schema:name": "Global Regenerative Cooperative",
                     "murm:primary_url": "https://globalregenerativecooperative.com",
                     "regen:locality": "Global, Worldwide",
-                    "regen:domainTags": ["Cooperative Economics", "Regenerative Systems", "Global Network"]
+                    "regen:domainTags": ["Cooperative Economics", "Regenerative Systems", "Global Network"],
+                    "regen:relationships": [
+                        {
+                            type: "member",
+                            target: "Dylan Tull",
+                            target_url: "https://dylantull.com",
+                            description: "Co-founder and strategic advisor"
+                        },
+                        {
+                            type: "advisor",
+                            target: "Dr. Karen O'Brien",
+                            target_url: "https://karenmobrien.com",
+                            description: "Climate resilience research advisor"
+                        }
+                    ]
                 },
                 schemaorg: {
                     "@type": "Organization",
@@ -343,7 +387,8 @@ class RegenMappingApp {
             .linkColor(link => this.getLinkColor(link))
             .linkWidth(2)
             .linkLabel(link => link.label || '')
-            .linkDirectionalArrowLength(link => link.type && link.type !== 'schema-link' && link.type !== 'lens' ? 4 : 0)
+            .linkDirectionalArrowLength(link => link.type && link.type !== 'schema-link' && link.type !== 'lens' ? 3 : 0)
+            .linkDirectionalArrowRelPos(0.8) // Position arrows closer to target to avoid overlap
             .linkDirectionalArrowColor(() => 'rgba(255, 255, 255, 0.8)')
             .backgroundColor('rgba(0,0,0,0)')
             .onNodeClick(this.handleNodeClick.bind(this))
@@ -360,6 +405,7 @@ class RegenMappingApp {
     generateGraphData() {
         const nodes = [];
         const links = [];
+        const processedRelationships = new Set();
 
         // Create main profile nodes
         Object.keys(this.profiles).forEach(profileId => {
@@ -385,13 +431,20 @@ class RegenMappingApp {
                 );
                 
                 if (targetProfileId) {
-                    links.push({
-                        source: profileId,
-                        target: targetProfileId,
-                        type: rel.type,
-                        description: rel.description,
-                        label: `${rel.type}: ${rel.description}`
-                    });
+                    // Create a unique key for this relationship to avoid duplicates
+                    const relationshipKey = [profileId, targetProfileId].sort().join('-');
+                    
+                    if (!processedRelationships.has(relationshipKey)) {
+                        processedRelationships.add(relationshipKey);
+                        
+                        links.push({
+                            source: profileId,
+                            target: targetProfileId,
+                            type: rel.type,
+                            description: rel.description,
+                            label: `${rel.type}: ${rel.description}`
+                        });
+                    }
                 }
             });
         });
@@ -609,6 +662,16 @@ class RegenMappingApp {
             html += this.renderField('Coordinates', `${data.geolocation.lat}, ${data.geolocation.lon}`);
         }
 
+        if (data.relationships && data.relationships.length > 0) {
+            const relationshipsHtml = data.relationships.map(rel => 
+                `<div class="relationship-item">
+                    <strong>${rel.type}</strong>: <a href="${rel.target_url}" target="_blank">${rel.target}</a>
+                    <br><em>${rel.description}</em>
+                </div>`
+            ).join('');
+            html += this.renderField('Relationships', relationshipsHtml);
+        }
+
         return html;
     }
 
@@ -629,6 +692,16 @@ class RegenMappingApp {
         
         if (data['@type']) {
             html += this.renderField('Type', Array.isArray(data['@type']) ? data['@type'].join(', ') : data['@type']);
+        }
+
+        if (data['regen:relationships'] && data['regen:relationships'].length > 0) {
+            const relationshipsHtml = data['regen:relationships'].map(rel => 
+                `<div class="relationship-item">
+                    <strong>${rel.type}</strong>: <a href="${rel.target_url}" target="_blank">${rel.target}</a>
+                    <br><em>${rel.description}</em>
+                </div>`
+            ).join('');
+            html += this.renderField('Relationships', relationshipsHtml);
         }
 
         return html;
