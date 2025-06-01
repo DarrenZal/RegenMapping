@@ -787,6 +787,11 @@ class RegenMappingApp {
     }
 
     renderProfileSource(profileName) {
+        // Handle undefined or null profile names
+        if (!profileName) {
+            return this.renderField('Profile Source', 'Source information not available');
+        }
+        
         // Generate GitHub URL based on profile name
         const profileId = this.generateProfileId(profileName);
         let githubUrl;
