@@ -70,8 +70,14 @@ async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
     
     // Apply the transformation lens using ONLY Cambria operations
     console.log('🔄 Applying pure Cambria transformation...');
+    console.log('📋 Lens operations:', JSON.stringify(transformationLens, null, 2));
+    console.log('📋 Input profile keys:', Object.keys(inputProfile));
+    console.log('📋 Input relationships:', JSON.stringify(inputProfile.relationships, null, 2));
+    
     const murmurationsProfile = applyLensToDoc(transformationLens, inputProfile, inputSchema);
     
+    console.log('📋 Output profile keys:', Object.keys(murmurationsProfile));
+    console.log('📋 Output relationships:', JSON.stringify(murmurationsProfile.relationships, null, 2));
     console.log('✅ Pure Cambria conversion completed');
     return murmurationsProfile;
   } catch (error) {

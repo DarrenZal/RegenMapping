@@ -5,7 +5,7 @@ class RegenMappingApp {
     constructor() {
         this.graph = null;
         this.currentProfile = null;
-        this.currentSchema = 'unified';
+        this.currentSchema = 'murmurations';
         this.expandedNode = null;
         this.profiles = {};
         this.schemaNodes = [];
@@ -18,8 +18,8 @@ class RegenMappingApp {
 
     async init() {
         try {
-            // Initialize Cambria lenses first
-            console.log('🎯 Initializing Cambria lenses...');
+            // Note: Cambria lens initialization is optional since we're using pre-converted profiles
+            console.log('🎯 Initializing app with pre-converted profiles...');
             this.cambriaReady = await this.cambria.initializeLenses();
             
             await this.loadProfiles();
@@ -64,13 +64,11 @@ class RegenMappingApp {
         const ourProfileUrls = [
             'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-dylan-tull.json',
             'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json',
-            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json',
-            // Also include the old URLs in case they're still indexed
-            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dylan-tull.json',
-            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/person-dr-karen-obrien.json',
-            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/murmurations-profiles/org-global-regenerative-cooperative.json'
+            'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-org-global-regenerative-coop.json'
         ];
 
+        let foundProfiles = 0;
+        
         for (const queryUrl of queries) {
             try {
                 console.log(`🔍 Querying: ${queryUrl}`);
@@ -86,6 +84,7 @@ class RegenMappingApp {
                         );
                         
                         console.log(`📊 Found ${ourProfiles.length} of our profiles`);
+                        foundProfiles += ourProfiles.length;
                         
                         // Load our filtered profiles
                         for (const node of ourProfiles) {
@@ -99,12 +98,22 @@ class RegenMappingApp {
                                     // Skip if we already have this profile
                                     if (this.profiles[id]) continue;
                                     
+                                    // Load pre-converted profiles instead of doing conversion
+                                    const unifiedProfile = await this.loadPreConvertedProfile(profile.name, 'unified');
+                                    const schemaOrgProfile = await this.loadPreConvertedProfile(profile.name, 'schemaorg');
+                                    
                                     this.profiles[id] = {
                                         murmurations: profile,
-                                        unified: await this.convertToUnified(profile),
-                                        schemaorg: await this.convertToSchemaOrg(profile)
+                                        unified: unifiedProfile,
+                                        schemaorg: schemaOrgProfile
                                     };
+                                    
                                     console.log(`✅ Loaded from Murmurations: ${profile.name}`);
+                                    console.log(`📊 Profile formats loaded:`, {
+                                        murm_name: profile.name,
+                                        unified_name: unifiedProfile?.name,
+                                        schemaorg_name: schemaOrgProfile?.name
+                                    });
                                 }
                             } catch (profileError) {
                                 console.warn(`Failed to load individual profile:`, profileError);
@@ -117,7 +126,11 @@ class RegenMappingApp {
             }
         }
         
-        console.log(`🎉 Total profiles loaded: ${Object.keys(this.profiles).length}`);
+        if (foundProfiles > 0) {
+            this.showSuccessMessage(`🎉 Successfully received ${foundProfiles} profiles from Murmurations index!`);
+        }
+        
+        console.log(`🎉 Total profiles loaded from Murmurations index: ${Object.keys(this.profiles).length}`);
     }
 
     async loadFromGitHub() {
@@ -134,12 +147,23 @@ class RegenMappingApp {
                 if (response.ok) {
                     const profile = await response.json();
                     const id = this.extractProfileId(url);
+                    
+                    // Load pre-converted profiles instead of doing conversion
+                    const unifiedProfile = await this.loadPreConvertedProfile(profile.name, 'unified');
+                    const schemaOrgProfile = await this.loadPreConvertedProfile(profile.name, 'schemaorg');
+                    
                     this.profiles[id] = {
                         murmurations: profile,
-                        unified: await this.convertToUnified(profile),
-                        schemaorg: await this.convertToSchemaOrg(profile)
+                        unified: unifiedProfile,
+                        schemaorg: schemaOrgProfile
                     };
+                    
                     console.log(`✅ Loaded from GitHub: ${profile.name}`);
+                    console.log(`📊 Profile formats loaded:`, {
+                        murm_name: profile.name,
+                        unified_name: unifiedProfile?.name,
+                        schemaorg_name: schemaOrgProfile?.name
+                    });
                 }
             } catch (error) {
                 console.warn(`Failed to load profile from ${url}:`, error);
@@ -155,65 +179,90 @@ class RegenMappingApp {
         return url.split('/').pop().replace('.json', '');
     }
 
-    async convertToUnified(murmProfile) {
-        if (!this.cambriaReady) {
-            throw new Error('Cambria lenses not loaded - cannot convert to unified format');
+    /**
+     * Load pre-converted profile from the profiles directory
+     */
+    async loadPreConvertedProfile(profileName, format) {
+        try {
+            const baseUrl = 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles';
+            
+            // Map profile names to file patterns
+            const nameToFile = {
+                'Dylan Tull': 'dylan-tull',
+                'Dr. Karen O\'Brien': 'karen-obrien',
+                'Global Regenerative Cooperative': 'global-regenerative-coop'
+            };
+            
+            const fileBase = nameToFile[profileName];
+            if (!fileBase) {
+                console.warn(`No file mapping found for profile: ${profileName}`);
+                return null;
+            }
+            
+            // Determine profile type and construct URL
+            let profileUrl;
+            if (format === 'unified') {
+                const profileType = profileName === 'Global Regenerative Cooperative' ? 'org' : 'person';
+                profileUrl = `${baseUrl}/unified/regen-${profileType}-${fileBase}.jsonld`;
+            } else if (format === 'schemaorg') {
+                const profileType = profileName === 'Global Regenerative Cooperative' ? 'org' : 'person';
+                profileUrl = `${baseUrl}/schemaorg/schemaorg-${profileType}-${fileBase}.json`;
+            } else {
+                console.warn(`Unsupported format: ${format}`);
+                return null;
+            }
+            
+            console.log(`📥 Loading ${format} profile: ${profileUrl}`);
+            const response = await fetch(profileUrl);
+            
+            if (response.ok) {
+                const profile = await response.json();
+                console.log(`✅ Loaded ${format} profile for ${profileName}`);
+                return profile;
+            } else {
+                console.warn(`Failed to load ${format} profile for ${profileName}: ${response.status}`);
+                return null;
+            }
+        } catch (error) {
+            console.warn(`Error loading ${format} profile for ${profileName}:`, error);
+            return null;
         }
-        
-        console.log('🎯 Using Cambria for Murmurations → Unified conversion');
-        return await this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
     }
 
-    async convertToSchemaOrg(murmProfile) {
-        if (!this.cambriaReady) {
-            throw new Error('Cambria lenses not loaded - cannot convert to Schema.org format');
-        }
+    /**
+     * Show temporary success message
+     */
+    showSuccessMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'success-message';
+        messageDiv.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2ecc71;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 9999;
+                font-weight: 500;
+                max-width: 400px;
+            ">
+                ${message}
+            </div>
+        `;
         
-        try {
-            console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
-            
-            // Try direct conversion first
-            const directResult = await this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
-            if (directResult && directResult.name) {
-                return directResult;
-            }
-            
-            console.log('🔄 Direct conversion failed, trying via unified format');
-            
-            // Fallback: Convert via unified format (Murmurations → Unified → Schema.org)
-            const unifiedProfile = await this.convertToUnified(murmProfile);
-            if (unifiedProfile && unifiedProfile.name) {
-                const schemaOrgResult = await this.cambria.convertSchema(unifiedProfile, 'unified', 'schemaorg');
-                console.log('🔍 Schema.org conversion result:', schemaOrgResult);
-                
-                // Check if the result actually has the expected Schema.org structure
-                if (schemaOrgResult && schemaOrgResult.name && !schemaOrgResult.linked_schemas) {
-                    return schemaOrgResult;
-                } else {
-                    console.log('⚠️ Lens conversion returned unified-like data, forcing manual fallback');
-                    throw new Error('Lens conversion failed - result still has unified schema fields');
-                }
-            }
-            
-            throw new Error('Both direct and via-unified conversion failed');
-            
-        } catch (error) {
-            console.error('Schema.org conversion failed:', error);
-            
-            // Final fallback: Create a basic Schema.org profile manually
-            const isOrganization = murmProfile.linked_schemas && 
-                murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
-            
-            return {
-                "@context": "https://schema.org/",
-                "@type": isOrganization ? "Organization" : "Person",
-                "name": murmProfile.name || 'Unknown',
-                "url": murmProfile.primary_url,
-                "knowsAbout": murmProfile.tags,
-                "source_url": murmProfile.source_url
-            };
-        }
+        document.body.appendChild(messageDiv);
+        
+        // Remove message after 4 seconds
+        setTimeout(() => {
+            document.body.removeChild(messageDiv);
+        }, 4000);
     }
+
+    // Note: Conversion functions removed - now using pre-converted profiles from /profiles directory
+    // This provides faster loading and avoids browser compatibility issues with complex Cambria lenses
 
 
 
@@ -380,8 +429,8 @@ class RegenMappingApp {
         
         this.expandedNode = node.id;
         
-        // Set the default active schema to unified
-        this.activeSchemaNode = `${node.id}-unified`;
+        // Set the default active schema to murmurations
+        this.activeSchemaNode = `${node.id}-murmurations`;
         
         // Create schema nodes around the main node
         const schemaTypes = ['murmurations', 'unified', 'schemaorg'];
@@ -672,6 +721,31 @@ class RegenMappingApp {
             html += this.renderField('Email', `<a href="mailto:${data.email}">${data.email}</a>`);
         }
         
+        // Show extension fields with regen: namespace from unified→schemaorg conversion
+        if (data['regen:headline']) {
+            html += this.renderField('Headline', data['regen:headline']);
+        }
+        
+        if (data['regen:currentTitle']) {
+            html += this.renderField('Current Title', data['regen:currentTitle']);
+        }
+        
+        if (data['regen:tags'] && data['regen:tags'].length > 0) {
+            html += this.renderField('Tags', data['regen:tags'].join(', '));
+        }
+        
+        if (data['regen:domainTags'] && data['regen:domainTags'].length > 0) {
+            html += this.renderField('Domain Tags', data['regen:domainTags'].join(', '));
+        }
+        
+        if (data['regen:methodTags'] && data['regen:methodTags'].length > 0) {
+            html += this.renderField('Method Tags', data['regen:methodTags'].join(', '));
+        }
+        
+        if (data['regen:skills'] && data['regen:skills'].length > 0) {
+            html += this.renderField('Skills', data['regen:skills'].join(', '));
+        }
+        
         // Organization-specific fields
         if (data.legalName) {
             html += this.renderField('Legal Name', data.legalName);
@@ -690,14 +764,27 @@ class RegenMappingApp {
             html += this.renderField('Knows About', Array.isArray(data.knowsAbout) ? data.knowsAbout.join(', ') : data.knowsAbout);
         }
         
-        // Handle both homeLocation (Person) and location (Organization)
+        // Handle both structured (homeLocation/location) and flat (addressLocality) location fields
         const locationData = data.homeLocation || data.location;
+        let locationStr = '';
+        
         if (locationData) {
-            const locationStr = [
+            // Structured location object
+            locationStr = [
                 locationData.addressLocality,
                 locationData.addressRegion,
                 locationData.addressCountry
             ].filter(Boolean).join(', ');
+        } else {
+            // Flat location fields from lens conversion
+            locationStr = [
+                data.addressLocality,
+                data.addressRegion,
+                data.addressCountry
+            ].filter(Boolean).join(', ');
+        }
+        
+        if (locationStr) {
             const locationLabel = data['@type'] === 'Organization' ? 'Location' : 'Home Location';
             html += this.renderField(locationLabel, locationStr);
         }
