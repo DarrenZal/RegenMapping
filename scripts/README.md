@@ -26,8 +26,8 @@ node scripts/upload-schemas.js
 
 **Note:** Custom schemas must be submitted to Murmurations production library via GitHub, not uploaded via API.
 
-### 2. `patch-cambria-json-schema.js`
-Patches the Cambria library to fix array handling issues.
+### 2. `patch-cambria-json-schema.js` (DEPRECATED)
+Patches the Cambria library to fix array handling issues. This script is no longer needed as the fixes have been permanently integrated into the Cambria library fork.
 
 ```bash
 node scripts/patch-cambria-json-schema.js
@@ -39,8 +39,8 @@ node scripts/patch-cambria-json-schema.js
 - Fixes "Cannot read properties of null (reading 'type')" errors
 - Applies the patch to the local Cambria fork
 
-### 3. `patch-to-json-schema-helpers.js`
-Patches the to-json-schema library used by Cambria to fix array handling.
+### 3. `patch-to-json-schema-helpers.js` (DEPRECATED)
+Patches the to-json-schema library used by Cambria to fix array handling. This script is no longer needed as the fixes have been permanently integrated into the Cambria library fork.
 
 ```bash
 node scripts/patch-to-json-schema-helpers.js
@@ -52,8 +52,8 @@ node scripts/patch-to-json-schema-helpers.js
 - Fixes array handling issues in schema generation
 - Applies the patch to the local node_modules
 
-### 4. `push-cambria-patch-to-github.js`
-Pushes the Cambria patch to the GitHub fork.
+### 4. `push-cambria-patch-to-github.js` (DEPRECATED)
+Pushes the Cambria patch to the GitHub fork. This script is no longer needed as the fixes have been permanently integrated into the Cambria library fork.
 
 ```bash
 node scripts/push-cambria-patch-to-github.js
