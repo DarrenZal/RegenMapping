@@ -6,12 +6,71 @@
     "murm": "https://murmurations.network/schemas/",
     "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
     "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#"
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    
+    "Person": "schema:Person",
+    "id": "@id",
+    "type": "@type",
+    
+    "latitude": {"@id": "geo:lat", "@type": "xsd:decimal"},
+    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"},
+    
+    "displayHandle": "regen:displayHandle",
+    "headline": "regen:headline",
+    "currentTitle": "regen:currentTitle",
+    "currentOrgId": "regen:currentOrgId",
+    "timeZone": "regen:timeZone",
+    "birthYear": "regen:birthYear",
+    "citizenship": "regen:citizenship",
+    "workHistory": {"@id": "regen:workHistory", "@container": "@set"},
+    "education": {"@id": "regen:education", "@container": "@set"},
+    "certifications": {"@id": "regen:certifications", "@container": "@set"},
+    "skills": {"@id": "regen:skills", "@container": "@set"},
+    "languages": {"@id": "regen:languages", "@container": "@set"},
+    "followersX": "regen:followersX",
+    "followersLinkedIn": "regen:followersLinkedIn",
+    "newsletterSubs": "regen:newsletterSubs",
+    "hIndex": "regen:hIndex",
+    "listsOnX": "regen:listsOnX",
+    "twitterEngageRate": "regen:twitterEngageRate",
+    "pinnedTweets": {"@id": "regen:pinnedTweets", "@container": "@set"},
+    "topPosts": {"@id": "regen:topPosts", "@container": "@set"},
+    "publications": {"@id": "regen:publications", "@container": "@set"},
+    "repos": {"@id": "regen:repos", "@container": "@set"},
+    "speakingEvents": {"@id": "regen:speakingEvents", "@container": "@set"},
+    "groupsLinkedIn": {"@id": "regen:groupsLinkedIn", "@container": "@set"},
+    "fbGroups": {"@id": "regen:fbGroups", "@container": "@set"},
+    "daoMemberships": {"@id": "regen:daoMemberships", "@container": "@set"},
+    "emailHash": "regen:emailHash",
+    "publicEmail": "regen:publicEmail",
+    "dmLinks": {"@id": "regen:dmLinks", "@container": "@set"},
+    "blueCheckX": "regen:blueCheckX",
+    "credentialedLinkedIn": "regen:credentialedLinkedIn",
+    "humanIDProof": "regen:humanIDProof",
+    "bioregion": "regen:bioregion",
+    "pronouns": "regen:pronouns",
+    "domainTags": {"@id": "regen:domainTags", "@container": "@set"},
+    "methodTags": {"@id": "regen:methodTags", "@container": "@set"},
+    "theoryTags": {"@id": "regen:theoreticalFrameworks", "@container": "@set"},
+    "needs": {"@id": "regen:currentNeeds", "@container": "@set"},
+    "offers": {"@id": "regen:currentOffers", "@container": "@set"},
+    "relationships": {"@id": "murm:relationships", "@container": "@set"},
+    "tags": {"@id": "schema:keywords", "@container": "@set"},
+    "geolocation": "murm:geolocation",
+    "locality": "schema:addressLocality",
+    "region": "schema:addressRegion",
+    "country_name": "schema:addressCountry",
+    "linked_schemas": "murm:linked_schemas",
+    "primary_url": "murm:primary_url",
+    "lastUpdated": {"@id": "regen:lastUpdated", "@type": "xsd:dateTime"}
   },
   "@type": "Person",
   "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
   "schema:version": "1.0.0",
-  "linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"],
+  "linked_schemas": [
+    "people_schema-v0.1.0",
+    "regen-person-schema-v1.0.0"
+  ],
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
   "tags": [
@@ -60,8 +119,20 @@
     "Complexity Science",
     "Deep Adaptation"
   ],
-  "skills": ["Climate Research", "Transformative Adaptation", "Systems Thinking"],
-  "needs": ["Research funding", "Policy partnerships", "Community organizers"],
-  "offers": ["Research expertise", "Academic mentorship", "Knowledge synthesis"],
+  "skills": [
+    "Climate Research",
+    "Transformative Adaptation",
+    "Systems Thinking"
+  ],
+  "needs": [
+    "Research funding",
+    "Policy partnerships",
+    "Community organizers"
+  ],
+  "offers": [
+    "Research expertise",
+    "Academic mentorship",
+    "Knowledge synthesis"
+  ],
   "lastUpdated": "2025-05-30T12:00:00Z"
 }
