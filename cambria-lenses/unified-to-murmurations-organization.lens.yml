@@ -4,6 +4,7 @@
 schemaName: Organization
 
 lens:
+  # Note: profile_source field will be added dynamically by the lossless-conversion.js script
   # Basic field mappings (already in the right format)
   - rename:
       source: "name"

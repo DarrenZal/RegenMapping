@@ -14,6 +14,9 @@
     "convert-unified-to-murm": "node scripts/convert-schema.js unified-to-murm",
     "convert-profiles": "node scripts/convert-unified-to-murmurations.js",
     "update-and-publish": "node scripts/update-and-publish-profiles.js",
+    "lossless-convert": "node scripts/lossless-conversion.js convert-all",
+    "test-roundtrip": "node scripts/lossless-conversion.js test-roundtrip",
+    "test-lossless": "node scripts/test-lossless-conversion.js",
     "serve": "cd docs && python3 -m http.server 8080",
     "build": "echo 'Website files are ready in docs/ directory for GitHub Pages'",
     "deploy": "echo 'Push to GitHub to deploy via GitHub Pages'",
@@ -40,6 +43,7 @@
     "test": "scripts"
   },
   "dependencies": {
-    "cambria": "github:DarrenZal/cambria-project#fix/array-handling-20250601"
+    "cambria": "github:DarrenZal/cambria-project#fix/array-handling-20250601",
+    "node-fetch": "^2.6.9"
   }
 }

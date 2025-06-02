@@ -112,13 +112,47 @@ node scripts/test-queries.js
 Combines all the steps needed to update and publish profiles.
 
 ```bash
-node scripts/update-and-publish-profiles.js
+npm run update-and-publish
 ```
 
 **What it does:**
 - Runs `convert-unified-to-murmurations.js` to convert unified profiles to Murmurations format
 - Runs `upload-profiles-new.js` to validate and submit profiles to Murmurations
 - Runs `test-queries.js` to verify that profiles are discoverable
+
+### 6. `lossless-conversion.js`
+Provides utilities for lossless round-trip conversion between unified schema profiles and Murmurations profiles using JSON-LD @reverse links.
+
+```bash
+# Convert all unified profiles to Murmurations format with @reverse links
+npm run lossless-convert
+
+# Test round-trip conversion for a specific profile
+npm run test-roundtrip profiles/unified/regen-person-dylan-tull.jsonld
+
+# Run comprehensive tests for the lossless conversion
+npm run test-lossless
+```
+
+**What it does:**
+- Converts unified profiles to Murmurations format with JSON-LD `@reverse` links
+- Adds a JSON-LD `@id` field to identify the Murmurations profile
+- Adds a JSON-LD `@reverse` link with `schema:isBasedOn` pointing to the original unified profile
+- Maintains the `profile_source` field for backward compatibility
+- When converting back from Murmurations to unified, checks for both the `@reverse` link and `profile_source` field
+- Fetches the original unified profile if either exists
+- Provides a complete lossless round-trip conversion solution
+- Handles both person and organization profiles
+- Includes testing utilities to verify lossless conversion
+
+**Key features:**
+- **Lossless Conversion**: No data is lost in the round-trip conversion
+- **Semantic Web Compatible**: Uses JSON-LD `@reverse` links to express relationships between profiles
+- **Backward Compatibility**: Maintains the `profile_source` field for compatibility with existing tooling
+- **Hybrid Approach**: Uses both Cambria lenses and linked schema URIs
+- **Automatic Fallback**: Falls back to lens transformation if fetching fails
+- **Slugified URLs**: Automatically generates correct GitHub URLs for profiles
+- **Standards-Based**: Follows JSON-LD and semantic web best practices for linking resources
 
 ## 🚀 Complete Integration Workflow
 
@@ -164,27 +198,49 @@ const GITHUB_BRANCH = 'main';
 
 ## 📊 Integration Strategy
 
-### The `linked_schemas` Approach
+### The Lossless Conversion Approach
 
-Our integration uses Murmurations' `linked_schemas` property to ensure profiles are discoverable through multiple schema queries:
+Our integration now uses a hybrid Lens + JSON-LD @reverse link approach for lossless round-trip conversion:
 
 ```json
 {
   "linked_schemas": [
-    "people_schema-v0.1.0",           // Base Murmurations schema
-    "regen-person-schema-v1.0.0"     // Our unified schema (when available)
+    "people_schema-v0.1.0"           // Base Murmurations schema
   ],
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
-  // ... rich profile data
+  "@id": "https://murmurations.network/profile/karen-obrien",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld",
+  // ... other Murmurations fields
 }
 ```
 
+**How it works:**
+1. **Unified → Murmurations**: 
+   - Convert using Cambria lens
+   - Add JSON-LD `@id` field to identify the Murmurations profile
+   - Add JSON-LD `@reverse` link with `schema:isBasedOn` pointing to the original unified profile
+   - Add `profile_source` field for backward compatibility
+
+2. **Murmurations → Unified**: 
+   - First, check for the `@reverse` link with `schema:isBasedOn`
+   - If not found, check for the `profile_source` field
+   - Fetch original profile using the URL from either source
+   - If fetch fails, use Cambria lens transformation as fallback
+
 **Benefits:**
-- **Backward Compatibility**: Works with existing Murmurations tooling
-- **Enhanced Discovery**: Rich profiles discoverable through standard queries
+- **Truly Lossless**: No data is lost in the round-trip conversion
+- **Semantic Web Compatible**: Uses JSON-LD `@reverse` links to express relationships between profiles
+- **Backward Compatibility**: Maintains the `profile_source` field for compatibility with existing tooling
+- **Enhanced Discovery**: Profiles discoverable through standard queries and semantic web tools
 - **Schema Evolution**: Ability to extend base schemas while maintaining compatibility
 - **Network Effects**: Participation in broader regenerative discovery network
+- **Standards-Based**: Follows JSON-LD and semantic web best practices for linking resources
 
 ### Profile Hosting via GitHub
 
@@ -247,5 +303,7 @@ The integration is successful when:
 - ✅ Profiles are submitted to test index without errors
 - ✅ Profiles appear in schema-based queries within 15 minutes
 - ✅ Rich profile data is preserved while maintaining discoverability
+- ✅ Round-trip conversion is lossless (original unified profile is recovered)
+- ✅ Fallback mechanism works when profile_source URL is unavailable
 
 This integration enables the Regen Mapping project to participate in the broader Murmurations ecosystem while maintaining the rich, detailed profile structure needed for network visualization and analysis.

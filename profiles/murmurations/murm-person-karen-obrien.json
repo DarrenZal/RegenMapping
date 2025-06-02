@@ -53,5 +53,12 @@
   "current_org_id": "University of Oslo",
   "display_handle": "@karenobrien",
   "pronouns": "she/her",
-  "last_updated": "2025-05-30T12:00:00Z"
+  "last_updated": "2025-05-30T12:00:00Z",
+  "@id": "https://murmurations.network/profile/dr-karen-o-brien",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld"
 }

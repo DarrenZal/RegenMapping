@@ -154,12 +154,63 @@ class CambriaBrowser {
     }
 
     /**
+     * Fetch a profile from a URL
+     */
+    async fetchProfile(url) {
+        try {
+            console.log(`🔍 Fetching profile from: ${url}`);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch profile: ${response.status} ${response.statusText}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`❌ Error fetching profile: ${error.message}`);
+            return null;
+        }
+    }
+
+    /**
      * Convert between schema formats using loaded lenses
      */
-    convertSchema(data, fromFormat, toFormat) {
+    async convertSchema(data, fromFormat, toFormat) {
         try {
             if (fromFormat === 'murmurations' && toFormat === 'unified') {
+                // Check if the profile has a JSON-LD @reverse link or profile_source field
+                let sourceUrl = null;
+                
+                // First check for @reverse link (preferred method)
+                if (data['@reverse'] && data['@reverse']['schema:isBasedOn'] && data['@reverse']['schema:isBasedOn']['@id']) {
+                    sourceUrl = data['@reverse']['schema:isBasedOn']['@id'];
+                    console.log(`🔄 Found @reverse link: ${sourceUrl}`);
+                } 
+                // Fall back to profile_source field (backward compatibility)
+                else if (data.profile_source) {
+                    sourceUrl = data.profile_source;
+                    console.log(`🔄 Found profile_source: ${sourceUrl}`);
+                }
+                
+                // If we found a source URL, try to fetch the original profile
+                if (sourceUrl) {
+                    try {
+                        // Attempt to fetch the original unified profile
+                        const originalProfile = await this.fetchProfile(sourceUrl);
+                        
+                        if (originalProfile) {
+                            console.log('✅ Successfully fetched original unified profile');
+                            return originalProfile;
+                        } else {
+                            console.warn('⚠️ Failed to fetch original profile, falling back to lens transformation');
+                        }
+                    } catch (fetchError) {
+                        console.warn(`⚠️ Error fetching original profile: ${fetchError.message}`);
+                        console.warn('⚠️ Falling back to lens transformation');
+                    }
+                }
+                
+                // If no profile_source or fetching failed, use lens transformation
                 if (this.lenses.murmToUnified) {
+                    console.log('🔄 Using lens transformation for Murmurations → Unified conversion');
                     let result = this.applyLensToDoc(this.lenses.murmToUnified, data);
                     
                     // Add required context and type information
@@ -182,6 +233,11 @@ class CambriaBrowser {
                     // Preserve the name property
                     result.name = data.name;
                     
+                    // Map primary_url to murm:primary_url
+                    if (data.primary_url) {
+                        result['murm:primary_url'] = data.primary_url;
+                    }
+                    
                     // Add location information
                     if (data.locality) {
                         const locationKey = isOrganization ? 'schema:location' : 'schema:homeLocation';
@@ -202,6 +258,31 @@ class CambriaBrowser {
                     if (data.relationships) {
                         result['regen:relationships'] = data.relationships;
                     }
+                    
+                    // Map other fields that might be present
+                    if (isOrganization) {
+                        // Organization-specific fields
+                        if (data.mission) result.mission = data.mission;
+                        if (data.tagline) result.tagline = data.tagline;
+                        if (data.legal_type) result.legalType = data.legal_type;
+                        if (data.founded_year) result.foundedYear = data.founded_year;
+                        if (data.employee_range) result.employeeRange = data.employee_range;
+                        if (data.sdg_focus) result.sdgFocus = data.sdg_focus;
+                        if (data.key_activities) result.keyActivities = data.key_activities;
+                    } else {
+                        // Person-specific fields
+                        if (data.headline) result.headline = data.headline;
+                        if (data.current_title) result.currentTitle = data.current_title;
+                        if (data.current_org_id) result.currentOrgId = data.current_org_id;
+                        if (data.display_handle) result.displayHandle = data.display_handle;
+                        if (data.domain_tags) result.domainTags = data.domain_tags;
+                        if (data.method_tags) result.methodTags = data.method_tags;
+                        if (data.theory_tags) result.theoryTags = data.theory_tags;
+                        if (data.pronouns) result.pronouns = data.pronouns;
+                    }
+                    
+                    // Common fields
+                    if (data.last_updated) result.lastUpdated = data.last_updated;
                     
                     return result;
                 }

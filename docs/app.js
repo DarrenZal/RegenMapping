@@ -161,7 +161,7 @@ class RegenMappingApp {
         }
         
         console.log('🎯 Using Cambria for Murmurations → Unified conversion');
-        return this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
+        return await this.cambria.convertSchema(murmProfile, 'murmurations', 'unified');
     }
 
     async convertToSchemaOrg(murmProfile) {
@@ -170,7 +170,7 @@ class RegenMappingApp {
         }
         
         console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
-        return this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+        return await this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
     }
 
 

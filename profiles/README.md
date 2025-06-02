@@ -41,6 +41,30 @@ Murmurations profiles use the base Murmurations schemas:
 
 These profiles can be indexed in the Murmurations network and discovered through the Murmurations API.
 
+#### JSON-LD @reverse Links
+
+Murmurations profiles now include JSON-LD @reverse links to their source unified profiles:
+
+```json
+{
+  "name": "Dylan Tull",
+  "primary_url": "https://dylantull.com",
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+}
+```
+
+This approach:
+- Follows semantic web best practices for linking resources
+- Enables lossless round-trip conversion between formats
+- Maintains backward compatibility with the `profile_source` field
+- Provides a fallback mechanism when the original profile can't be fetched
+
 ### Unified Profiles
 
 Unified profiles use both the base Murmurations schemas and our extended Regen schemas:
@@ -63,17 +87,35 @@ The Cambria lenses in the `cambria-lenses/` directory can be used to convert bet
 
 ### Automated Conversion
 
-The project includes a script to automatically convert between formats:
+The project includes scripts to automatically convert between formats:
 
 ```bash
-# Convert unified profiles to Murmurations format
+# Standard conversion (without @reverse links)
 node scripts/convert-unified-to-murmurations.js
+
+# Lossless conversion with @reverse links
+node scripts/lossless-conversion.js convert-all
+
+# Test lossless round-trip conversion
+node scripts/test-lossless.js
 ```
 
-This script:
+#### Standard Conversion Script
+
+The `convert-unified-to-murmurations.js` script:
 1. Reads unified profiles from `profiles/unified/`
 2. Applies Cambria lenses to convert them to Murmurations format
 3. Adds required relationship properties
 4. Saves the converted profiles to `profiles/murmurations/`
 
-This allows you to maintain the unified profiles as the source of truth and automatically generate the Murmurations profiles for indexing.
+#### Lossless Conversion Script
+
+The `lossless-conversion.js` script:
+1. Reads unified profiles from `profiles/unified/`
+2. Applies Cambria lenses to convert them to Murmurations format
+3. Adds a JSON-LD `@id` field to identify the Murmurations profile
+4. Adds a JSON-LD `@reverse` link with `schema:isBasedOn` pointing to the original unified profile
+5. Adds a `profile_source` field for backward compatibility
+6. Saves the converted profiles to `profiles/murmurations/`
+
+This allows you to maintain the unified profiles as the source of truth and automatically generate the Murmurations profiles for indexing, while ensuring lossless round-trip conversion.

@@ -101,6 +101,13 @@ node scripts/test-cambria-transformations.js
 - ✅ Seamless conversion between Murmurations and Unified formats
 - ✅ Bidirectional transformations with data integrity preservation
 - ✅ Foundation for multi-schema ecosystem
+- ✅ Lossless round-trip conversion with JSON-LD @reverse links
+
+### Lossless Conversion Implementation
+- ✅ JSON-LD `@reverse` links for semantic referencing of original profiles
+- ✅ Hybrid approach combining Cambria lenses with linked schema URIs
+- ✅ Backward compatibility with `profile_source` field
+- ✅ Robust fallback mechanism for offline scenarios
 
 ### Developer Experience
 - ✅ Simple CLI interface for transformations
@@ -133,6 +140,35 @@ Murmurations JSON → Cambria Lens → Unified JSON-LD
      ← Reverse Cambria Lens ←  ←  ←  ←  ←  ←
 ```
 
+### Lossless Conversion with JSON-LD @reverse Links
+We've implemented a lossless conversion approach using JSON-LD @reverse links:
+
+```json
+{
+  "name": "Dylan Tull",
+  "primary_url": "https://dylantull.com",
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+}
+```
+
+This approach:
+1. Adds a JSON-LD `@id` field to identify the Murmurations profile
+2. Adds a JSON-LD `@reverse` link with `schema:isBasedOn` pointing to the original unified profile
+3. Maintains the `profile_source` field for backward compatibility
+4. Provides a fallback mechanism when the original profile can't be fetched
+
+When converting from Murmurations back to unified format, we:
+1. Check for the `@reverse` link with `schema:isBasedOn`
+2. If not found, check for the `profile_source` field
+3. Fetch the original unified profile if either exists
+4. Fall back to lens transformation if the fetch fails
+
 ## 🌐 Browser Implementation Details
 
 ### Custom Cambria Engine (`docs/cambria-browser.js`)
@@ -161,6 +197,9 @@ class CambriaBrowser {
 - **Interactive Navigation**: Click relationship links to navigate between profiles
 - **Visual Schema Flow**: Labeled lens connections show transformation paths
 - **Error Handling**: Graceful fallbacks with comprehensive logging
+- **JSON-LD @reverse Links**: Support for semantic web linking between profiles
+- **Lossless Conversion**: Preserves all data in round-trip conversions
+- **Fallback Mechanism**: Gracefully handles offline scenarios
 
 ### Website Integration (`docs/app.js`)
 - **Pure Cambria Dependency**: No fallback manual conversions
@@ -173,6 +212,9 @@ class CambriaBrowser {
 🎯 Initializing Cambria lenses...
 🎯 Cambria lenses loaded successfully!
 ✅ Loaded from GitHub: Dylan Tull
+🔄 Found @reverse link: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld
+🔍 Fetching profile from: https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld
+✅ Successfully fetched original unified profile
 🎯 Using Cambria for Murmurations → Unified conversion
 🎯 Using Cambria for Murmurations → Schema.org conversion
 🔄 Cambria Schema.org conversion result: {name: "Dylan Tull", ...}

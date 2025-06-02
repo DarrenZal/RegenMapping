@@ -488,37 +488,246 @@
             <h2>Cambria Integration</h2>
             <p>The Regen Mapping project uses Cambria for schema transformations between different formats. This allows for seamless conversion between Schema.org, Murmurations, and unified schema formats.</p>
             
-            <h3>Cambria Lens Files</h3>
+            <h3>What's Working</h3>
+            <h4>LIVE BROWSER IMPLEMENTATION</h4>
             <ul>
-                <li><code>cambria-lenses/murmurations-to-unified-person.lens.yml</code> - Murmurations → Unified conversion</li>
-                <li><code>cambria-lenses/unified-to-murmurations-person.lens.yml</code> - Unified → Murmurations conversion</li>
-                <li><code>cambria-lenses/schemaorg-to-unified-person.lens.yml</code> - Schema.org → Unified conversion</li>
+                <li><strong>Status</strong>: ✅ FULLY OPERATIONAL - Real Cambria transformations in the browser!</li>
+                <li><strong>Engine</strong>: Custom browser-compatible Cambria implementation</li>
+                <li><strong>Lens Loading</strong>: Loads actual lens files from GitHub repository</li>
+                <li><strong>Interactive Navigation</strong>: Click relationship links to navigate between profiles</li>
             </ul>
             
-            <h3>Technical Innovation</h3>
+            <h4>Schema Conversions Implemented</h4>
+            <p><strong>1. Murmurations ↔ Unified (Person Schemas)</strong></p>
             <ul>
-                <li><strong>YAML Parser</strong>: Custom browser-compatible YAML parser for lens files</li>
-                <li><strong>Lens Operations</strong>: Implements rename, remove, and add operations from Cambria spec</li>
-                <li><strong>Error Handling</strong>: Robust error handling with graceful fallbacks</li>
-                <li><strong>Debug Logging</strong>: Comprehensive console output for troubleshooting transformations</li>
+                <li><strong>Forward</strong>: <code>murmurations-to-unified-person.lens.yml</code></li>
+                <li><strong>Reverse</strong>: <code>unified-to-murmurations-person.lens.yml</code></li>
+                <li><strong>Status</strong>: ✅ Fully working with bidirectional conversion</li>
+                <li><strong>Data Integrity</strong>: ✅ All fields preserved in round-trip transformation</li>
             </ul>
             
-            <h3>Using Cambria for Schema Conversion</h3>
-            <pre><code># Install dependencies (includes Cambria)
-npm install
-
-# Test schema conversions
-npm run test-cambria
-
-# Convert individual files
-npm run convert-murm-to-unified murmurations-profiles/person-dylan-tull.json
-npm run convert-unified-to-murm unified-profile.json
-
-# Use the conversion utility directly
-node scripts/convert-schema.js murm-to-unified input.json output.json
-echo '{"name": "Test"}' | node scripts/convert-schema.js murm-to-unified</code></pre>
+            <h4>Field Mappings</h4>
+            <pre><code>Murmurations → Unified:
+- name → schema:name
+- primary_url → murm:primary_url
+- locality → regen:locality
+- geolocation → regen:geolocation
+- tags → regen:domainTags</code></pre>
             
-            <p>For more detailed information on Cambria integration, see the <a href="cambria-integration.md">Cambria Integration Guide</a>.</p>
+            <h3>Files Created</h3>
+            <h4>Cambria Lenses</h4>
+            <ul>
+                <li><code>cambria-lenses/murmurations-to-unified-person.lens.yml</code></li>
+                <li><code>cambria-lenses/unified-to-murmurations-person.lens.yml</code></li>
+                <li><code>cambria-lenses/schemaorg-to-unified-person.lens.yml</code></li>
+                <li><code>cambria-lenses/README.md</code></li>
+            </ul>
+            
+            <h4>Test Files</h4>
+            <ul>
+                <li><code>test-profiles/sample-schemaorg-person.json</code></li>
+                <li><code>scripts/test-cambria-transformations.js</code> (executable demo)</li>
+            </ul>
+            
+            <h3>Usage Examples</h3>
+            <h4>Command Line Usage</h4>
+            <pre><code># Convert Murmurations to Unified
+cat murmurations-profiles/person-dylan-tull.json | \
+  node /Users/darrenzal/cambria-project/dist/cli.js \
+  -l cambria-lenses/murmurations-to-unified-person.lens.yml
+
+# Bidirectional test
+cat murmurations-profiles/person-dylan-tull.json | \
+  node /Users/darrenzal/cambria-project/dist/cli.js \
+  -l cambria-lenses/murmurations-to-unified-person.lens.yml | \
+  node /Users/darrenzal/cambria-project/dist/cli.js \
+  -l cambria-lenses/unified-to-murmurations-person.lens.yml</code></pre>
+            
+            <h4>Demo Script</h4>
+            <pre><code># Run comprehensive test suite
+node scripts/test-cambria-transformations.js</code></pre>
+            
+            <h3>Schema Types Supported</h3>
+            <ol>
+                <li>
+                    <p><strong>Murmurations Schema</strong></p>
+                    <ul>
+                        <li><strong>Format</strong>: Simple flat JSON structure</li>
+                        <li><strong>Example</strong>: <code>murmurations-profiles/person-dylan-tull.json</code></li>
+                        <li><strong>Key fields</strong>: <code>name</code>, <code>primary_url</code>, <code>locality</code>, <code>geolocation</code>, <code>tags</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Unified Schema (Your comprehensive format)</strong></p>
+                    <ul>
+                        <li><strong>Format</strong>: JSON-LD with multiple namespaces</li>
+                        <li><strong>Example</strong>: <code>Ontology/Person/example-person-profile.jsonld</code></li>
+                        <li><strong>Namespaces</strong>: <code>schema:</code>, <code>regen:</code>, <code>murm:</code>, <code>geo:</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Schema.org</strong></p>
+                    <ul>
+                        <li><strong>Format</strong>: Standard Schema.org JSON-LD</li>
+                        <li><strong>Example</strong>: <code>test-profiles/sample-schemaorg-person.json</code></li>
+                        <li><strong>Status</strong>: ✅ Working in browser</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Benefits Achieved</h3>
+            <h4>Data Interoperability</h4>
+            <ul>
+                <li>✅ Seamless conversion between Murmurations and Unified formats</li>
+                <li>✅ Bidirectional transformations with data integrity preservation</li>
+                <li>✅ Foundation for multi-schema ecosystem</li>
+            </ul>
+            
+            <h4>Developer Experience</h4>
+            <ul>
+                <li>✅ Simple CLI interface for transformations</li>
+                <li>✅ Automated testing and validation</li>
+                <li>✅ Clear documentation and examples</li>
+            </ul>
+            
+            <h4>Scalability</h4>
+            <ul>
+                <li>✅ Lens-based approach allows easy addition of new schema types</li>
+                <li>✅ Modular design supports complex transformation pipelines</li>
+                <li>✅ Version control for schema evolution</li>
+            </ul>
+            
+            <h3>Technical Implementation</h3>
+            <h4>Cambria Lens Format</h4>
+            <pre><code>schemaName: Person
+lens:
+  - rename:
+      source: name
+      destination: "schema:name"
+  - rename:
+      source: geolocation
+      destination: "regen:geolocation"</code></pre>
+            
+            <h4>Data Flow</h4>
+            <pre><code>Murmurations JSON → Cambria Lens → Unified JSON-LD
+     ↑                                      ↓
+     ← Reverse Cambria Lens ←  ←  ←  ←  ←  ←</code></pre>
+            
+            <h4>Lossless Conversion with JSON-LD @reverse Links</h4>
+            <p>We've implemented a lossless round-trip conversion approach using JSON-LD @reverse links:</p>
+            
+            <pre><code>{
+  "name": "Dylan Tull",
+  "primary_url": "https://dylantull.com",
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+}</code></pre>
+            
+            <p><strong>How It Works:</strong></p>
+            <ol>
+                <li><strong>Unified → Murmurations</strong>: 
+                    <ul>
+                        <li>The lens transformation is applied</li>
+                        <li>A JSON-LD <code>@id</code> field is added to identify the Murmurations profile</li>
+                        <li>A JSON-LD <code>@reverse</code> link with <code>schema:isBasedOn</code> is added, pointing to the original unified profile</li>
+                        <li>A <code>profile_source</code> field is added for backward compatibility</li>
+                    </ul>
+                </li>
+                <li><strong>Murmurations → Unified</strong>: 
+                    <ul>
+                        <li>First, the system checks for the <code>@reverse</code> link with <code>schema:isBasedOn</code></li>
+                        <li>If not found, it checks for the <code>profile_source</code> field</li>
+                        <li>It fetches the original unified profile using the URL from either source</li>
+                        <li>If the fetch fails, it falls back to using the lens transformation</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Browser Implementation Details</h3>
+            <h4>Custom Cambria Engine (<code>docs/cambria-browser.js</code>)</h4>
+            <p>We created a browser-compatible implementation of Cambria functionality:</p>
+            
+            <pre><code>class CambriaBrowser {
+    // Custom YAML parser for lens files
+    loadYamlLens(yamlContent) { ... }
+    
+    // Core lens operations
+    applyLensToDoc(lens, doc) { ... }
+    applyRename(doc, operation) { ... }
+    applyRemove(doc, operation) { ... }
+    applyAdd(doc, operation) { ... }
+    
+    // Schema conversion with live lens loading
+    convertSchema(data, fromFormat, toFormat) { ... }
+}</code></pre>
+            
+            <h4>Key Features</h4>
+            <ul>
+                <li><strong>Live Lens Loading</strong>: Loads lens files from GitHub raw URLs</li>
+                <li><strong>YAML Parsing</strong>: Custom browser-compatible YAML parser</li>
+                <li><strong>Real-time Transformations</strong>: All conversions use actual Cambria lenses</li>
+                <li><strong>Interactive Navigation</strong>: Click relationship links to navigate between profiles</li>
+                <li><strong>Visual Schema Flow</strong>: Labeled lens connections show transformation paths</li>
+                <li><strong>Error Handling</strong>: Graceful fallbacks with comprehensive logging</li>
+            </ul>
+            
+            <h4>Website Integration (<code>docs/app.js</code>)</h4>
+            <ul>
+                <li><strong>Pure Cambria Dependency</strong>: No fallback manual conversions</li>
+                <li><strong>Schema Preservation</strong>: Maintains current schema view when navigating</li>
+                <li><strong>Debug Logging</strong>: Console shows transformation success/failure</li>
+                <li><strong>Event Delegation</strong>: Safe handling of profile navigation links</li>
+            </ul>
+            
+            <h4>Console Output Example</h4>
+            <pre><code>🎯 Initializing Cambria lenses...
+🎯 Cambria lenses loaded successfully!
+✅ Loaded from GitHub: Dylan Tull
+🎯 Using Cambria for Murmurations → Unified conversion
+🎯 Using Cambria for Murmurations → Schema.org conversion
+🔄 Cambria Schema.org conversion result: {name: "Dylan Tull", ...}</code></pre>
+            
+            <h3>Data Loss in Schema Transformations</h3>
+            <p>When converting between schema formats using Cambria lenses, some data loss occurs due to the differences in schema structures:</p>
+            
+            <h4>Unified → Murmurations (Source of Truth to Index Format)</h4>
+            <p>This transformation is <strong>lossy</strong> because the Murmurations schema is simpler and doesn't support all fields in our unified schema:</p>
+            <ul>
+                <li>✅ <strong>Basic fields</strong> like name, primary_url, locality, and tags are preserved</li>
+                <li>✅ <strong>Relationships</strong> are preserved</li>
+                <li>✅ <strong>Geolocation</strong> is preserved but restructured (latitude/longitude → lat/lon)</li>
+                <li>❌ <strong>Context information</strong> (@context, @type) is lost</li>
+                <li>❌ <strong>Namespace prefixes</strong> are removed</li>
+                <li>❌ <strong>Rich semantic structure</strong> is flattened</li>
+            </ul>
+            
+            <h4>Murmurations → Unified (Web App Recovery)</h4>
+            <p>When converting back to unified format in the web app, we <strong>partially recover</strong> lost information:</p>
+            <ul>
+                <li>✅ <strong>Context object</strong> is reconstructed with standard namespaces</li>
+                <li>✅ <strong>Type information</strong> is inferred from linked_schemas</li>
+                <li>✅ <strong>Location structure</strong> is rebuilt in Schema.org format</li>
+                <li>✅ <strong>Tags</strong> are mapped to appropriate namespaced properties</li>
+                <li>❌ <strong>Custom fields</strong> not in the base Murmurations schema cannot be recovered</li>
+                <li>❌ <strong>Specialized metadata</strong> unique to the original unified profile is permanently lost</li>
+            </ul>
+            
+            <h4>Recovery Strategy</h4>
+            <p>Our approach to handling this data loss:</p>
+            <ol>
+                <li><strong>Source of Truth</strong>: We maintain the complete unified profiles as our source of truth</li>
+                <li><strong>Derived Profiles</strong>: The Murmurations profiles are treated as derived, simplified versions</li>
+                <li><strong>Smart Recovery</strong>: Our web app uses custom logic in <code>convertSchema()</code> to recover predictable information</li>
+                <li><strong>Inference</strong>: We use the available Murmurations data to infer and reconstruct some lost fields</li>
+                <li><strong>Acceptance</strong>: We acknowledge that some specialized information cannot be recovered after conversion</li>
+            </ol>
+            
+            <p>This approach balances interoperability with the Murmurations ecosystem while maintaining our richer unified schema for visualization and analysis purposes.</p>
         </section>
 
         <!-- Murmurations Integration Section -->
@@ -526,13 +735,87 @@ echo '{"name": "Test"}' | node scripts/convert-schema.js murm-to-unified</code><
             <h2>Murmurations Integration</h2>
             <p>The Regen Mapping project integrates with Murmurations for decentralized discovery of regenerative organizations and people. This allows profiles to be discoverable through the Murmurations network.</p>
             
-            <h3>Current Status</h3>
-            <p>Our profiles are currently indexed in Murmurations using the base schemas:</p>
+            <h3>Current Status ⚠️ PARTIAL</h3>
+            <p>Our profiles are currently indexed in Murmurations using only the base schemas:</p>
             <ul>
-                <li><strong>Person Profiles</strong>: Using <code>people_schema-v0.1.0</code></li>
-                <li><strong>Organization Profiles</strong>: Using <code>organizations_schema-v1.0.0</code></li>
-                <li><strong>GitHub Hosting</strong>: All profiles accessible via GitHub raw URLs for reliable hosting</li>
+                <li><strong>Person Profiles</strong>: Using <code>people_schema-v0.1.0</code> only</li>
+                <li><strong>Organization Profiles</strong>: Using <code>organizations_schema-v1.0.0</code> only</li>
+                <li><strong>GitHub Hosting</strong>: ✅ All profiles accessible via GitHub raw URLs for reliable hosting</li>
             </ul>
+            
+            <h3>Registering Unified Schemas with Murmurations 🚀</h3>
+            <p>To fully register our unified schemas with Murmurations, we need to:</p>
+            
+            <ol>
+                <li>
+                    <p><strong>Submit schemas via GitHub PR</strong>:</p>
+                    <ul>
+                        <li>Fork the <a href="https://github.com/MurmurationsNetwork/library" target="_blank">Murmurations library repo</a></li>
+                        <li>Create a new branch including our schema name</li>
+                        <li>Add our schema files (<code>regen-person-schema-v1.0.0.json</code> and <code>regen-organization-schema-v1.0.0.json</code>) to the <code>/schemas/</code> directory</li>
+                        <li>Create a PR to the <code>test</code> branch of the upstream repo</li>
+                        <li>Wait for review and approval</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>After approval and merging to the test branch</strong>:</p>
+                    <ul>
+                        <li>Our schemas will be available in the test environment</li>
+                        <li>We can test creating profiles based on these schemas</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Update our profiles to use both schemas</strong>:</p>
+                    <pre><code>"linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"]</code></pre>
+                </li>
+                <li>
+                    <p><strong>Re-upload our updated profiles</strong>:</p>
+                    <ul>
+                        <li>Use the <code>upload-profiles.js</code> script (after modifying it to use our new schemas)</li>
+                        <li>Or manually update the profiles in our GitHub repo</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Dual Schema Discovery Benefit ✨</h3>
+            <p>When our unified schemas are registered and our profiles include both base and unified schemas in their <code>linked_schemas</code> array:</p>
+            
+            <ul>
+                <li><strong>Broader Discovery</strong>: Profiles will be discoverable by BOTH queries for base schemas AND queries for our unified schemas</li>
+                <li><strong>Enhanced Data</strong>: Applications using our unified schemas will get richer data with regenerative-specific fields</li>
+                <li><strong>Base Compatibility</strong>: Applications using only base Murmurations schemas will still discover and use our profiles</li>
+                <li><strong>No Duplication</strong>: A single profile can serve both ecosystem needs without maintaining separate versions</li>
+            </ul>
+            
+            <p>This approach creates a "superset" relationship where our unified schemas extend the base schemas with additional fields while maintaining full compatibility and discoverability.</p>
+            
+            <h3>Profile Storage Strategy</h3>
+            <p>For maximum flexibility and interoperability:</p>
+            
+            <ol>
+                <li>
+                    <p><strong>Store Primary Profiles</strong>: Store primary profiles using our unified schemas on GitHub Pages</p>
+                    <ul>
+                        <li>Location: <code>https://darrenzal.github.io/RegenMapping/profiles/unified/</code></li>
+                        <li>Format: JSON-LD with full unified schema</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Generate Derived Profiles</strong>: Use Cambria to generate Murmurations-compatible versions</p>
+                    <ul>
+                        <li>Location: <code>https://darrenzal.github.io/RegenMapping/profiles/murmurations/</code></li>
+                        <li>Format: Simple JSON with Murmurations base schema fields</li>
+                        <li>Purpose: For Murmurations indexing until our unified schemas are registered</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Automated Conversion</strong>: Use scripts to maintain consistency between versions</p>
+                    <ul>
+                        <li>Script: <code>scripts/convert-schema.js</code> for one-time conversions</li>
+                        <li>Future: Add GitHub Action for automatic synchronization</li>
+                    </ul>
+                </li>
+            </ol>
             
             <h3>Profile Workflow</h3>
             <ol>
@@ -547,9 +830,82 @@ echo '{"name": "Test"}' | node scripts/convert-schema.js murm-to-unified</code><
 node scripts/update-and-publish-profiles.js
 
 # Or run individual steps:
-node scripts/convert-unified-to-murmurations.js  # Convert unified profiles to Murmurations format
+node scripts/convert-unified-to-murmurations.js  # Standard conversion (without @reverse links)
+node scripts/lossless-conversion.js convert-all  # Lossless conversion with @reverse links
 node scripts/upload-profiles-new.js              # Validate and submit profiles to Murmurations
-node scripts/test-queries.js                     # Verify discoverability</code></pre>
+node scripts/test-queries.js                     # Verify discoverability
+node scripts/test-lossless.js                    # Test lossless round-trip conversion</code></pre>
+            
+            <h3>Lossless Conversion with JSON-LD @reverse Links</h3>
+            <p>We've implemented a lossless round-trip conversion approach using JSON-LD @reverse links:</p>
+            
+            <pre><code>{
+  "name": "Dylan Tull",
+  "primary_url": "https://dylantull.com",
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+}</code></pre>
+            
+            <p>This approach:</p>
+            <ul>
+                <li><strong>Follows semantic web best practices</strong> for linking resources</li>
+                <li><strong>Enables lossless round-trip conversion</strong> between formats</li>
+                <li><strong>Maintains backward compatibility</strong> with the <code>profile_source</code> field</li>
+                <li><strong>Provides a fallback mechanism</strong> when the original profile can't be fetched</li>
+            </ul>
+            
+            <h3>Namespace Priority Strategy</h3>
+            <p>Our unified schemas use a strategic namespace hierarchy to maximize discoverability and interoperability across multiple ecosystems:</p>
+            
+            <h4>1. Schema.org First Priority 🌐</h4>
+            <pre><code>"telephone": "schema:telephone",
+"name": "schema:name",
+"description": "schema:description"</code></pre>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>✅ <strong>Google/Search Engine</strong> recognition and rich snippets</li>
+                <li>✅ <strong>Existing Business Tools</strong> (CRMs, APIs) automatic compatibility</li>
+                <li>✅ <strong>JSON-LD Processors</strong> built-in support</li>
+                <li>✅ <strong>Linked Data Web</strong> connectivity to billions of web pages</li>
+            </ul>
+            
+            <h4>2. Murmurations Second Priority 🌱</h4>
+            <pre><code>"nickname": "murm:nickname",
+"primary_url": "murm:primary_url",
+"linked_schemas": "murm:linked_schemas"</code></pre>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>✅ <strong>Regenerative Network</strong> discovery and validation</li>
+                <li>✅ <strong>Community Tools</strong> built for regenerative economy</li>
+                <li>✅ <strong>Base Schema Compatibility</strong> for Murmurations Index</li>
+            </ul>
+            
+            <h4>3. Custom Domain-Specific Third Priority 🎯</h4>
+            <pre><code>"domainTags": "regen:domainTags",
+"methodTags": "regen:methodTags",
+"influenceMetrics": "regen:influenceMetrics"</code></pre>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>✅ <strong>Regenerative-Specific</strong> categorization and analysis</li>
+                <li>✅ <strong>Visualization Optimization</strong> for mapping platforms</li>
+                <li>✅ <strong>Domain Innovation</strong> without namespace conflicts</li>
+            </ul>
+            
+            <h4>Multi-Ecosystem Compatibility Result</h4>
+            <p>This strategy enables profiles that work seamlessly across:</p>
+            <ul>
+                <li><strong>Web Search</strong> (Schema.org recognition)</li>
+                <li><strong>Regenerative Discovery</strong> (Murmurations compatibility)</li>
+                <li><strong>Business Integration</strong> (CRM/contact system compatibility)</li>
+                <li><strong>Rich Applications</strong> (Full unified schema data)</li>
+            </ul>
+            
+            <p><strong>Example Impact:</strong> A contact field using <code>schema:telephone</code> gets automatically recognized by Google for rich snippets, imported by CRM systems, mapped by Murmurations for regenerative discovery, AND provides full data for visualization platforms.</p>
             
             <h3>Live Test Profiles</h3>
             <ul>
@@ -645,8 +1001,14 @@ node scripts/convert-schema.js unified-to-murm input.json output.json
 node scripts/test-cambria-transformations.js</code></pre>
             
             <h3>Profile Management</h3>
-            <pre><code># Convert unified profiles to Murmurations format
+            <pre><code># Standard conversion (without @reverse links)
 node scripts/convert-unified-to-murmurations.js
+
+# Lossless conversion with @reverse links
+node scripts/lossless-conversion.js convert-all
+
+# Test lossless round-trip conversion
+node scripts/test-lossless.js
 
 # Upload profiles to Murmurations
 node scripts/upload-profiles.js

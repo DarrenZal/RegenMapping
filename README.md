@@ -249,13 +249,24 @@ node scripts/update-and-publish-profiles.js
 node scripts/convert-unified-to-murmurations.js  # Convert unified profiles to Murmurations format
 node scripts/upload-profiles-new.js              # Validate and submit profiles to Murmurations
 node scripts/test-queries.js                     # Verify discoverability
+node scripts/lossless-conversion.js convert-all  # Lossless conversion with @reverse links
+node scripts/test-lossless.js                    # Test lossless round-trip conversion
 ```
 
 **Profile Workflow:**
 1. Edit unified profiles in `profiles/unified/` (source of truth)
-2. Run the conversion script to generate Murmurations profiles
+2. Run the lossless conversion script to generate Murmurations profiles with @reverse links
 3. Submit the profiles to the Murmurations index
 4. Verify discoverability through the Murmurations API
+
+**Lossless Conversion with JSON-LD @reverse Links:**
+We've implemented a lossless conversion approach using JSON-LD @reverse links that:
+- Adds a JSON-LD `@id` field to identify the Murmurations profile
+- Adds a JSON-LD `@reverse` link with `schema:isBasedOn` pointing to the original unified profile
+- Maintains the `profile_source` field for backward compatibility
+- Provides a fallback mechanism when the original profile can't be fetched
+
+This approach follows semantic web best practices and ensures no data is lost in the round-trip conversion.
 
 **Live Test Profiles:**
 - **Dr. Karen O'Brien**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json)

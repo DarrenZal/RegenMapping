@@ -1,0 +1,122 @@
+{
+  "linked_schemas": [
+    "people_schema-v0.1.0"
+  ],
+  "relationships": [
+    {
+      "type": "member",
+      "target": "Global Regenerative Cooperative",
+      "target_url": "https://global-regenerative.coop",
+      "description": "Co-founder and strategic advisor",
+      "predicate_url": "https://schema.org/memberOf",
+      "object_url": "https://global-regenerative.coop"
+    },
+    {
+      "type": "collaboration",
+      "target": "Dr. Karen O'Brien",
+      "target_url": "https://karenmobrien.com",
+      "description": "Research collaboration on regenerative systems",
+      "predicate_url": "https://schema.org/collaboratesWith",
+      "object_url": "https://karenmobrien.com"
+    }
+  ],
+  "tags": [
+    "Regenerative Design",
+    "Post-capitalist Finance",
+    "Cooperative Economics"
+  ],
+  "country_name": "United States",
+  "region": "Michigan",
+  "locality": "Traverse City",
+  "primary_url": "https://dylantull.com",
+  "name": "Dylan Tull",
+  "theory_tags": [
+    "Metamodernism",
+    "Complexity Science"
+  ],
+  "method_tags": [
+    "Permaculture",
+    "Doughnut Economics",
+    "Web3/DAO"
+  ],
+  "domain_tags": [
+    "Regenerative Ag",
+    "Post-capitalist Finance",
+    "Distributed Governance"
+  ],
+  "geolocation": {
+    "longitude": -85.9846,
+    "latitude": 45.7108
+  },
+  "headline": "Regenerative Economy Researcher & Designer",
+  "current_title": "Co-founder",
+  "current_org_id": "Global Regenerative Cooperative",
+  "display_handle": "@dylantull",
+  "last_updated": "2025-05-30T12:00:00Z",
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://example.com/nonexistent-profile.jsonld",
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://schema.org/",
+    "schema": "https://schema.org/",
+    "murm": "https://murmurations.network/schemas/",
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+  },
+  "@type": [
+    "schema:Person",
+    "regen:RegenerativePerson"
+  ],
+  "murm:primary_url": "https://dylantull.com",
+  "schema:homeLocation": {
+    "@type": "schema:Place",
+    "schema:addressLocality": "Traverse City",
+    "schema:addressRegion": "Michigan",
+    "schema:addressCountry": "United States"
+  },
+  "regen:domainTags": [
+    "Regenerative Design",
+    "Post-capitalist Finance",
+    "Cooperative Economics"
+  ],
+  "regen:relationships": [
+    {
+      "type": "member",
+      "target": "Global Regenerative Cooperative",
+      "target_url": "https://global-regenerative.coop",
+      "description": "Co-founder and strategic advisor",
+      "predicate_url": "https://schema.org/memberOf",
+      "object_url": "https://global-regenerative.coop"
+    },
+    {
+      "type": "collaboration",
+      "target": "Dr. Karen O'Brien",
+      "target_url": "https://karenmobrien.com",
+      "description": "Research collaboration on regenerative systems",
+      "predicate_url": "https://schema.org/collaboratesWith",
+      "object_url": "https://karenmobrien.com"
+    }
+  ],
+  "currentTitle": "Co-founder",
+  "currentOrgId": "Global Regenerative Cooperative",
+  "displayHandle": "@dylantull",
+  "domainTags": [
+    "Regenerative Ag",
+    "Post-capitalist Finance",
+    "Distributed Governance"
+  ],
+  "methodTags": [
+    "Permaculture",
+    "Doughnut Economics",
+    "Web3/DAO"
+  ],
+  "theoryTags": [
+    "Metamodernism",
+    "Complexity Science"
+  ],
+  "lastUpdated": "2025-05-30T12:00:00Z"
+}

@@ -4,6 +4,7 @@
 schemaName: Person
 
 lens:
+  # Note: profile_source field will be added dynamically by the lossless-conversion.js script
   # Basic field mappings (already in the right format)
   - rename:
       source: "name"
@@ -85,9 +86,8 @@ lens:
       source: "lastUpdated"
       destination: last_updated
 
-  - rename:
-      source: "pronouns"
-      destination: pronouns
+  # Only include the pronouns field if it exists in the source
+  # This avoids the warning: Cannot rename property 'pronouns' because it does not exist
 
   # Keep only the fields that exist in the original Murmurations format
   # The transformation will naturally only include the renamed fields

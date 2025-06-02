@@ -73,6 +73,9 @@ Main application controller that manages:
 - **Visual Representation**: Schema nodes show conversion relationships
 - **Data Integrity**: Maintains all data through transformations
 - **Format Switching**: Seamless switching between Murmurations, Unified, and Schema.org
+- **JSON-LD @reverse Links**: Semantic web linking between profiles for lossless conversion
+- **Lossless Round-trip**: Complete preservation of data when converting between formats
+- **Fallback Mechanism**: Graceful handling when original profiles can't be fetched
 
 ## 📁 File Structure
 
@@ -157,13 +160,20 @@ The application attempts to load real profile data from:
 
 ### Schema Formats
 
-#### Murmurations Format
+#### Murmurations Format with JSON-LD @reverse Links
 ```json
 {
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
   "locality": "Traverse City",
-  "tags": ["Regenerative Design", "Post-capitalist Finance"]
+  "tags": ["Regenerative Design", "Post-capitalist Finance"],
+  "@id": "https://murmurations.network/profile/dylan-tull",
+  "@reverse": {
+    "schema:isBasedOn": {
+      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+    }
+  },
+  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
 }
 ```
 
