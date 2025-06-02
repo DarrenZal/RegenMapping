@@ -47,6 +47,7 @@ The unified organization schema combines the best elements from three different 
 | Geographic Scope | `schema:areaServed` | `geographic_scope` | `regionScope` | `murm:geographic_scope` | Operation scale |
 | Headquarters | `schema:address` | - | `headquarters` | `ex:headquarters` | Main office location |
 | Operating Regions | - | - | `operatingRegions[]` | `ex:operatingRegions[]` | Geographic presence |
+| Bioregion | - | - | - | `ex:bioregion` | Ecological region |
 
 ### Categorization & Discovery
 

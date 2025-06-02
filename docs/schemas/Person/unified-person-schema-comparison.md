@@ -51,6 +51,7 @@ The unified person schema combines the best elements from three different approa
 | Coordinates | - | `geolocation.lat/lon` | `hqLat`, `hqLon` | `geo:lat`, `geo:long` | Globe positioning |
 | Locality | `schema:addressLocality` | `locality` | `locality` | `schema:addressLocality` | Display name |
 | Country | `schema:addressCountry` | `country_name`, `country_iso_3166` | - | `schema:addressCountry` | Geographic context |
+| Bioregion | - | - | - | `regen:bioregion` | Ecological region |
 
 ### Regenerative Focus (Unique to Dylan/Unified)
 

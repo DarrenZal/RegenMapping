@@ -34,6 +34,7 @@ This guide provides mapping tables and transformation rules for converting betwe
 | countryCode | - | country_iso_3166 | - |
 | geographicScope | - | geographic_scope | regionScope |
 | areaServed | areaServed | - | - |
+| bioregion | - | - | - |
 | relationships | - | relationships | - |
 | memberOf | memberOf | - | - |
 | parentOrganization | parentOrganization | - | parentOrgId |
@@ -149,6 +150,7 @@ function murmurationsToUnified(murmData) {
     telephone: murmData.telephone,
     contactDetails: murmData.contact_details,
     geographicScope: murmData.geographic_scope,
+    bioregion: murmData.bioregion,
     
     // Timestamp conversions
     startsAt: murmData.starts_at,
@@ -202,6 +204,7 @@ function schemaOrgToUnified(schemaData) {
     contactPoint: schemaData.contactPoint,
     knowsAbout: schemaData.knowsAbout,
     skills: schemaData.skills,
+    bioregion: schemaData.bioregion,
     
     // Derived fields
     primaryUrl: schemaData.url,
@@ -287,6 +290,7 @@ function dylansToUnified(dylansData) {
     socialApproach: dylansData.socialApproach,
     environmentalApproach: dylansData.environmentalApproach,
     economicApproach: dylansData.economicApproach,
+    bioregion: dylansData.bioregion,
     
     // Geolocation conversion
     geolocation: {

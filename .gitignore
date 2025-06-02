@@ -36,3 +36,6 @@ build/
 # Generated files
 index.js
 index.js.map
+
+# Subprojects
+cambria-project/

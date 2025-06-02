@@ -1,91 +1,68 @@
-# Cambria lens to convert from Unified Organization schema back to Murmurations Organization schema
-# This lens transforms the comprehensive unified format back to the simple Murmurations format
+# Safe Cambria lens for unified-to-murmurations organization conversion
+# Uses only reliable operations that preserve data
 
 schemaName: Organization
 
 lens:
-  # Note: profile_source field will be added dynamically by the lossless-conversion.js script
-  # Basic field mappings (already in the right format)
-  - rename:
-      source: "name"
-      destination: name
-
-  - rename:
-      source: "primary_url"
-      destination: primary_url
-
-  # Map location fields
-  - rename:
-      source: "locality"
-      destination: locality
-
-  - rename:
-      source: "region"
-      destination: region
-
-  - rename:
-      source: "country_name"
-      destination: country_name
-
-  # Transform geolocation structure
+  # Essential for lossless recovery
+  - optionalRename:
+      source: "@id"
+      destination: "source_url"
+  
+  # Extra fields to include (camelCase to snake_case transformations)
+  - optionalRename:
+      source: "geographicScope"
+      destination: "geographic_scope"
+  - optionalRename:
+      source: "domainTags"
+      destination: "domain_tags"
+  - optionalRename:
+      source: "methodTags"
+      destination: "method_tags"
+  - optionalRename:
+      source: "sdgFocus"
+      destination: "sdg_focus"
+  - optionalRename:
+      source: "keyActivities"
+      destination: "key_activities"
+  - optionalRename:
+      source: "employeeRange"
+      destination: "employee_range"
+  
+  # Geolocation transformation for Murmurations compatibility
   - in:
       name: "geolocation"
       lens:
-        - rename:
+        - optionalRename:
             source: "latitude"
             destination: "lat"
-        - rename:
+        - optionalRename:
             source: "longitude"
             destination: "lon"
-
-  # Keep tags
-  - rename:
-      source: "tags"
-      destination: tags
-
-  # Keep relationships
-  - rename:
-      source: "relationships"
-      destination: relationships
-
-  # Keep linked_schemas
-  - rename:
-      source: "linked_schemas"
-      destination: linked_schemas
-
-  # Organization-specific fields
-  - rename:
-      source: "mission"
-      destination: mission
-
-  - rename:
-      source: "tagline"
-      destination: tagline
-
-  # Convert camelCase to snake_case for Murmurations compatibility
-  - rename:
-      source: "legalType"
-      destination: legal_type
-
-  - rename:
-      source: "foundedYear"
-      destination: founded_year
-
-  - rename:
-      source: "employeeRange"
-      destination: employee_range
-
-  - rename:
-      source: "sdgFocus"
-      destination: sdg_focus
-
-  - rename:
-      source: "keyActivities"
-      destination: key_activities
-
-  - rename:
-      source: "lastUpdated"
-      destination: last_updated
-
-  # Keep only the fields that exist in the original Murmurations format
-  # The transformation will naturally only include the renamed fields
+  
+  # Set linked_schemas to Murmurations schema
+  - setValue:
+      name: "linked_schemas"
+      value: ["organizations_schema-v1.0.0"]
+  
+  # Remove JSON-LD fields for Murmurations compatibility
+  - remove:
+      name: "@type"
+  - remove:
+      name: "@context"
+  - remove:
+      name: "schema:version"
+  
+  # Remove unwanted fields for clean Murmurations profile
+  - remove:
+      name: "relationships"
+  - remove:
+      name: "tagline"
+  - remove:
+      name: "mission"
+  - remove:
+      name: "legalType"
+  - remove:
+      name: "foundedYear"
+  - remove:
+      name: "lastUpdated"

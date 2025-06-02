@@ -1,53 +1,129 @@
-# Cambria lens to convert from Murmurations Person schema to Unified Person schema
-# This lens transforms the simple Murmurations format into the comprehensive unified format
+# Reverse lens: Convert Murmurations person profiles back to unified format
+# Uses source_url to fetch original unified data for lossless recovery
 
 schemaName: Person
 
 lens:
-  # Basic field mappings
-  - rename:
-      source: name
-      destination: name
+  # Essential transformations - restore JSON-LD structure
+  - optionalRename:
+      source: "source_url"
+      destination: "@id"
   
-  - rename:
-      source: primary_url
-      destination: murm:primary_url
+  # Add JSON-LD context and type
+  - add:
+      property: "@context"
+      value:
+        "@version": 1.1
+        "@vocab": "https://schema.org/"
+        "schema": "https://schema.org/"
+        "murm": "https://murmurations.network/schemas/"
+        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+        "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
   
-  # Map location fields
-  - rename:
-      source: locality
-      destination: locality
+  - add:
+      property: "@type"
+      value: "Person"
   
-  - rename:
-      source: region
-      destination: region
+  - add:
+      property: "schema:version"
+      value: "1.0.0"
   
-  - rename:
-      source: country_name
-      destination: country_name
+  # Keep fields that already match (these are identity mappings)
+  - optionalRename:
+      source: "name"
+      destination: "name"
   
-  # Transform geolocation structure
+  - optionalRename:
+      source: "primary_url"
+      destination: "primary_url"
+  
+  - optionalRename:
+      source: "tags"
+      destination: "tags"
+  
+  - optionalRename:
+      source: "locality"
+      destination: "locality"
+  
+  - optionalRename:
+      source: "region"
+      destination: "region"
+  
+  - optionalRename:
+      source: "country_name"
+      destination: "country_name"
+  
+  - optionalRename:
+      source: "relationships"
+      destination: "relationships"
+  
+  # Person-specific field transformations (snake_case back to camelCase)
+  - optionalRename:
+      source: "headline"
+      destination: "headline"
+  
+  - optionalRename:
+      source: "current_title"
+      destination: "currentTitle"
+  
+  - optionalRename:
+      source: "current_org_id"
+      destination: "currentOrgId"
+  
+  - optionalRename:
+      source: "display_handle"
+      destination: "displayHandle"
+  
+  - optionalRename:
+      source: "domain_tags"
+      destination: "domainTags"
+  
+  - optionalRename:
+      source: "method_tags"
+      destination: "methodTags"
+  
+  - optionalRename:
+      source: "theory_tags"
+      destination: "theoryTags"
+  
+  - optionalRename:
+      source: "last_updated"
+      destination: "lastUpdated"
+  
+  - optionalRename:
+      source: "skills"
+      destination: "skills"
+  
+  - optionalRename:
+      source: "needs"
+      destination: "needs"
+  
+  - optionalRename:
+      source: "offers"
+      destination: "offers"
+  
+  - optionalRename:
+      source: "pronouns"
+      destination: "pronouns"
+  
+  # Enhanced fields
+  - optionalRename:
+      source: "bioregion"
+      destination: "bioregion"
+  
+  # Restore linked_schemas with both Murmurations and unified schemas
+  - add:
+      property: "linked_schemas"
+      value: ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"]
+  
+  # Transform geolocation structure (lat/lon back to latitude/longitude)
   - in:
       name: "geolocation"
       lens:
-        - rename:
+        - optionalRename:
             source: "lat"
             destination: "latitude"
-        - rename:
+        - optionalRename:
             source: "lon"
             destination: "longitude"
-  
-  # Keep tags
-  - rename:
-      source: tags
-      destination: tags
-  
-  # Keep relationships
-  - rename:
-      source: relationships
-      destination: relationships
-  
-  # Keep linked_schemas
-  - rename:
-      source: linked_schemas
-      destination: linked_schemas

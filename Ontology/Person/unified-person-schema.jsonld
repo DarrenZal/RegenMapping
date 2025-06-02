@@ -47,6 +47,7 @@
     "blueCheckX": "regen:blueCheckX",
     "credentialedLinkedIn": "regen:credentialedLinkedIn",
     "humanIDProof": "regen:humanIDProof",
+    "bioregion": "regen:bioregion",
     "linked_schemas": "murm:linked_schemas",
     "primary_url": "murm:primary_url"
   },
@@ -276,6 +277,12 @@
               "@type": "schema:PostalAddress",
               "rdfs:label": "Full Address",
               "rdfs:comment": "Complete postal address"
+            },
+            "bioregion": {
+              "@id": "regen:bioregion",
+              "@type": "schema:Text",
+              "rdfs:label": "Bioregion",
+              "rdfs:comment": "The ecological bioregion where the person is primarily located"
             }
           }
         },

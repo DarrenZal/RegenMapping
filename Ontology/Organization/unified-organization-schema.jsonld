@@ -48,6 +48,7 @@
     "countryCode": "murm:country_iso_3166",
     "geographicScope": "murm:geographic_scope",
     "areaServed": "schema:areaServed",
+    "bioregion": "regen:bioregion",
     
     "relationships": {"@id": "murm:relationships", "@container": "@set"},
     "memberOf": {"@id": "schema:memberOf", "@type": "@id"},

@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Convert Unified profiles to Murmurations profiles using Cambria lenses
+ * Convert Unified profiles to Murmurations profiles using pure Cambria lenses
  * 
  * This script:
  * 1. Reads unified profiles from profiles/unified
  * 2. Applies Cambria lenses to convert them to Murmurations format
- * 3. Adds required relationship properties
+ * 3. Uses pure Cambria operations for all transformations
  * 4. Saves the converted profiles to profiles/murmurations
  */
 
 const fs = require('fs');
 const path = require('path');
-const { loadYamlLens, applyLensToDoc } = require('cambria');
+// Use the local modified cambria version
+const { loadYamlLens, applyLensToDoc } = require('../cambria-project/dist/index.js');
 
 // Paths
 const LENS_DIR = path.join(__dirname, '..', 'cambria-lenses');
@@ -25,151 +26,53 @@ const UNIFIED_TO_MURM_PERSON = path.join(LENS_DIR, 'unified-to-murmurations-pers
 const UNIFIED_TO_MURM_ORG = path.join(LENS_DIR, 'unified-to-murmurations-organization.lens.yml');
 
 /**
- * Add required relationship properties to Murmurations profiles
+ * Simple schema inference for Cambria compatibility
  */
-function addRelationshipProperties(profile) {
-  if (!profile.relationships || !Array.isArray(profile.relationships)) {
-    return profile;
-  }
+function inferSchema(obj) {
+  const schema = {
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    type: 'object',
+    properties: {}
+  };
 
-  profile.relationships = profile.relationships.map(rel => {
-    // Skip if already has required properties
-    if (rel.predicate_url && rel.object_url) {
-      return rel;
+  Object.keys(obj).forEach(key => {
+    const value = obj[key];
+    if (Array.isArray(value)) {
+      schema.properties[key] = { type: 'array' };
+    } else if (typeof value === 'object' && value !== null) {
+      schema.properties[key] = { type: 'object' };
+    } else {
+      schema.properties[key] = { type: typeof value };
     }
-
-    // Add required properties
-    const updatedRel = { ...rel };
-    
-    // Set predicate_url based on relationship type
-    switch (rel.type) {
-      case 'member':
-        updatedRel.predicate_url = 'https://schema.org/memberOf';
-        break;
-      case 'advisor':
-        updatedRel.predicate_url = 'https://schema.org/advisorTo';
-        break;
-      case 'collaboration':
-        updatedRel.predicate_url = 'https://schema.org/collaboratesWith';
-        break;
-      default:
-        updatedRel.predicate_url = `https://schema.org/${rel.type}`;
-    }
-
-    // Set object_url to target_url if available, otherwise use a placeholder
-    updatedRel.object_url = rel.target_url || `https://example.com/${rel.target.toLowerCase().replace(/\s+/g, '-')}`;
-
-    return updatedRel;
   });
 
-  return profile;
+  return schema;
 }
 
 /**
- * Convert a unified profile to Murmurations format
+ * Convert a unified profile to Murmurations format using pure Cambria
  */
 async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
   try {
-    console.log('Converting profile:', JSON.stringify(unifiedProfile, null, 2));
+    console.log(`📄 Converting ${profileType} profile: ${unifiedProfile.name}`);
     
-    // Create a simplified version of the profile without JSON-LD specific properties
-    const simplifiedProfile = { ...unifiedProfile };
-    delete simplifiedProfile['@context'];
-    delete simplifiedProfile['@type'];
+    // Use the profile as-is - all transformations handled by lens
+    const inputProfile = { ...unifiedProfile };
     
-    console.log('Simplified profile:', JSON.stringify(simplifiedProfile, null, 2));
+    // Infer schema from the actual profile structure
+    const inputSchema = inferSchema(inputProfile);
+    console.log('📊 Inferred input schema');
     
-    // Create a schema based on the actual profile properties
-    const inputSchema = {
-      $schema: 'http://json-schema.org/draft-07/schema',
-      type: 'object',
-      properties: {}
-    };
-    
-    // Add all properties from the simplified profile to the schema
-    Object.keys(simplifiedProfile).forEach(key => {
-      const value = simplifiedProfile[key];
-      
-      if (Array.isArray(value)) {
-        inputSchema.properties[key] = {
-          type: 'array',
-          items: {}
-        };
-        
-        // If array has items, infer schema from first item
-        if (value.length > 0) {
-          const firstItem = value[0];
-          
-          if (typeof firstItem === 'object' && firstItem !== null) {
-            inputSchema.properties[key].items = {
-              type: 'object',
-              properties: {}
-            };
-            
-            // Add properties for each key in the object
-            Object.keys(firstItem).forEach(itemKey => {
-              inputSchema.properties[key].items.properties[itemKey] = {
-                type: typeof firstItem[itemKey]
-              };
-            });
-          } else {
-            inputSchema.properties[key].items = {
-              type: typeof firstItem
-            };
-          }
-        }
-      } else if (typeof value === 'object' && value !== null) {
-        inputSchema.properties[key] = {
-          type: 'object',
-          properties: {}
-        };
-        
-        // Add properties for each key in the object
-        Object.keys(value).forEach(objKey => {
-          inputSchema.properties[key].properties[objKey] = {
-            type: typeof value[objKey]
-          };
-        });
-      } else {
-        inputSchema.properties[key] = {
-          type: typeof value
-        };
-      }
-    });
-    
-    console.log('Generated schema:', JSON.stringify(inputSchema, null, 2));
-    
-    // Load the appropriate lens
-    let lensFile;
-    if (profileType === 'person') {
-      lensFile = UNIFIED_TO_MURM_PERSON;
-    } else {
-      // Use the organization lens for organizations
-      lensFile = UNIFIED_TO_MURM_ORG;
-    }
-
-    console.log('Using lens file:', lensFile);
+    // Load the appropriate transformation lens
+    const lensFile = profileType === 'person' ? UNIFIED_TO_MURM_PERSON : UNIFIED_TO_MURM_ORG;
     const lensContent = fs.readFileSync(lensFile, 'utf8');
-    console.log('Lens content:', lensContent);
+    const transformationLens = loadYamlLens(lensContent);
     
-    const lens = loadYamlLens(lensContent);
-    console.log('Loaded lens:', lens);
+    // Apply the transformation lens using ONLY Cambria operations
+    console.log('🔄 Applying pure Cambria transformation...');
+    const murmurationsProfile = applyLensToDoc(transformationLens, inputProfile, inputSchema);
     
-    // Apply the lens to convert from unified to Murmurations format
-    console.log('Applying lens to document...');
-    let murmurationsProfile = applyLensToDoc(lens, simplifiedProfile, inputSchema);
-    console.log('Conversion result:', murmurationsProfile);
-    
-    // Add required relationship properties
-    murmurationsProfile = addRelationshipProperties(murmurationsProfile);
-    
-    // Set the linked_schemas based on profile type
-    if (profileType === 'person') {
-      murmurationsProfile.linked_schemas = ['people_schema-v0.1.0'];
-    } else {
-      murmurationsProfile.linked_schemas = ['organizations_schema-v1.0.0'];
-    }
-    
+    console.log('✅ Pure Cambria conversion completed');
     return murmurationsProfile;
   } catch (error) {
     console.error(`❌ Error converting profile: ${error.message}`);
@@ -190,34 +93,29 @@ async function processUnifiedProfiles() {
   const unifiedFiles = fs.readdirSync(UNIFIED_DIR)
     .filter(file => file.endsWith('.jsonld'));
 
-  console.log(`📁 Found ${unifiedFiles.length} unified profiles`);
+  console.log(`📁 Found ${unifiedFiles.length} unified profiles to convert`);
 
   for (const file of unifiedFiles) {
     try {
       const filePath = path.join(UNIFIED_DIR, file);
       const unifiedProfile = JSON.parse(fs.readFileSync(filePath, 'utf8'));
       
-      // Determine profile type (person or organization)
-      const isPerson = file.includes('person');
-      const profileType = isPerson ? 'person' : 'organization';
+      // Determine profile type from filename
+      const profileType = file.includes('person') ? 'person' : 'organization';
       
-      console.log(`📄 Processing: ${file} (${profileType})`);
+      console.log(`\n📋 Processing: ${file} (${profileType})`);
       
-      // Convert to Murmurations format
+      // Convert using pure Cambria operations
       const murmurationsProfile = await convertUnifiedToMurmurations(unifiedProfile, profileType);
       
-      // Generate output filename
-      // Convert from regen-person-name.jsonld to murm-person-name.json
-      const outputFile = file
-        .replace('regen-', 'murm-')
-        .replace('.jsonld', '.json');
-      
+      // Generate output filename: regen-person-name.jsonld → murm-person-name.json
+      const outputFile = file.replace('regen-', 'murm-').replace('.jsonld', '.json');
       const outputPath = path.join(MURMURATIONS_DIR, outputFile);
       
       // Write the converted profile
       fs.writeFileSync(outputPath, JSON.stringify(murmurationsProfile, null, 2));
       
-      console.log(`✅ Saved: ${outputFile}`);
+      console.log(`💾 Saved: ${outputFile}`);
     } catch (error) {
       console.error(`❌ Error processing ${file}: ${error.message}`);
     }
@@ -228,18 +126,18 @@ async function processUnifiedProfiles() {
  * Main execution function
  */
 async function main() {
-  console.log('🔄 Converting Unified profiles to Murmurations format...\n');
+  console.log('🔄 Converting Unified profiles to Murmurations format using pure Cambria...\n');
 
   try {
     await processUnifiedProfiles();
     
-    console.log('\n✅ Conversion completed!');
+    console.log('\n🎉 Pure Cambria conversion completed successfully!');
     console.log(`📁 Converted profiles saved to: ${MURMURATIONS_DIR}`);
     
     console.log('\n📝 Next steps:');
-    console.log('1. Validate the converted profiles with Murmurations');
-    console.log('2. Submit the profiles to the Murmurations index');
-    console.log('3. Run: node scripts/test-queries.js');
+    console.log('1. Test the enhanced profiles with @context and namespaced fields');
+    console.log('2. Validate lossless recovery using source_url');
+    console.log('3. Submit profiles to Murmurations index');
   } catch (error) {
     console.error('\n❌ Error during conversion:', error);
     process.exit(1);
@@ -251,4 +149,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { convertUnifiedToMurmurations, addRelationshipProperties };
+module.exports = { convertUnifiedToMurmurations };

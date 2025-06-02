@@ -2,6 +2,42 @@
 
 This guide provides mapping tables and transformation rules for converting between Schema.org, Murmurations, and Dylan Tull's person schemas.
 
+## Enhanced Murmurations Integration (v2.0)
+
+**Updated Strategy:** Our Murmurations profiles now include additional discovery fields using the `regen:` namespace while maintaining full compatibility with standard Murmurations schemas. This hybrid approach provides:
+
+- **Standard Murmurations fields**: `linked_schemas`, `name`, `primary_url`, `tags`, etc.
+- **Enhanced discovery fields**: `regen:bioregion`, `regen:geolocation`, `regen:domainTags`, `regen:skills`, etc.
+- **Lossless recovery**: `source_url` field pointing back to unified profiles
+- **Namespaced context**: `@context` with `regen: "https://darrenzal.github.io/RegenMapping/ontology/"`
+
+### Sample Enhanced Murmurations Profile
+
+```json
+{
+  "@context": {
+    "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+  },
+  "linked_schemas": ["people_schema-v0.1.0"],
+  "name": "Dylan Tull",
+  "primary_url": "https://dylantull.com",
+  "tags": ["Regenerative Design", "Post-capitalist Finance"],
+  "regen:geolocation": {
+    "regen:latitude": 44.7631,
+    "regen:longitude": -85.6206
+  },
+  "regen:locality": "Traverse City, Michigan",
+  "regen:bioregion": "Great Lakes",
+  "regen:domainTags": ["Post-capitalist Finance", "Distributed Governance"],
+  "regen:methodTags": ["Platform Cooperativism", "Permaculture"],
+  "regen:currentTitle": "Founder & Systems Designer",
+  "regen:skills": ["Systems Design", "Cooperative Economics"],
+  "regen:needs": ["Technical collaborators", "Pilot communities"],
+  "regen:offers": ["Strategic consulting", "System architecture"],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+}
+```
+
 > **Related Documentation:**
 > - For schema registration process and strategy, see [Schema Mapping and Registration Guide](../schema-mapping-guide.md)
 > - For organization schema mappings, see [Organization Schema Mapping Guide](../Organization/organization-schema-mapping-guide.md)
@@ -48,6 +84,7 @@ This guide provides mapping tables and transformation rules for converting betwe
 | country | addressCountry | country_name | - |
 | postalCode | postalCode | postal_code | - |
 | address | address | street_address | - |
+| bioregion | - | - | - |
 | **Focus Areas** | | | |
 | domainTags | - | - | domainTags |
 | methodTags | - | - | methodTags |
@@ -159,6 +196,7 @@ function murmurationsPersonToUnified(murmData) {
     
     // Address composition
     "regen:streetAddress": murmData.street_address,
+    "regen:bioregion": murmData.bioregion,
     
     // Additional images
     "regen:additionalImages": murmData.images?.map(img => ({
@@ -217,6 +255,7 @@ function schemaOrgPersonToUnified(schemaData) {
     "schema:skills": schemaData.skills,
     "schema:seeks": schemaData.seeks,
     "schema:makesOffer": schemaData.makesOffer,
+    "regen:bioregion": schemaData.bioregion,
     
     // Array handling
     "schema:sameAs": Array.isArray(schemaData.sameAs) ? 
@@ -257,6 +296,7 @@ function dylansPersonToUnified(dylansData) {
     "geo:lat": dylansData.hqLat,
     "geo:long": dylansData.hqLon,
     "regen:locality": dylansData.locality,
+    "regen:bioregion": dylansData.bioregion,
     
     // Regenerative focus mappings
     "regen:domainTags": dylansData.domainTags,

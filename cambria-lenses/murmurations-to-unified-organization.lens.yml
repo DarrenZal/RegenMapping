@@ -1,87 +1,130 @@
-# Cambria lens to convert from Murmurations Organization schema to Unified Organization schema
-# This lens transforms the simple Murmurations format into the comprehensive unified format
+# Reverse lens: Convert Murmurations organization profiles back to unified format
+# Uses source_url to fetch original unified data for lossless recovery
 
 schemaName: Organization
 
 lens:
-  # Basic field mappings
-  - rename:
-      source: name
-      destination: name
+  # Essential transformations - restore JSON-LD structure
+  - optionalRename:
+      source: "source_url"
+      destination: "@id"
   
-  - rename:
-      source: primary_url
-      destination: murm:primary_url
+  # Add JSON-LD context and type
+  - add:
+      property: "@context"
+      value:
+        "@version": 1.1
+        "@vocab": "https://schema.org/"
+        "schema": "https://schema.org/"
+        "murm": "https://murmurations.network/schemas/"
+        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+        "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
   
-  # Map location fields
-  - rename:
-      source: locality
-      destination: locality
+  - add:
+      property: "@type"
+      value: "Organization"
   
-  - rename:
-      source: region
-      destination: region
+  - add:
+      property: "schema:version"
+      value: "1.0.0"
   
-  - rename:
-      source: country_name
-      destination: country_name
+  # Keep fields that already match (these are identity mappings)
+  - optionalRename:
+      source: "name"
+      destination: "name"
   
-  # Transform geolocation structure
+  - optionalRename:
+      source: "primary_url"
+      destination: "primary_url"
+  
+  - optionalRename:
+      source: "tags"
+      destination: "tags"
+  
+  - optionalRename:
+      source: "locality"
+      destination: "locality"
+  
+  - optionalRename:
+      source: "region"
+      destination: "region"
+  
+  - optionalRename:
+      source: "country_name"
+      destination: "country_name"
+  
+  - optionalRename:
+      source: "relationships"
+      destination: "relationships"
+  
+  # Organization-specific fields
+  - optionalRename:
+      source: "mission"
+      destination: "mission"
+  
+  - optionalRename:
+      source: "tagline"
+      destination: "tagline"
+  
+  # Organization-specific field transformations (snake_case back to camelCase)
+  - optionalRename:
+      source: "legal_type"
+      destination: "legalType"
+  
+  - optionalRename:
+      source: "founded_year"
+      destination: "foundedYear"
+  
+  - optionalRename:
+      source: "employee_range"
+      destination: "employeeRange"
+  
+  - optionalRename:
+      source: "sdg_focus"
+      destination: "sdgFocus"
+  
+  - optionalRename:
+      source: "key_activities"
+      destination: "keyActivities"
+  
+  - optionalRename:
+      source: "last_updated"
+      destination: "lastUpdated"
+  
+  - optionalRename:
+      source: "domain_tags"
+      destination: "domainTags"
+  
+  - optionalRename:
+      source: "method_tags"
+      destination: "methodTags"
+  
+  # Enhanced fields
+  - optionalRename:
+      source: "bioregion"
+      destination: "bioregion"
+  
+  - optionalRename:
+      source: "geographic_scope"
+      destination: "geographicScope"
+  
+  - optionalRename:
+      source: "status"
+      destination: "status"
+  
+  # Restore linked_schemas with both Murmurations and unified schemas
+  - add:
+      property: "linked_schemas"
+      value: ["organizations_schema-v1.0.0", "regen-organization-schema-v1.0.0"]
+  
+  # Transform geolocation structure (lat/lon back to latitude/longitude)
   - in:
       name: "geolocation"
       lens:
-        - rename:
+        - optionalRename:
             source: "lat"
             destination: "latitude"
-        - rename:
+        - optionalRename:
             source: "lon"
             destination: "longitude"
-  
-  # Keep tags
-  - rename:
-      source: tags
-      destination: tags
-  
-  # Keep relationships
-  - rename:
-      source: relationships
-      destination: relationships
-  
-  # Keep linked_schemas
-  - rename:
-      source: linked_schemas
-      destination: linked_schemas
-  
-  # Organization-specific fields
-  - rename:
-      source: mission
-      destination: mission
-  
-  - rename:
-      source: tagline
-      destination: tagline
-  
-  # Convert snake_case to camelCase for unified schema compatibility
-  - rename:
-      source: legal_type
-      destination: legalType
-  
-  - rename:
-      source: founded_year
-      destination: foundedYear
-  
-  - rename:
-      source: employee_range
-      destination: employeeRange
-  
-  - rename:
-      source: sdg_focus
-      destination: sdgFocus
-  
-  - rename:
-      source: key_activities
-      destination: keyActivities
-  
-  - rename:
-      source: last_updated
-      destination: lastUpdated
