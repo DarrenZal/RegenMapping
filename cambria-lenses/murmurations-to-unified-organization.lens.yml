@@ -1,0 +1,87 @@
+# Cambria lens to convert from Murmurations Organization schema to Unified Organization schema
+# This lens transforms the simple Murmurations format into the comprehensive unified format
+
+schemaName: Organization
+
+lens:
+  # Basic field mappings
+  - rename:
+      source: name
+      destination: name
+  
+  - rename:
+      source: primary_url
+      destination: murm:primary_url
+  
+  # Map location fields
+  - rename:
+      source: locality
+      destination: locality
+  
+  - rename:
+      source: region
+      destination: region
+  
+  - rename:
+      source: country_name
+      destination: country_name
+  
+  # Transform geolocation structure
+  - in:
+      name: "geolocation"
+      lens:
+        - rename:
+            source: "lat"
+            destination: "latitude"
+        - rename:
+            source: "lon"
+            destination: "longitude"
+  
+  # Keep tags
+  - rename:
+      source: tags
+      destination: tags
+  
+  # Keep relationships
+  - rename:
+      source: relationships
+      destination: relationships
+  
+  # Keep linked_schemas
+  - rename:
+      source: linked_schemas
+      destination: linked_schemas
+  
+  # Organization-specific fields
+  - rename:
+      source: mission
+      destination: mission
+  
+  - rename:
+      source: tagline
+      destination: tagline
+  
+  # Convert snake_case to camelCase for unified schema compatibility
+  - rename:
+      source: legal_type
+      destination: legalType
+  
+  - rename:
+      source: founded_year
+      destination: foundedYear
+  
+  - rename:
+      source: employee_range
+      destination: employeeRange
+  
+  - rename:
+      source: sdg_focus
+      destination: sdgFocus
+  
+  - rename:
+      source: key_activities
+      destination: keyActivities
+  
+  - rename:
+      source: last_updated
+      destination: lastUpdated

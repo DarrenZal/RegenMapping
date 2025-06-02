@@ -1,0 +1,56 @@
+# Cambria lens to convert from Unified Person schema to Schema.org Person
+# This lens transforms the comprehensive unified format into standard Schema.org format
+
+schemaName: Person
+
+lens:
+  # Basic field mappings
+  - rename:
+      source: name
+      destination: name
+  
+  - rename:
+      source: primary_url
+      destination: url
+  
+  # Map unified tags to Schema.org knowsAbout
+  - rename:
+      source: tags
+      destination: knowsAbout
+  
+  # Map headline to jobTitle if it exists
+  - rename:
+      source: headline
+      destination: jobTitle
+  
+  # Transform location from geolocation + locality/region/country to homeLocation structure
+  - in:
+      name: "homeLocation"
+      lens:
+        - add:
+            destination: "@type"
+            value: "Place"
+        - rename:
+            source: "locality"
+            destination: "addressLocality"
+        - rename:
+            source: "region"
+            destination: "addressRegion"
+        - rename:
+            source: "country_name"
+            destination: "addressCountry"
+  
+  # Simplify context to just Schema.org
+  - add:
+      destination: "@context"
+      value: "https://schema.org/"
+  
+  # Keep type
+  - rename:
+      source: "@type"
+      destination: "@type"
+  
+  # Pass through source_url if it exists (for lossless conversion)
+  - rename:
+      source: source_url
+      destination: source_url
