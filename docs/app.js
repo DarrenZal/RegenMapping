@@ -169,8 +169,50 @@ class RegenMappingApp {
             throw new Error('Cambria lenses not loaded - cannot convert to Schema.org format');
         }
         
-        console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
-        return await this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+        try {
+            console.log('🎯 Using Cambria for Murmurations → Schema.org conversion');
+            
+            // Try direct conversion first
+            const directResult = await this.cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+            if (directResult && directResult.name) {
+                return directResult;
+            }
+            
+            console.log('🔄 Direct conversion failed, trying via unified format');
+            
+            // Fallback: Convert via unified format (Murmurations → Unified → Schema.org)
+            const unifiedProfile = await this.convertToUnified(murmProfile);
+            if (unifiedProfile && unifiedProfile.name) {
+                const schemaOrgResult = await this.cambria.convertSchema(unifiedProfile, 'unified', 'schemaorg');
+                console.log('🔍 Schema.org conversion result:', schemaOrgResult);
+                
+                // Check if the result actually has the expected Schema.org structure
+                if (schemaOrgResult && schemaOrgResult.name && !schemaOrgResult.linked_schemas) {
+                    return schemaOrgResult;
+                } else {
+                    console.log('⚠️ Lens conversion returned unified-like data, forcing manual fallback');
+                    throw new Error('Lens conversion failed - result still has unified schema fields');
+                }
+            }
+            
+            throw new Error('Both direct and via-unified conversion failed');
+            
+        } catch (error) {
+            console.error('Schema.org conversion failed:', error);
+            
+            // Final fallback: Create a basic Schema.org profile manually
+            const isOrganization = murmProfile.linked_schemas && 
+                murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
+            
+            return {
+                "@context": "https://schema.org/",
+                "@type": isOrganization ? "Organization" : "Person",
+                "name": murmProfile.name || 'Unknown',
+                "url": murmProfile.primary_url,
+                "knowsAbout": murmProfile.tags,
+                "source_url": murmProfile.source_url
+            };
+        }
     }
 
 
@@ -716,6 +758,7 @@ class RegenMappingApp {
             console.log(`    • Murmurations name: "${profile.murmurations.name}"`);
             console.log(`    • Unified name: "${profile.unified.name}"`);
             console.log(`    • SchemaOrg name: "${profile.schemaorg.name}"`);
+            console.log(`    • SchemaOrg profile:`, profile.schemaorg);
         }
         
         // Loop through all profiles to find the current one
