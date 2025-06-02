@@ -11,26 +11,18 @@
     "SDG12",
     "SDG13"
   ],
+  "method_tags": [
+    "Platform Cooperativism",
+    "Doughnut Economics",
+    "Community Land Trust"
+  ],
+  "domain_tags": [
+    "Regenerative Agriculture",
+    "Circular Materials",
+    "Post-capitalist Finance"
+  ],
   "linked_schemas": [
     "organizations_schema-v1.0.0"
-  ],
-  "relationships": [
-    {
-      "type": "member",
-      "target": "Dylan Tull",
-      "target_url": "https://dylantull.com",
-      "description": "Co-founder and strategic advisor",
-      "predicate_url": "https://schema.org/memberOf",
-      "object_url": "https://dylantull.com"
-    },
-    {
-      "type": "collaboration",
-      "target": "University of Oslo",
-      "target_url": "https://www.uio.no/english/",
-      "description": "Research partnership on regenerative systems",
-      "predicate_url": "https://schema.org/collaboratesWith",
-      "object_url": "https://www.uio.no/english/"
-    }
   ],
   "tags": [
     "Regenerative Economics",
@@ -39,19 +31,17 @@
     "Circular Economy"
   ],
   "geolocation": {
-    "lat": 45.7108,
-    "lon": -85.9846
+    "lat": 40.7589,
+    "lon": -73.9851
   },
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
   "name": "Global Regenerative Cooperative",
   "primary_url": "https://global-regenerative.coop",
-  "locality": "Traverse City",
-  "region": "Michigan",
+  "locality": "New York, NY",
+  "region": "New York",
   "country_name": "United States",
-  "tagline": "Building the regenerative economy, together",
-  "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
-  "legal_type": "Cooperative",
-  "founded_year": 2023,
+  "bioregion": "Hudson River",
+  "geographic_scope": "Global",
   "employee_range": "11-50",
-  "last_updated": "2025-05-30T12:00:00Z",
-  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
+  "status": "Active"
 }

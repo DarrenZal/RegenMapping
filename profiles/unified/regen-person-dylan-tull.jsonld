@@ -9,6 +9,8 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@type": "Person",
+  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
+  "schema:version": "1.0.0",
   "linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"],
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
@@ -18,12 +20,13 @@
     "Cooperative Economics"
   ],
   "geolocation": {
-    "latitude": 45.7108,
-    "longitude": -85.9846
+    "latitude": 44.7631,
+    "longitude": -85.6206
   },
-  "locality": "Traverse City",
+  "locality": "Traverse City, Michigan",
   "region": "Michigan",
   "country_name": "United States",
+  "bioregion": "Great Lakes",
   "relationships": [
     {
       "type": "member",
@@ -56,5 +59,8 @@
     "Metamodernism",
     "Complexity Science"
   ],
+  "skills": ["Systems Design", "Cooperative Economics", "Blockchain Governance"],
+  "needs": ["Technical collaborators", "Pilot communities", "Impact investors"],
+  "offers": ["Strategic consulting", "System architecture", "Workshop facilitation"],
   "lastUpdated": "2025-05-30T12:00:00Z"
 }

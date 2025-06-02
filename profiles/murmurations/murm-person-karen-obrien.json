@@ -1,8 +1,4 @@
 {
-  "theory_tags": [
-    "Complexity Science",
-    "Deep Adaptation"
-  ],
   "method_tags": [
     "Adaptive Management",
     "Citizen Science"
@@ -15,24 +11,6 @@
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
-  "relationships": [
-    {
-      "type": "member",
-      "target": "University of Oslo",
-      "target_url": "https://www.uio.no/english/",
-      "description": "Professor of Human Geography",
-      "predicate_url": "https://schema.org/memberOf",
-      "object_url": "https://www.uio.no/english/"
-    },
-    {
-      "type": "collaboration",
-      "target": "Dylan Tull",
-      "target_url": "https://dylantull.com",
-      "description": "Research collaboration on regenerative systems",
-      "predicate_url": "https://schema.org/collaboratesWith",
-      "object_url": "https://dylantull.com"
-    }
-  ],
   "tags": [
     "Climate Change",
     "Transformative Adaptation",
@@ -40,19 +18,32 @@
     "Human Geography"
   ],
   "geolocation": {
-    "lat": 59.9139,
-    "lon": 10.7522
+    "lat": 60.3913,
+    "lon": 5.3221
   },
+  "skills": [
+    "Climate Research",
+    "Transformative Adaptation",
+    "Systems Thinking"
+  ],
+  "needs": [
+    "Research funding",
+    "Policy partnerships",
+    "Community organizers"
+  ],
+  "offers": [
+    "Research expertise",
+    "Academic mentorship",
+    "Knowledge synthesis"
+  ],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
-  "locality": "Oslo",
-  "region": "Oslo",
+  "locality": "Bergen, Norway",
+  "region": "Vestland",
   "country_name": "Norway",
-  "headline": "Climate Change Researcher & Professor of Human Geography",
+  "bioregion": "North Sea",
   "current_title": "Professor",
   "current_org_id": "University of Oslo",
-  "display_handle": "@karenobrien",
-  "pronouns": "she/her",
-  "last_updated": "2025-05-30T12:00:00Z",
-  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld"
+  "pronouns": "she/her"
 }

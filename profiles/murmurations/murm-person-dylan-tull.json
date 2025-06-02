@@ -1,8 +1,4 @@
 {
-  "theory_tags": [
-    "Metamodernism",
-    "Complexity Science"
-  ],
   "method_tags": [
     "Permaculture",
     "Doughnut Economics",
@@ -16,42 +12,37 @@
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
-  "relationships": [
-    {
-      "type": "member",
-      "target": "Global Regenerative Cooperative",
-      "target_url": "https://global-regenerative.coop",
-      "description": "Co-founder and strategic advisor",
-      "predicate_url": "https://schema.org/memberOf",
-      "object_url": "https://global-regenerative.coop"
-    },
-    {
-      "type": "collaboration",
-      "target": "Dr. Karen O'Brien",
-      "target_url": "https://karenmobrien.com",
-      "description": "Research collaboration on regenerative systems",
-      "predicate_url": "https://schema.org/collaboratesWith",
-      "object_url": "https://karenmobrien.com"
-    }
-  ],
   "tags": [
     "Regenerative Design",
     "Post-capitalist Finance",
     "Cooperative Economics"
   ],
   "geolocation": {
-    "lat": 45.7108,
-    "lon": -85.9846
+    "lat": 44.7631,
+    "lon": -85.6206
   },
+  "skills": [
+    "Systems Design",
+    "Cooperative Economics",
+    "Blockchain Governance"
+  ],
+  "needs": [
+    "Technical collaborators",
+    "Pilot communities",
+    "Impact investors"
+  ],
+  "offers": [
+    "Strategic consulting",
+    "System architecture",
+    "Workshop facilitation"
+  ],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
-  "locality": "Traverse City",
+  "locality": "Traverse City, Michigan",
   "region": "Michigan",
   "country_name": "United States",
-  "headline": "Regenerative Economy Researcher & Designer",
+  "bioregion": "Great Lakes",
   "current_title": "Co-founder",
-  "current_org_id": "Global Regenerative Cooperative",
-  "display_handle": "@dylantull",
-  "last_updated": "2025-05-30T12:00:00Z",
-  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
+  "current_org_id": "Global Regenerative Cooperative"
 }

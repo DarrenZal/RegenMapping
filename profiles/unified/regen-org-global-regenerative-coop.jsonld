@@ -9,6 +9,8 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@type": "Organization",
+  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
+  "schema:version": "1.0.0",
   "linked_schemas": ["organizations_schema-v1.0.0", "regen-organization-schema-v1.0.0"],
   "name": "Global Regenerative Cooperative",
   "primary_url": "https://global-regenerative.coop",
@@ -19,12 +21,14 @@
     "Circular Economy"
   ],
   "geolocation": {
-    "latitude": 45.7108,
-    "longitude": -85.9846
+    "latitude": 40.7589,
+    "longitude": -73.9851
   },
-  "locality": "Traverse City",
-  "region": "Michigan",
+  "locality": "New York, NY",
+  "region": "New York",
   "country_name": "United States",
+  "bioregion": "Hudson River",
+  "geographicScope": "Global",
   "relationships": [
     {
       "type": "member",
@@ -56,5 +60,16 @@
     "Climate Finance",
     "Regenerative Agriculture"
   ],
+  "domainTags": [
+    "Regenerative Agriculture",
+    "Circular Materials",
+    "Post-capitalist Finance"
+  ],
+  "methodTags": [
+    "Platform Cooperativism",
+    "Doughnut Economics",
+    "Community Land Trust"
+  ],
+  "status": "Active",
   "lastUpdated": "2025-05-30T12:00:00Z"
 }

@@ -9,6 +9,8 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@type": "Person",
+  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
+  "schema:version": "1.0.0",
   "linked_schemas": ["people_schema-v0.1.0", "regen-person-schema-v1.0.0"],
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
@@ -19,12 +21,13 @@
     "Human Geography"
   ],
   "geolocation": {
-    "latitude": 59.9139,
-    "longitude": 10.7522
+    "latitude": 60.3913,
+    "longitude": 5.3221
   },
-  "locality": "Oslo",
-  "region": "Oslo",
+  "locality": "Bergen, Norway",
+  "region": "Vestland",
   "country_name": "Norway",
+  "bioregion": "North Sea",
   "relationships": [
     {
       "type": "member",
@@ -57,5 +60,8 @@
     "Complexity Science",
     "Deep Adaptation"
   ],
+  "skills": ["Climate Research", "Transformative Adaptation", "Systems Thinking"],
+  "needs": ["Research funding", "Policy partnerships", "Community organizers"],
+  "offers": ["Research expertise", "Academic mentorship", "Knowledge synthesis"],
   "lastUpdated": "2025-05-30T12:00:00Z"
 }
