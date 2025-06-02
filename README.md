@@ -35,12 +35,9 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 
 **This project now serves as a live demonstration of Cambria technology in action!**
 
-### Real Cambria Implementation
-- **Browser-Compatible Engine**: Custom implementation of Cambria functionality for web browsers
-- **Live Lens Loading**: Loads actual lens files from the repository for real-time transformations
-- **Pure Cambria Transformations**: All schema conversions powered by real Cambria lenses (no fallback code)
-- **Interactive Navigation**: Click relationship links to navigate between profiles while preserving schema context
-- **Visual Schema Flow**: See Cambria transformations with labeled lens connections
+### Cambria Implementation
+- **Interactive Navigation**: Click relationship links to navigate between profiles, and different schemas for each profile.
+- **Visual Schema Flow**: See Cambria transformations with labeled lens connections (schemas represented as nodes, trnaslations / lenses represented  as edges)
 
 ### Cambria Lens Files
 - `cambria-lenses/murmurations-to-unified-person.lens.yml` - Murmurations → Unified conversion
