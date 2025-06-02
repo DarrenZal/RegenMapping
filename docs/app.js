@@ -589,16 +589,66 @@ class RegenMappingApp {
             html += this.renderField('Primary URL', `<a href="${data.primary_url}" target="_blank">${data.primary_url}</a>`);
         }
         
+        if (data.current_title) {
+            html += this.renderField('Current Title', data.current_title);
+        }
+        
+        if (data.current_org_id) {
+            html += this.renderField('Current Organization', data.current_org_id);
+        }
+        
         if (data.locality) {
             html += this.renderField('Location', `${data.locality}, ${data.region || ''} ${data.country_name || ''}`.trim());
+        }
+        
+        if (data.bioregion) {
+            html += this.renderField('Bioregion', data.bioregion);
         }
         
         if (data.tags && data.tags.length > 0) {
             html += this.renderField('Tags', data.tags.join(', '));
         }
         
+        if (data.method_tags && data.method_tags.length > 0) {
+            html += this.renderField('Method Tags', data.method_tags.join(', '));
+        }
+        
+        if (data.domain_tags && data.domain_tags.length > 0) {
+            html += this.renderField('Domain Tags', data.domain_tags.join(', '));
+        }
+        
+        if (data.offers && data.offers.length > 0) {
+            html += this.renderField('Offers', data.offers.join(', '));
+        }
+        
+        if (data.needs && data.needs.length > 0) {
+            html += this.renderField('Needs', data.needs.join(', '));
+        }
+        
+        if (data.skills && data.skills.length > 0) {
+            html += this.renderField('Skills', data.skills.join(', '));
+        }
+        
+        // Organization-specific fields
+        if (data.key_activities && data.key_activities.length > 0) {
+            html += this.renderField('Key Activities', data.key_activities.join(', '));
+        }
+        
+        if (data.sdg_focus && data.sdg_focus.length > 0) {
+            html += this.renderField('SDG Focus', data.sdg_focus.join(', '));
+        }
+        
+        if (data.employee_range) {
+            html += this.renderField('Employee Range', data.employee_range);
+        }
+        
         if (data.geolocation) {
             html += this.renderField('Coordinates', `${data.geolocation.lat}, ${data.geolocation.lon}`);
+        }
+        
+        // Schema information
+        if (data.linked_schemas && data.linked_schemas.length > 0) {
+            html += this.renderField('Linked Schemas', data.linked_schemas.join(', '));
         }
 
         if (data.relationships && data.relationships.length > 0) {
@@ -621,6 +671,11 @@ class RegenMappingApp {
                 </div>`;
             }).join('');
             html += this.renderField('Relationships', relationshipsHtml);
+        }
+        
+        // Source information
+        if (data.source_url) {
+            html += this.renderField('Source URL', `<a href="${data.source_url}" target="_blank">${data.source_url}</a>`);
         }
 
         // Add profile source link
@@ -706,7 +761,23 @@ class RegenMappingApp {
             html += this.renderField('Key Activities', data.keyActivities.join(', '));
         }
         
+        // Person-specific capability fields
+        if (data.offers && data.offers.length > 0) {
+            html += this.renderField('Offers', data.offers.join(', '));
+        }
+        
+        if (data.needs && data.needs.length > 0) {
+            html += this.renderField('Needs', data.needs.join(', '));
+        }
+        
+        if (data.skills && data.skills.length > 0) {
+            html += this.renderField('Skills', data.skills.join(', '));
+        }
+        
         // Geographic information
+        if (data.bioregion) {
+            html += this.renderField('Bioregion', data.bioregion);
+        }
         if (data.geolocation) {
             html += this.renderField('Coordinates', `${data.geolocation.latitude}, ${data.geolocation.longitude}`);
         }
@@ -803,6 +874,40 @@ class RegenMappingApp {
             html += this.renderField('Skills', data['regen:skills'].join(', '));
         }
         
+        if (data['regen:offers'] && data['regen:offers'].length > 0) {
+            html += this.renderField('Offers', data['regen:offers'].join(', '));
+        }
+        
+        if (data['regen:needs'] && data['regen:needs'].length > 0) {
+            html += this.renderField('Needs', data['regen:needs'].join(', '));
+        }
+        
+        if (data['regen:bioregion']) {
+            html += this.renderField('Bioregion', data['regen:bioregion']);
+        }
+        
+        if (data['regen:theoryTags'] && data['regen:theoryTags'].length > 0) {
+            html += this.renderField('Theory Tags', data['regen:theoryTags'].join(', '));
+        }
+        
+        if (data['regen:currentOrgId']) {
+            html += this.renderField('Current Organization', data['regen:currentOrgId']);
+        }
+        
+        if (data['regen:displayHandle']) {
+            html += this.renderField('Handle', data['regen:displayHandle']);
+        }
+        
+        // Standard Schema.org address fields
+        if (data.addressLocality || data.addressRegion || data.addressCountry) {
+            const address = [data.addressLocality, data.addressRegion, data.addressCountry].filter(Boolean).join(', ');
+            html += this.renderField('Address', address);
+        }
+        
+        if (data.knowsAbout && data.knowsAbout.length > 0) {
+            html += this.renderField('Knows About', Array.isArray(data.knowsAbout) ? data.knowsAbout.join(', ') : data.knowsAbout);
+        }
+        
         // Organization-specific fields
         if (data.legalName) {
             html += this.renderField('Legal Name', data.legalName);
@@ -814,6 +919,40 @@ class RegenMappingApp {
         
         if (data.numberOfEmployees) {
             html += this.renderField('Number of Employees', data.numberOfEmployees);
+        }
+        
+        // Geographic information
+        if (data['regen:geolocation']) {
+            const geo = data['regen:geolocation'];
+            html += this.renderField('Coordinates', `${geo.latitude || geo.lat}, ${geo.longitude || geo.lon}`);
+        }
+        
+        // Schema metadata
+        if (data['regen:linked_schemas'] && data['regen:linked_schemas'].length > 0) {
+            html += this.renderField('Linked Schemas', data['regen:linked_schemas'].join(', '));
+        }
+        
+        // Relationships
+        if (data['regen:relationships'] && data['regen:relationships'].length > 0) {
+            const relationshipsHtml = data['regen:relationships'].map(rel => {
+                const targetUrl = rel.object_url || rel.target_url || rel.target || 'Unknown';
+                const relationType = rel.predicate_url || rel.type || 'connected to';
+                const description = rel.description || '';
+                
+                // Try to find the display name for the target
+                const targetProfile = Object.values(this.profiles).find(p => 
+                    p.murmurations.primary_url === targetUrl ||
+                    p.murmurations.name === targetUrl ||
+                    (targetUrl.startsWith('http') && p.murmurations.primary_url?.replace(/^https?:\/\/(www\.)?/, '') === targetUrl.replace(/^https?:\/\/(www\.)?/, ''))
+                );
+                const displayName = targetProfile?.murmurations.name || targetUrl;
+                
+                return `<div class="relationship-item">
+                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetUrl}">${displayName}</a>
+                    ${description ? `<br><em>${description}</em>` : ''}
+                </div>`;
+            }).join('');
+            html += this.renderField('Relationships', relationshipsHtml);
         }
         
         // Knowledge/interests
