@@ -41,17 +41,14 @@ lens:
         - map:
             lens:
               # Rename target_url to object_url for Murmurations compatibility
-              - optionalRename:
+              - rename:
                   source: "target_url"
                   destination: "object_url"
-              # Add predicate_url for Murmurations schema compatibility
-              - add:
-                  name: "predicate_url"
-                  type: "string" 
-                  default: "https://schema.org/knows"
+              # Preserve relationship type as predicate_url
+              - rename:
+                  source: "type"
+                  destination: "predicate_url"
               # Remove unwanted fields from unified schema
-              - remove:
-                  name: "type"
               - remove:
                   name: "target" 
               - remove:

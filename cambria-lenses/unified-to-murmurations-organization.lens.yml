@@ -49,12 +49,9 @@ lens:
               - rename:
                   source: "target_url"
                   destination: "object_url"
-              - add:
-                  name: "predicate_url"
-                  type: "string"
-                  default: "https://schema.org/knows"
-              - remove:
-                  name: "type"
+              - rename:
+                  source: "type"
+                  destination: "predicate_url"
               - remove:
                   name: "target"
               - remove:
