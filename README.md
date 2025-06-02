@@ -21,7 +21,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ### Rich Data Integration
 - **Multi-Schema Support**: Unified approach combining Schema.org standards, Murmurations discovery features, and custom regenerative categorization
 - **Strategic Namespace Hierarchy**: Uses Schema.org first (maximum interoperability), Murmurations second (regenerative ecosystem), and custom third (domain innovation) to ensure profiles work across web search, business tools, and regenerative discovery networks
-- **Lossless Schema Conversion**: Novel `source_url` innovation enables truly lossless round-trip conversion between schema formats by adding a field pointing to the original comprehensive profile, allowing recovery of 100% data fidelity during reverse conversion
+- **Lossless Schema Conversion**: Novel `source_url` innovation enables truly lossless round-trip conversion between schema formats by adding a field pointing to the original comprehensive profile, allowing recovery of 100% data fidelity during reverse conversion. **Future Enhancement**: Considering hybrid approach that embeds key unified fields directly in Murmurations profiles (leveraging their support for additional properties) while maintaining `source_url` for full redundancy and resilience.
 - **Murmurations Interoperability**: Profiles are designed to be discoverable and validated by the Murmurations Index. By leveraging the `linked_schemas` property, our unified Person and Organization profiles explicitly link to Murmurations' base schemas (`people_schema-v0.1.0` and `organizations_schema-v1.0.0`). This ensures that when users query the Murmurations Index for basic Person or Organization profiles, they will seamlessly discover and access the richer, more detailed profiles defined by our unified schemas. This approach maximizes discoverability while maintaining data richness.
 - **Comprehensive Profiles**: Organizations and individuals with detailed metadata, impact metrics, and relationship mapping
 - **Live Matching**: AI-powered suggestions connecting complementary needs and offers
@@ -271,6 +271,46 @@ We've implemented a lossless conversion approach using JSON-LD @reverse links th
 - Provides a fallback mechanism when the original profile can't be fetched
 
 This approach follows semantic web best practices and ensures no data is lost in the round-trip conversion.
+
+## 🔮 Future Enhancement: Hybrid Lossless Approach
+
+### Murmurations Additional Properties Support
+
+**Discovery**: Murmurations protocol allows adding extra fields to profiles beyond those defined in the schema — as long as your profile includes the `linked_schemas` field and validates against at least one of the schemas it links to.
+
+- **JSON Schema Flexibility**: Murmurations schemas allow "additionalProperties" by default unless explicitly disallowed
+- **Extended Fields Allowed**: Can safely include fields like `source_url`, `domainTags`, `relationships`, `linked_data`, `dataQualityScore`, etc.
+- **Validation Requirements**: Core fields for the linked schema must be present and valid
+
+### Hybrid Model Strategy
+
+**Best of Both Worlds**: Use both `source_url` and embedded fields for maximum resilience:
+
+```json
+{
+  "name": "Bioregional Org",
+  "primary_url": "https://bioregion.org",
+  "tags": ["Regenerative", "Mapping"],
+  "linked_schemas": ["unified_schema-v0.3.2"],
+  "source_url": "https://yourdomain.org/profiles/unified/org-bioregion.jsonld",
+  "domainTags": ["governance", "land stewardship"],
+  "relationships": [
+    {
+      "predicate_url": "https://schema.org/member",
+      "object_url": "https://ally.org"
+    }
+  ]
+}
+```
+
+### Benefits of Hybrid Approach
+
+**✅ Full losslessness** (via `source_url`)
+**✅ Redundancy and resilience** (key extra fields preserved locally)  
+**✅ Interoperability** with other Murmurations profiles (via `linked_schemas`)
+**✅ Semantic richness** (via extended fields)
+**✅ Self-contained profiles** (no external dependency for core data)
+**✅ Decentralized resilience** (easier to cache, archive, and distribute)
 
 **Live Test Profiles:**
 - **Dr. Karen O'Brien**: [Discoverable via people_schema-v0.1.0](https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/murmurations/murm-person-karen-obrien.json)
