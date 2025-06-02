@@ -16,11 +16,11 @@
   ],
   "relationships": [
     {
-      "predicate_url": "https://schema.org/knows",
+      "predicate_url": "member",
       "object_url": "https://www.uio.no/english/"
     },
     {
-      "predicate_url": "https://schema.org/knows",
+      "predicate_url": "collaboration",
       "object_url": "https://dylantull.com"
     }
   ],

@@ -114,9 +114,11 @@ class RegenMappingApp {
                                         unified_name: unifiedProfile?.name,
                                         schemaorg_name: schemaOrgProfile?.name
                                     });
+                                } else {
+                                    console.warn(`❌ Failed to load profile from ${node.profile_url}: ${profileResponse.status} ${profileResponse.statusText}`);
                                 }
                             } catch (profileError) {
-                                console.warn(`Failed to load individual profile:`, profileError);
+                                console.warn(`❌ Failed to load individual profile from ${node.profile_url}:`, profileError);
                             }
                         }
                     }
@@ -316,10 +318,25 @@ class RegenMappingApp {
             const relationships = profile.murmurations.relationships || [];
             
             relationships.forEach(rel => {
-                // Find the target profile by name
-                const targetProfileId = Object.keys(this.profiles).find(id => 
-                    this.profiles[id].murmurations.name === rel.target
-                );
+                console.log(`🔍 Processing relationship:`, rel);
+                
+                // Handle both old format (rel.target) and new format (rel.object_url)
+                let targetUrl = rel.object_url || rel.target;
+                
+                // Find the target profile by matching URL or name
+                const targetProfileId = Object.keys(this.profiles).find(id => {
+                    const targetProfile = this.profiles[id].murmurations;
+                    
+                    // Match by primary_url if object_url is a URL
+                    if (targetUrl && (targetUrl.startsWith('http://') || targetUrl.startsWith('https://'))) {
+                        return targetProfile.primary_url === targetUrl;
+                    }
+                    
+                    // Match by name if object_url is a name
+                    return targetProfile.name === targetUrl;
+                });
+                
+                console.log(`🎯 Looking for target: ${targetUrl}, found profile: ${targetProfileId}`);
                 
                 if (targetProfileId) {
                     // Create a unique key for this relationship to avoid duplicates
@@ -331,11 +348,15 @@ class RegenMappingApp {
                         links.push({
                             source: profileId,
                             target: targetProfileId,
-                            type: rel.type,
-                            description: rel.description,
-                            label: `${rel.type}: ${rel.description}`
+                            type: rel.predicate_url ? 'knows' : (rel.type || 'connection'),
+                            description: rel.description || 'Connected',
+                            label: `Connected`
                         });
+                        
+                        console.log(`✅ Created link: ${profileId} -> ${targetProfileId}`);
                     }
+                } else {
+                    console.log(`⚠️ Target profile not found for: ${targetUrl}`);
                 }
             });
         });
@@ -569,12 +590,16 @@ class RegenMappingApp {
         }
 
         if (data.relationships && data.relationships.length > 0) {
-            const relationshipsHtml = data.relationships.map((rel, index) => 
-                `<div class="relationship-item">
-                    <strong>${rel.type}</strong>: <a href="#" class="profile-link" data-target="${rel.target}">${rel.target}</a>
-                    <br><em>${rel.description}</em>
-                </div>`
-            ).join('');
+            const relationshipsHtml = data.relationships.map((rel, index) => {
+                const targetName = rel.object_url || rel.target || 'Unknown';
+                const relationType = rel.predicate_url ? 'knows' : (rel.type || 'connected to');
+                const description = rel.description || '';
+                
+                return `<div class="relationship-item">
+                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetName}">${targetName}</a>
+                    ${description ? `<br><em>${description}</em>` : ''}
+                </div>`;
+            }).join('');
             html += this.renderField('Relationships', relationshipsHtml);
         }
 
@@ -677,12 +702,16 @@ class RegenMappingApp {
         
         // Relationships
         if (data.relationships && data.relationships.length > 0) {
-            const relationshipsHtml = data.relationships.map(rel => 
-                `<div class="relationship-item">
-                    <strong>${rel.type}</strong>: <a href="#" class="profile-link" data-target="${rel.target}">${rel.target}</a>
-                    <br><em>${rel.description}</em>
-                </div>`
-            ).join('');
+            const relationshipsHtml = data.relationships.map(rel => {
+                const targetName = rel.object_url || rel.target || 'Unknown';
+                const relationType = rel.predicate_url ? 'knows' : (rel.type || 'connected to');
+                const description = rel.description || '';
+                
+                return `<div class="relationship-item">
+                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetName}">${targetName}</a>
+                    ${description ? `<br><em>${description}</em>` : ''}
+                </div>`;
+            }).join('');
             html += this.renderField('Relationships', relationshipsHtml);
         }
         

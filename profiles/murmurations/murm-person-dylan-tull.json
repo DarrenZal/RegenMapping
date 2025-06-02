@@ -16,11 +16,11 @@
   ],
   "relationships": [
     {
-      "predicate_url": "https://schema.org/knows",
+      "predicate_url": "member",
       "object_url": "https://global-regenerative.coop"
     },
     {
-      "predicate_url": "https://schema.org/knows",
+      "predicate_url": "collaboration",
       "object_url": "https://karenmobrien.com"
     }
   ],
