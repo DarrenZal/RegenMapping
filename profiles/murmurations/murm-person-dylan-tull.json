@@ -1,4 +1,5 @@
 {
+  "last_updated": "2025-05-30T12:00:00Z",
   "theory_tags": [
     "Metamodernism",
     "Complexity Science"
@@ -13,6 +14,10 @@
     "Post-capitalist Finance",
     "Distributed Governance"
   ],
+  "display_handle": "@dylantull",
+  "current_org_id": "Global Regenerative Cooperative",
+  "current_title": "Co-founder",
+  "headline": "Regenerative Economy Researcher & Designer",
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
@@ -39,20 +44,15 @@
     "Post-capitalist Finance",
     "Cooperative Economics"
   ],
-  "geolocation": {
-    "lat": 45.7108,
-    "lon": -85.9846
-  },
-  "name": "Dylan Tull",
-  "primary_url": "https://dylantull.com",
-  "locality": "Traverse City",
-  "region": "Michigan",
   "country_name": "United States",
-  "headline": "Regenerative Economy Researcher & Designer",
-  "current_title": "Co-founder",
-  "current_org_id": "Global Regenerative Cooperative",
-  "display_handle": "@dylantull",
-  "last_updated": "2025-05-30T12:00:00Z",
+  "region": "Michigan",
+  "locality": "Traverse City",
+  "primary_url": "https://dylantull.com",
+  "name": "Dylan Tull",
+  "geolocation": {
+    "lon": -85.9846,
+    "lat": 45.7108
+  },
   "@id": "https://murmurations.network/profile/dylan-tull",
   "@reverse": {
     "schema:isBasedOn": {

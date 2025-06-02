@@ -249,8 +249,8 @@ node scripts/update-and-publish-profiles.js
 node scripts/convert-unified-to-murmurations.js  # Convert unified profiles to Murmurations format
 node scripts/upload-profiles-new.js              # Validate and submit profiles to Murmurations
 node scripts/test-queries.js                     # Verify discoverability
-node scripts/lossless-conversion.js convert-all  # Lossless conversion with @reverse links
-node scripts/test-lossless.js                    # Test lossless round-trip conversion
+node scripts/cambria-conversion.js convert-all   # Lossless conversion with @reverse links
+node scripts/cambria-conversion.js test-roundtrip <profile-path>  # Test lossless round-trip conversion
 ```
 
 **Profile Workflow:**

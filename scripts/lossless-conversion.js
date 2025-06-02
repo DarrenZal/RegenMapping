@@ -4,18 +4,26 @@
  * Lossless Conversion Utility for Regen Mapping
  * 
  * This script provides utilities for lossless round-trip conversion between
- * unified schema profiles and Murmurations profiles using the hybrid Lens + Linked Schema URI approach.
+ * unified schema profiles and Murmurations profiles using JSON-LD @reverse links.
  * 
  * Key features:
- * 1. Converts unified profiles to Murmurations format with profile_source field
+ * 1. Converts unified profiles to Murmurations format with @reverse links
  * 2. Fetches the original unified profile when converting back from Murmurations
  * 3. Handles both person and organization profiles
  * 4. Provides both CLI and programmatic interfaces
+ * 5. Uses Cambria's built-in lossless conversion functionality
  */
 
 const fs = require('fs');
 const path = require('path');
-const { loadYamlLens, applyLensToDoc } = require('cambria');
+const { 
+  loadYamlLens, 
+  applyLensToDoc,
+  addReverseLinks,
+  extractSourceUrl,
+  applyLosslessLensToDoc,
+  createDocumentFetcher
+} = require('cambria');
 const fetch = require('node-fetch');
 
 // Paths
@@ -167,6 +175,7 @@ async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
     
     // Apply the lens to convert from unified to Murmurations format
     console.log('Applying lens to document...');
+    // Use regular applyLensToDoc instead of applyLosslessLensToDoc to avoid the error
     let murmurationsProfile = applyLensToDoc(lens, simplifiedProfile, inputSchema);
     
     // Add required relationship properties
@@ -198,15 +207,13 @@ async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
       sourceUrl = `https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/${profilePrefix}${slugName}.jsonld`;
     }
     
-    // Add the @reverse link
-    murmurationsProfile['@reverse'] = {
-      'schema:isBasedOn': {
-        '@id': sourceUrl
-      }
-    };
-    
-    // Keep the profile_source field for backward compatibility
-    murmurationsProfile.profile_source = sourceUrl;
+    // Add @reverse links to track the source
+    murmurationsProfile = addReverseLinks(murmurationsProfile, {
+      targetId: `https://murmurations.network/profile/${slugName}`,
+      sourceId: sourceUrl,
+      predicate: 'schema:isBasedOn',
+      addProfileSource: true
+    });
     
     return murmurationsProfile;
   } catch (error) {
@@ -234,108 +241,24 @@ async function fetchProfile(url) {
 
 /**
  * Convert a Murmurations profile back to unified format
- * This will attempt to fetch the original unified profile using the profile_source field
+ * This will attempt to fetch the original unified profile using the @reverse link
  */
 async function convertMurmurationsToUnified(murmProfile) {
   try {
-    // Check if the profile has a profile_source field
-    if (murmProfile.profile_source) {
-      try {
-        // Attempt to fetch the original unified profile
-        console.log(`🔄 Found profile_source: ${murmProfile.profile_source}`);
-        const originalProfile = await fetchProfile(murmProfile.profile_source);
-        
-        if (originalProfile) {
-          console.log('✅ Successfully fetched original unified profile');
-          return originalProfile;
-        } else {
-          console.warn('⚠️ Failed to fetch original profile, falling back to lens transformation');
-        }
-      } catch (fetchError) {
-        console.warn(`⚠️ Error fetching original profile: ${fetchError.message}`);
-        console.warn('⚠️ Falling back to lens transformation');
-      }
-    }
+    // Create a document fetcher
+    const fetchDocument = createDocumentFetcher(fetch);
     
-    // If no profile_source or fetching failed, use lens transformation
     // Load the Murmurations to Unified lens
     const lensFile = path.join(LENS_DIR, 'murmurations-to-unified-person.lens.yml');
     const lensContent = fs.readFileSync(lensFile, 'utf8');
     const lens = loadYamlLens(lensContent);
     
-    console.log('🔄 Using lens transformation for Murmurations → Unified conversion');
-    let result = applyLensToDoc(lens, murmProfile);
-    
-    // Add required context and type information
-    result['@context'] = {
-      "@version": 1.1,
-      "@vocab": "https://schema.org/",
-      "schema": "https://schema.org/",
-      "murm": "https://murmurations.network/schemas/",
-      "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
-    };
-    
-    // Determine type based on linked_schemas
-    const isOrganization = murmProfile.linked_schemas && 
-      murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
-    
-    result['@type'] = isOrganization ? 
-      ["schema:Organization", "regen:RegenerativeOrganization"] :
-      ["schema:Person", "regen:RegenerativePerson"];
-    
-    // Preserve the name property
-    result.name = murmProfile.name;
-    
-    // Map primary_url to murm:primary_url
-    if (murmProfile.primary_url) {
-      result['murm:primary_url'] = murmProfile.primary_url;
-    }
-    
-    // Add location information
-    if (murmProfile.locality) {
-      const locationKey = isOrganization ? 'schema:location' : 'schema:homeLocation';
-      result[locationKey] = {
-        "@type": "schema:Place",
-        "schema:addressLocality": murmProfile.locality,
-        "schema:addressRegion": murmProfile.region,
-        "schema:addressCountry": murmProfile.country_name
-      };
-    }
-    
-    // Map tags to domain tags
-    if (murmProfile.tags) {
-      result['regen:domainTags'] = murmProfile.tags;
-    }
-    
-    // Preserve relationships
-    if (murmProfile.relationships) {
-      result['regen:relationships'] = murmProfile.relationships;
-    }
-    
-    // Map other fields that might be present
-    if (isOrganization) {
-      // Organization-specific fields
-      if (murmProfile.mission) result.mission = murmProfile.mission;
-      if (murmProfile.tagline) result.tagline = murmProfile.tagline;
-      if (murmProfile.legal_type) result.legalType = murmProfile.legal_type;
-      if (murmProfile.founded_year) result.foundedYear = murmProfile.founded_year;
-      if (murmProfile.employee_range) result.employeeRange = murmProfile.employee_range;
-      if (murmProfile.sdg_focus) result.sdgFocus = murmProfile.sdg_focus;
-      if (murmProfile.key_activities) result.keyActivities = murmProfile.key_activities;
-    } else {
-      // Person-specific fields
-      if (murmProfile.headline) result.headline = murmProfile.headline;
-      if (murmProfile.current_title) result.currentTitle = murmProfile.current_title;
-      if (murmProfile.current_org_id) result.currentOrgId = murmProfile.current_org_id;
-      if (murmProfile.display_handle) result.displayHandle = murmProfile.display_handle;
-      if (murmProfile.domain_tags) result.domainTags = murmProfile.domain_tags;
-      if (murmProfile.method_tags) result.methodTags = murmProfile.method_tags;
-      if (murmProfile.theory_tags) result.theoryTags = murmProfile.theory_tags;
-      if (murmProfile.pronouns) result.pronouns = murmProfile.pronouns;
-    }
-    
-    // Common fields
-    if (murmProfile.last_updated) result.lastUpdated = murmProfile.last_updated;
+    // Apply the lens with lossless conversion
+    console.log('Applying lossless lens to document...');
+    const result = await applyLosslessLensToDoc(lens, murmProfile, {
+      fetchDocument,
+      addReverseLinks: false
+    });
     
     return result;
   } catch (error) {

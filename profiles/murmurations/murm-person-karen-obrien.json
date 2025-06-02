@@ -1,4 +1,5 @@
 {
+  "last_updated": "2025-05-30T12:00:00Z",
   "theory_tags": [
     "Complexity Science",
     "Deep Adaptation"
@@ -12,6 +13,10 @@
     "Systems Literacy",
     "Inner Development (IDGs)"
   ],
+  "display_handle": "@karenobrien",
+  "current_org_id": "University of Oslo",
+  "current_title": "Professor",
+  "headline": "Climate Change Researcher & Professor of Human Geography",
   "linked_schemas": [
     "people_schema-v0.1.0"
   ],
@@ -39,21 +44,16 @@
     "Social Change",
     "Human Geography"
   ],
-  "geolocation": {
-    "lat": 59.9139,
-    "lon": 10.7522
-  },
-  "name": "Dr. Karen O'Brien",
-  "primary_url": "https://karenmobrien.com",
-  "locality": "Oslo",
-  "region": "Oslo",
   "country_name": "Norway",
-  "headline": "Climate Change Researcher & Professor of Human Geography",
-  "current_title": "Professor",
-  "current_org_id": "University of Oslo",
-  "display_handle": "@karenobrien",
+  "region": "Oslo",
+  "locality": "Oslo",
+  "primary_url": "https://karenmobrien.com",
+  "name": "Dr. Karen O'Brien",
+  "geolocation": {
+    "lon": 10.7522,
+    "lat": 59.9139
+  },
   "pronouns": "she/her",
-  "last_updated": "2025-05-30T12:00:00Z",
   "@id": "https://murmurations.network/profile/dr-karen-o-brien",
   "@reverse": {
     "schema:isBasedOn": {
