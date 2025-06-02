@@ -5,7 +5,7 @@ This directory contains documentation for the Regen Mapping project, including t
 ## 📚 Documentation Sections
 
 ### [Schema Documentation](schemas/README.md)
-- **[Schema Mapping and Registration Guide](schemas/schema-mapping-guide.md)** - NEW! Step-by-step guide for registering schemas with Murmurations
+- **[Schema Mapping and Registration Guide](schemas/schema-mapping-guide.md)** - Step-by-step guide for registering schemas with Murmurations
 - **Schema Comparisons** - Analysis of different schema approaches
 - **Transformation Guides** - Converting between schema formats
 - **Cambria Integration** - Using Cambria lenses for schema conversion
@@ -76,6 +76,88 @@ Main application controller that manages:
 - **JSON-LD @reverse Links**: Semantic web linking between profiles for lossless conversion
 - **Lossless Round-trip**: Complete preservation of data when converting between formats
 - **Fallback Mechanism**: Graceful handling when original profiles can't be fetched
+
+## 🔄 Lossless Conversion Implementation
+
+### Overview
+The lossless conversion approach solves the problem of data loss when converting between different schema formats. By adding a `source_url` field to Murmurations profiles that points to the original unified schema profile, we can recover the complete original profile when converting back from Murmurations to unified format.
+
+### How It Works
+
+1. **Unified → Murmurations**: When converting from unified schema to Murmurations format:
+   - We use Cambria lens transformations to convert the core fields
+   - We add a `source_url` field pointing to the original unified schema profile URL
+   - The script automatically creates both working profiles (with `source_url`) and clean profiles (without it)
+
+2. **Murmurations → Unified**: When converting from Murmurations back to unified format:
+   - First, we check for the `source_url` field
+   - If found, we fetch the original unified schema profile for true lossless conversion
+   - If fetch fails or field is missing, we fall back to Cambria lens transformation
+   - We use Cambria's lens transformation system for robust conversion
+
+### Murmurations Schema Constraints
+
+**Important**: Murmurations schema validation is extremely strict and only allows fields explicitly defined in their schemas. However, the `source_url` field IS accepted by Murmurations validation, making it perfect for lossless conversion.
+
+**Solution**: We use a dual-file strategy:
+- **Working profiles** (`profiles/murmurations/`): Include `source_url` for lossless conversion, uploaded to Murmurations index
+- **Clean profiles** (generated internally): Used when `source_url` needs to be omitted for strict compliance
+
+### Converting Profiles
+
+```bash
+# Convert all unified profiles to Murmurations format with source_url field
+npm run lossless-convert
+
+# Test round-trip conversion for a specific profile
+npm run test-roundtrip profiles/unified/regen-person-dylan-tull.jsonld
+
+# Run comprehensive tests for the lossless conversion
+npm run test-lossless
+```
+
+### Programmatic Usage
+
+```javascript
+const { 
+  convertUnifiedToMurmurations, 
+  convertMurmurationsToUnified 
+} = require('./scripts/lossless-conversion');
+
+// Convert from unified to Murmurations
+const murmurationsProfile = await convertUnifiedToMurmurations(unifiedProfile, 'person');
+
+// Convert from Murmurations back to unified
+const roundTripProfile = await convertMurmurationsToUnified(murmurationsProfile);
+```
+
+### Benefits of Lossless Conversion
+
+- **Truly Lossless**: No data is lost in the round-trip conversion
+- **Semantic Web Compatible**: Uses JSON-LD `@reverse` links to express relationships between profiles in a semantically rich way
+- **Backward Compatibility**: Uses the `source_url` field which is accepted by Murmurations validation
+- **Enhanced Discovery**: Profiles discoverable through standard queries and semantic web tools
+- **Schema Evolution**: Ability to extend base schemas while maintaining compatibility
+- **Network Effects**: Participation in broader regenerative discovery network
+- **Robust Fallback**: Falls back to lens transformation if fetching fails
+- **Standards-Based**: Follows JSON-LD and semantic web best practices for linking resources
+
+### Example Working Profile (with lossless conversion field)
+```json
+{
+  "linked_schemas": [
+    "people_schema-v0.1.0"
+  ],
+  "name": "Dr. Karen O'Brien",
+  "primary_url": "https://karenmobrien.com",
+  "tags": [
+    "Climate Change",
+    "Transformative Adaptation",
+    "Social Change"
+  ],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld"
+}
+```
 
 ## 📁 File Structure
 

@@ -21,6 +21,7 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 ### Rich Data Integration
 - **Multi-Schema Support**: Unified approach combining Schema.org standards, Murmurations discovery features, and custom regenerative categorization
 - **Strategic Namespace Hierarchy**: Uses Schema.org first (maximum interoperability), Murmurations second (regenerative ecosystem), and custom third (domain innovation) to ensure profiles work across web search, business tools, and regenerative discovery networks
+- **Lossless Schema Conversion**: Novel `source_url` innovation enables truly lossless round-trip conversion between schema formats by adding a field pointing to the original comprehensive profile, allowing recovery of 100% data fidelity during reverse conversion
 - **Murmurations Interoperability**: Profiles are designed to be discoverable and validated by the Murmurations Index. By leveraging the `linked_schemas` property, our unified Person and Organization profiles explicitly link to Murmurations' base schemas (`people_schema-v0.1.0` and `organizations_schema-v1.0.0`). This ensures that when users query the Murmurations Index for basic Person or Organization profiles, they will seamlessly discover and access the richer, more detailed profiles defined by our unified schemas. This approach maximizes discoverability while maintaining data richness.
 - **Comprehensive Profiles**: Organizations and individuals with detailed metadata, impact metrics, and relationship mapping
 - **Live Matching**: AI-powered suggestions connecting complementary needs and offers
@@ -146,12 +147,15 @@ The Regen Mapping project aims to create an interactive 3D globe and force-direc
 - **[Project Specifications](docs/project-specifications.md)** - Detailed technical specifications, UI mockups, and implementation guidelines
 - **[Seed Organizations](docs/seed-organizations.md)** - Initial dataset from Cascadia Bioregional Financing Conference
 - **[Cambria Integration](docs/cambria-integration.md)** - Schema conversion system documentation and usage guide
+- **[Interactive Website Documentation](docs/README.md)** - Complete guide to the visualization website, lossless conversion implementation, and technical architecture
 
 ### Schema Documentation
+- **[Schema Documentation Hub](docs/schemas/README.md)** - Comprehensive guide to schema transformation, mapping, and interoperability (consolidated from multiple guides)
 - **[Organization Schema Comparison](docs/schemas/Organization/unified-organization-schema-comparison.md)** - Analysis of organization schema approaches
 - **[Person Schema Comparison](docs/schemas/Person/unified-person-schema-comparison.md)** - Analysis of person schema approaches  
 - **[Organization Schema Mapping](docs/schemas/Organization/organization-schema-mapping-guide.md)** - Organization transformation rules and conversion utilities
 - **[Person Schema Mapping](docs/schemas/Person/person-schema-mapping-guide.md)** - Person transformation rules and conversion utilities
+- **[Cambria Lenses](cambria-lenses/README.md)** - Directory overview of lens files and usage in codebase
 
 ## 🏗️ Work Completed
 
