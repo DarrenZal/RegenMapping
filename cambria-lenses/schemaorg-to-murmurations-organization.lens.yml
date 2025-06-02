@@ -1,7 +1,7 @@
-# Cambria lens to convert from Schema.org Person to Murmurations Person schema
+# Cambria lens to convert from Schema.org Organization to Murmurations Organization schema
 # This lens transforms standard Schema.org format into Murmurations format
 
-schemaName: Person
+schemaName: Organization
 
 lens:
   # Basic field mappings
@@ -9,15 +9,15 @@ lens:
       source: "url"
       destination: "primary_url"
   
-  # Map Schema.org knowsAbout to Murmurations tags
+  # Map Schema.org keywords to Murmurations tags
   - optionalRename:
-      source: "knowsAbout"
+      source: "keywords"
       destination: "tags"
   
-  # Map jobTitle to headline if it exists
+  # Map description to tagline if it exists
   - optionalRename:
-      source: "jobTitle"
-      destination: "headline"
+      source: "description"
+      destination: "tagline"
   
   # Map address fields directly (Schema.org should have these flat)
   - optionalRename:
@@ -39,7 +39,7 @@ lens:
   # Set linked_schemas for Murmurations
   - setValue:
       name: "linked_schemas"
-      value: ["people_schema-v0.1.0"]
+      value: ["organizations_schema-v1.0.0"]
   
   # Pass through source_url if it exists (for lossless conversion)
   - optionalRename:

@@ -4,60 +4,68 @@
 schemaName: Organization
 
 lens:
+  # Map fields to proper Schema.org structure
+  - optionalRename:
+      source: "domainTags"
+      destination: "keywords"
+  - optionalRename:
+      source: "primary_url"
+      destination: "url"
+  - optionalRename:
+      source: "tagline"
+      destination: "description"
+  - optionalRename:
+      source: "locality"
+      destination: "addressLocality"
+  - optionalRename:
+      source: "region"
+      destination: "addressRegion"
+  - optionalRename:
+      source: "country_name"
+      destination: "addressCountry"
+  
   # Remove unified-specific fields that shouldn't appear in Schema.org
-  - remove: linked_schemas
-  - remove: geolocation
-  - remove: relationships
-  - remove: organizationTypes
-  - remove: primaryActivities
-  - remove: targetAudiences
-  - remove: domainTags
-  - remove: methodTags
-  - remove: theoryTags
-  - remove: lastUpdated
+  - remove:
+      name: "linked_schemas"
+  - remove:
+      name: "geolocation"
+  - remove:
+      name: "relationships"
+  - remove:
+      name: "methodTags"
+  - remove:
+      name: "theoryTags"
+  - remove:
+      name: "lastUpdated"
+  - remove:
+      name: "bioregion"
+  - remove:
+      name: "geographicScope"
+  - remove:
+      name: "mission"
+  - remove:
+      name: "legalType"
+  - remove:
+      name: "foundedYear"
+  - remove:
+      name: "employeeRange"
+  - remove:
+      name: "sdgFocus"
+  - remove:
+      name: "keyActivities"
+  - remove:
+      name: "status"
+  - remove:
+      name: "schema:version"
+  - remove:
+      name: "tags"
   
   # Set Schema.org context (replacing the unified context)
-  - add:
-      destination: "@context"
+  - setValue:
+      name: "@context"
       value: "https://schema.org/"
   
   # Set type to Organization
-  - add:
-      destination: "@type"
+  - setValue:
+      name: "@type"
       value: "Organization"
-  
-  # Core organization information
-  - rename:
-      source: name
-      destination: name
-  
-  - rename:
-      source: primary_url
-      destination: url
-  
-  - rename:
-      source: tagline
-      destination: description
-  
-  # Location information using Schema.org structure
-  - rename:
-      source: locality
-      destination: addressLocality
-  
-  - rename:
-      source: region  
-      destination: addressRegion
-  
-  - rename:
-      source: country_name
-      destination: addressCountry
-  
-  # Map unified tags to Schema.org keywords
-  - rename:
-      source: tags
-      destination: keywords
-  
-  # Pass through source_url if it exists (for lossless conversion)
-  - rename:
-      source: source_url
-      destination: source_url

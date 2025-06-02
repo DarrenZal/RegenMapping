@@ -1,49 +1,14 @@
 {
-  "method_tags": [
-    "Adaptive Management",
-    "Citizen Science"
-  ],
-  "domain_tags": [
+  "tags": [
     "Climate Change",
     "Systems Literacy",
     "Inner Development (IDGs)"
   ],
-  "linked_schemas": [
-    "people_schema-v0.1.0"
-  ],
-  "tags": [
-    "Climate Change",
-    "Transformative Adaptation",
-    "Social Change",
-    "Human Geography"
-  ],
-  "geolocation": {
-    "lat": 60.3913,
-    "lon": 5.3221
-  },
-  "skills": [
-    "Climate Research",
-    "Transformative Adaptation",
-    "Systems Thinking"
-  ],
-  "needs": [
-    "Research funding",
-    "Policy partnerships",
-    "Community organizers"
-  ],
-  "offers": [
-    "Research expertise",
-    "Academic mentorship",
-    "Knowledge synthesis"
-  ],
-  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
+  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
   "name": "Dr. Karen O'Brien",
   "primary_url": "https://karenmobrien.com",
   "locality": "Bergen, Norway",
   "region": "Vestland",
   "country_name": "Norway",
-  "bioregion": "North Sea",
-  "current_title": "Professor",
-  "current_org_id": "University of Oslo",
-  "pronouns": "she/her"
+  "headline": "Climate Change Researcher & Professor of Human Geography"
 }

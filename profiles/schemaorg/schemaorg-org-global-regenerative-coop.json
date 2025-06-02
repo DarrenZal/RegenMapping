@@ -1,14 +1,14 @@
 {
-  "tags": [
+  "keywords": [
     "Regenerative Agriculture",
     "Circular Materials",
     "Post-capitalist Finance"
   ],
   "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
   "name": "Global Regenerative Cooperative",
-  "primary_url": "https://global-regenerative.coop",
-  "locality": "New York, NY",
-  "region": "New York",
-  "country_name": "United States",
-  "tagline": "Building the regenerative economy, together"
+  "url": "https://global-regenerative.coop",
+  "addressLocality": "New York, NY",
+  "addressRegion": "New York",
+  "addressCountry": "United States",
+  "description": "Building the regenerative economy, together"
 }

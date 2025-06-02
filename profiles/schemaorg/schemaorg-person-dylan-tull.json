@@ -1,14 +1,14 @@
 {
-  "tags": [
+  "knowsAbout": [
     "Regenerative Ag",
     "Post-capitalist Finance",
     "Distributed Governance"
   ],
   "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
   "name": "Dylan Tull",
-  "primary_url": "https://dylantull.com",
-  "locality": "Traverse City, Michigan",
-  "region": "Michigan",
-  "country_name": "United States",
-  "headline": "Regenerative Economy Researcher & Designer"
+  "url": "https://dylantull.com",
+  "addressLocality": "Traverse City, Michigan",
+  "addressRegion": "Michigan",
+  "addressCountry": "United States",
+  "jobTitle": "Regenerative Economy Researcher & Designer"
 }

@@ -1,16 +1,14 @@
 {
-  "regen:domainTags": [
+  "knowsAbout": [
     "Climate Change",
     "Systems Literacy",
     "Inner Development (IDGs)"
   ],
-  "@context": "https://schema.org/",
-  "@type": "Person",
   "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dr-karen-o-brien.jsonld",
-  "schema:name": "Dr. Karen O'Brien",
-  "schema:url": "https://karenmobrien.com",
+  "name": "Dr. Karen O'Brien",
+  "url": "https://karenmobrien.com",
   "addressLocality": "Bergen, Norway",
   "addressRegion": "Vestland",
   "addressCountry": "Norway",
-  "schema:jobTitle": "Climate Change Researcher & Professor of Human Geography"
+  "jobTitle": "Climate Change Researcher & Professor of Human Geography"
 }
