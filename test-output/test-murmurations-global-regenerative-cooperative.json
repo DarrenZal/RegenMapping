@@ -53,11 +53,5 @@
   "founded_year": 2023,
   "employee_range": "11-50",
   "last_updated": "2025-05-30T12:00:00Z",
-  "@id": "https://murmurations.network/profile/global-regenerative-cooperative",
-  "@reverse": {
-    "schema:isBasedOn": {
-      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
-    }
-  },
-  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
 }

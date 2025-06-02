@@ -27,11 +27,11 @@ This document summarizes the **completed integration** of Cambria for converting
 #### Field Mappings
 ```
 Murmurations → Unified:
-- name → schema:name
+- name → name
 - primary_url → murm:primary_url
-- locality → regen:locality
-- geolocation → regen:geolocation
-- tags → regen:domainTags
+- locality → locality
+- geolocation → geolocation (with lat/lon → latitude/longitude)
+- tags → tags
 ```
 
 ### Test Results

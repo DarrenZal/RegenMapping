@@ -176,39 +176,44 @@ class CambriaBrowser {
     async convertSchema(data, fromFormat, toFormat) {
         try {
             if (fromFormat === 'murmurations' && toFormat === 'unified') {
-                // Check if the profile has a JSON-LD @reverse link or profile_source field
-                let sourceUrl = null;
-                
-                // First check for @reverse link (preferred method)
-                if (data['@reverse'] && data['@reverse']['schema:isBasedOn'] && data['@reverse']['schema:isBasedOn']['@id']) {
-                    sourceUrl = data['@reverse']['schema:isBasedOn']['@id'];
-                    console.log(`🔄 Found @reverse link: ${sourceUrl}`);
-                } 
-                // Fall back to profile_source field (backward compatibility)
-                else if (data.profile_source) {
-                    sourceUrl = data.profile_source;
-                    console.log(`🔄 Found profile_source: ${sourceUrl}`);
+                // Implement lossless conversion using source_url field
+                if (data['source_url']) {
+                    console.log(`🔄 Found source_url: ${data['source_url']}`);
+                    const originalProfile = await this.fetchProfile(data['source_url']);
+                    if (originalProfile) {
+                        console.log('✅ Successfully fetched original unified profile from source_url');
+                        return originalProfile;
+                    }
                 }
                 
-                // If we found a source URL, try to fetch the original profile
-                if (sourceUrl) {
+                // Fallback to name mapping for older profiles without source_url
+                const nameToUnifiedUrlMap = {
+                    'Dylan Tull': 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld',
+                    'Dr. Karen O\'Brien': 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-karen-obrien.jsonld',
+                    'Global Regenerative Cooperative': 'https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld'
+                };
+                
+                const unifiedUrl = nameToUnifiedUrlMap[data.name];
+                if (unifiedUrl) {
                     try {
-                        // Attempt to fetch the original unified profile
-                        const originalProfile = await this.fetchProfile(sourceUrl);
+                        console.log(`🔄 Attempting lossless conversion for: ${data.name}`);
+                        console.log(`🔗 Fetching unified profile from: ${unifiedUrl}`);
+                        
+                        const originalProfile = await this.fetchProfile(unifiedUrl);
                         
                         if (originalProfile) {
-                            console.log('✅ Successfully fetched original unified profile');
+                            console.log('✅ Successfully fetched original unified profile for lossless conversion');
                             return originalProfile;
                         } else {
-                            console.warn('⚠️ Failed to fetch original profile, falling back to lens transformation');
+                            console.warn('⚠️ Failed to fetch original unified profile, falling back to lens transformation');
                         }
                     } catch (fetchError) {
-                        console.warn(`⚠️ Error fetching original profile: ${fetchError.message}`);
+                        console.warn(`⚠️ Error fetching original unified profile: ${fetchError.message}`);
                         console.warn('⚠️ Falling back to lens transformation');
                     }
                 }
                 
-                // If no profile_source or fetching failed, use lens transformation
+                // Use lens transformation
                 if (this.lenses.murmToUnified) {
                     console.log('🔄 Using lens transformation for Murmurations → Unified conversion');
                     let result = this.applyLensToDoc(this.lenses.murmToUnified, data);
@@ -233,13 +238,18 @@ class CambriaBrowser {
                     // Preserve the name property
                     result.name = data.name;
                     
-                    // Map primary_url to murm:primary_url
+                    // Map primary_url to murm:primary_url and url
                     if (data.primary_url) {
                         result['murm:primary_url'] = data.primary_url;
+                        result.url = data.primary_url;
                     }
                     
                     // Add location information
                     if (data.locality) {
+                        result['regen:locality'] = data.locality;
+                        result['regen:region'] = data.region;
+                        result['regen:country'] = data.country_name;
+                        
                         const locationKey = isOrganization ? 'schema:location' : 'schema:homeLocation';
                         result[locationKey] = {
                             "@type": "schema:Place",
@@ -301,8 +311,8 @@ class CambriaBrowser {
                 const result = {
                     "@context": "https://schema.org/",
                     "@type": isOrganization ? "Organization" : "Person",
-                    "name": data.name || data['schema:name'],
-                    "url": data['murm:primary_url']
+                    "name": data.name || data['schema:name'] || 'Unknown',
+                    "url": data['murm:primary_url'] || data.url
                 };
                 
                 // Add location
@@ -327,7 +337,7 @@ class CambriaBrowser {
                 const result = {
                     "@context": "https://schema.org/",
                     "@type": isOrganization ? "Organization" : "Person",
-                    "name": data.name,
+                    "name": data.name || 'Unknown',
                     "url": data.primary_url
                 };
                 

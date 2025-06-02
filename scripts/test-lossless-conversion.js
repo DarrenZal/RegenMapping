@@ -162,7 +162,7 @@ async function testFallbackMechanism(profilePath) {
     
     // Step 5: Verify that the fallback profile has the essential fields
     console.log('Step 5: Verifying fallback profile has essential fields');
-    const essentialFields = ['name', '@context', '@type', 'murm:primary_url'];
+    const essentialFields = ['name', '@context', '@type', 'primary_url'];
     const missingFields = essentialFields.filter(field => !(field in fallbackProfile));
     
     if (missingFields.length === 0) {

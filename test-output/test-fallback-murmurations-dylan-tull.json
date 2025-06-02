@@ -53,11 +53,6 @@
   "current_org_id": "Global Regenerative Cooperative",
   "display_handle": "@dylantull",
   "last_updated": "2025-05-30T12:00:00Z",
-  "@id": "https://murmurations.network/profile/dylan-tull",
-  "@reverse": {
-    "schema:isBasedOn": {
-      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld"
-    }
-  },
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
   "profile_source": "https://example.com/nonexistent-profile.jsonld"
 }

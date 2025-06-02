@@ -11,7 +11,7 @@ lens:
   
   - rename:
       source: primary_url
-      destination: primary_url
+      destination: murm:primary_url
   
   # Map location fields
   - rename:

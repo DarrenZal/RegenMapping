@@ -19,8 +19,6 @@ const path = require('path');
 const { 
   loadYamlLens, 
   applyLensToDoc,
-  addReverseLinks,
-  extractSourceUrl,
   applyLosslessLensToDoc,
   createDocumentFetcher
 } = require('cambria');
@@ -188,14 +186,11 @@ async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
       murmurationsProfile.linked_schemas = ['organizations_schema-v1.0.0'];
     }
     
-    // Add JSON-LD @reverse link to the original unified profile
+    // Add schema:isBasedOn field for lossless conversion
+    // This field points to the original unified schema profile
     const slugName = slugifyName(murmurationsProfile.name);
     const profilePrefix = profileType === 'person' ? 'regen-person-' : 'regen-org-';
     
-    // Create a unique ID for this Murmurations profile
-    murmurationsProfile['@id'] = `https://murmurations.network/profile/${slugName}`;
-    
-    // Add @reverse link to the original unified profile
     let sourceUrl;
     
     // Handle special cases
@@ -207,13 +202,8 @@ async function convertUnifiedToMurmurations(unifiedProfile, profileType) {
       sourceUrl = `https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/${profilePrefix}${slugName}.jsonld`;
     }
     
-    // Add @reverse links to track the source
-    murmurationsProfile = addReverseLinks(murmurationsProfile, {
-      targetId: `https://murmurations.network/profile/${slugName}`,
-      sourceId: sourceUrl,
-      predicate: 'schema:isBasedOn',
-      addProfileSource: true
-    });
+    // Add source_url field for lossless conversion (schema:isBasedOn is rejected by Murmurations validation)
+    murmurationsProfile['source_url'] = sourceUrl;
     
     return murmurationsProfile;
   } catch (error) {
@@ -241,11 +231,33 @@ async function fetchProfile(url) {
 
 /**
  * Convert a Murmurations profile back to unified format
- * This will attempt to fetch the original unified profile using the @reverse link
+ * Uses Cambria's lossless conversion with schema:isBasedOn field
  */
 async function convertMurmurationsToUnified(murmProfile) {
   try {
-    // Create a document fetcher
+    // Check if the profile has a source_url field for lossless conversion
+    if (murmProfile['source_url']) {
+      try {
+        console.log(`🔄 Found source_url: ${murmProfile['source_url']}`);
+        // Attempt to fetch the original unified profile for lossless conversion
+        const originalProfile = await fetchProfile(murmProfile['source_url']);
+        
+        if (originalProfile) {
+          console.log('✅ Successfully fetched original unified profile from source_url');
+          return originalProfile;
+        } else {
+          console.warn('⚠️ Failed to fetch original profile, falling back to lens transformation');
+        }
+      } catch (fetchError) {
+        console.warn(`⚠️ Error fetching original profile: ${fetchError.message}`);
+        console.warn('⚠️ Falling back to lens transformation');
+      }
+    }
+    
+    // Fallback: Use Cambria lossless lens transformation
+    console.log('🔄 Using Cambria lossless lens transformation for Murmurations → Unified conversion');
+    
+    // Create a document fetcher for Cambria
     const fetchDocument = createDocumentFetcher(fetch);
     
     // Load the Murmurations to Unified lens
@@ -253,27 +265,60 @@ async function convertMurmurationsToUnified(murmProfile) {
     const lensContent = fs.readFileSync(lensFile, 'utf8');
     const lens = loadYamlLens(lensContent);
     
-    // Apply the lens with lossless conversion
-    console.log('Applying lossless lens to document...');
+    // Apply the lossless lens transformation
     const result = await applyLosslessLensToDoc(lens, murmProfile, {
       fetchDocument,
-      addReverseLinks: false
+      addReverseLinks: false // We don't add reverse links since Murmurations doesn't allow them
     });
     
     return result;
   } catch (error) {
     console.error(`❌ Error converting Murmurations profile to Unified: ${error.message}`);
-    throw error;
+    
+    // Final fallback: Use basic lens transformation
+    console.log('🔄 Using basic lens transformation as final fallback');
+    
+    try {
+      const lensFile = path.join(LENS_DIR, 'murmurations-to-unified-person.lens.yml');
+      const lensContent = fs.readFileSync(lensFile, 'utf8');
+      const lens = loadYamlLens(lensContent);
+      
+      return applyLensToDoc(lens, murmProfile);
+    } catch (fallbackError) {
+      console.error(`❌ Final fallback also failed: ${fallbackError.message}`);
+      throw error;
+    }
   }
+}
+
+/**
+ * Create a clean version of a Murmurations profile without fields that aren't allowed
+ */
+function createCleanMurmurationsProfile(profile) {
+  const cleanProfile = { ...profile };
+  
+  // Remove fields that Murmurations validation doesn't allow
+  delete cleanProfile['@id'];
+  delete cleanProfile['@reverse'];
+  delete cleanProfile['profile_source'];
+  delete cleanProfile['schema:isBasedOn'];
+  delete cleanProfile['source_url'];
+  
+  return cleanProfile;
 }
 
 /**
  * Process all unified profiles and convert them to Murmurations format
  */
 async function processUnifiedProfiles() {
-  // Create the output directory if it doesn't exist
+  // Create the output directories if they don't exist
   if (!fs.existsSync(MURMURATIONS_DIR)) {
     fs.mkdirSync(MURMURATIONS_DIR, { recursive: true });
+  }
+  
+  const workingDir = path.join(__dirname, '..', 'profiles', 'murmurations-working');
+  if (!fs.existsSync(workingDir)) {
+    fs.mkdirSync(workingDir, { recursive: true });
   }
 
   // Get all JSON-LD files in the unified directory
@@ -293,7 +338,7 @@ async function processUnifiedProfiles() {
       
       console.log(`📄 Processing: ${file} (${profileType})`);
       
-      // Convert to Murmurations format
+      // Convert to Murmurations format (with schema:isBasedOn for lossless conversion)
       const murmurationsProfile = await convertUnifiedToMurmurations(unifiedProfile, profileType);
       
       // Generate output filename
@@ -302,12 +347,17 @@ async function processUnifiedProfiles() {
         .replace('regen-', 'murm-')
         .replace('.jsonld', '.json');
       
+      // Save the working version (with schema:isBasedOn) for lossless conversion testing
+      const workingPath = path.join(workingDir, outputFile);
+      fs.writeFileSync(workingPath, JSON.stringify(murmurationsProfile, null, 2));
+      console.log(`💾 Saved working version: ${workingPath}`);
+      
+      // Create and save the clean version (without schema:isBasedOn) for Murmurations submission
+      const cleanProfile = createCleanMurmurationsProfile(murmurationsProfile);
       const outputPath = path.join(MURMURATIONS_DIR, outputFile);
+      fs.writeFileSync(outputPath, JSON.stringify(cleanProfile, null, 2));
+      console.log(`✅ Saved clean version: ${outputFile}`);
       
-      // Write the converted profile
-      fs.writeFileSync(outputPath, JSON.stringify(murmurationsProfile, null, 2));
-      
-      console.log(`✅ Saved: ${outputFile}`);
     } catch (error) {
       console.error(`❌ Error processing ${file}: ${error.message}`);
     }

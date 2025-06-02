@@ -1,5 +1,4 @@
 {
-  "last_updated": "2025-05-30T12:00:00Z",
   "key_activities": [
     "Regenerative Business Incubation",
     "Cooperative Development",
@@ -12,11 +11,6 @@
     "SDG12",
     "SDG13"
   ],
-  "employee_range": "11-50",
-  "founded_year": 2023,
-  "legal_type": "Cooperative",
-  "tagline": "Building the regenerative economy, together",
-  "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
   "linked_schemas": [
     "organizations_schema-v1.0.0"
   ],
@@ -44,20 +38,19 @@
     "Climate Solutions",
     "Circular Economy"
   ],
-  "country_name": "United States",
-  "region": "Michigan",
-  "locality": "Traverse City",
-  "primary_url": "https://global-regenerative.coop",
-  "name": "Global Regenerative Cooperative",
   "geolocation": {
-    "lon": -85.9846,
-    "lat": 45.7108
+    "lat": 45.7108,
+    "lon": -85.9846
   },
-  "@id": "https://murmurations.network/profile/global-regenerative-cooperative",
-  "@reverse": {
-    "schema:isBasedOn": {
-      "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
-    }
-  },
-  "profile_source": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-org-global-regenerative-coop.jsonld"
+  "name": "Global Regenerative Cooperative",
+  "primary_url": "https://global-regenerative.coop",
+  "locality": "Traverse City",
+  "region": "Michigan",
+  "country_name": "United States",
+  "tagline": "Building the regenerative economy, together",
+  "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
+  "legal_type": "Cooperative",
+  "founded_year": 2023,
+  "employee_range": "11-50",
+  "last_updated": "2025-05-30T12:00:00Z"
 }

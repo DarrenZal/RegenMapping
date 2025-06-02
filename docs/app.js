@@ -496,16 +496,42 @@ class RegenMappingApp {
     renderUnifiedFields(data) {
         let html = '';
         
-        if (data['murm:primary_url']) {
-            html += this.renderField('Primary URL', `<a href="${data['murm:primary_url']}" target="_blank">${data['murm:primary_url']}</a>`);
+        if (data['murm:primary_url'] || data.url) {
+            const url = data['murm:primary_url'] || data.url;
+            html += this.renderField('Primary URL', `<a href="${url}" target="_blank">${url}</a>`);
         }
         
         if (data['regen:locality']) {
-            html += this.renderField('Locality', data['regen:locality']);
+            const location = [data['regen:locality'], data['regen:region'], data['regen:country']].filter(Boolean).join(', ');
+            html += this.renderField('Location', location);
+        }
+        
+        if (data.headline) {
+            html += this.renderField('Headline', data.headline);
+        }
+        
+        if (data.currentTitle) {
+            html += this.renderField('Current Title', data.currentTitle);
+        }
+        
+        if (data.currentOrgId) {
+            html += this.renderField('Current Organization', data.currentOrgId);
         }
         
         if (data['regen:domainTags'] && data['regen:domainTags'].length > 0) {
             html += this.renderField('Domain Tags', data['regen:domainTags'].join(', '));
+        }
+        
+        if (data.domainTags && data.domainTags.length > 0) {
+            html += this.renderField('Domain Tags', data.domainTags.join(', '));
+        }
+        
+        if (data.methodTags && data.methodTags.length > 0) {
+            html += this.renderField('Method Tags', data.methodTags.join(', '));
+        }
+        
+        if (data.theoryTags && data.theoryTags.length > 0) {
+            html += this.renderField('Theory Tags', data.theoryTags.join(', '));
         }
         
         if (data['@type']) {

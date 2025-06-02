@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schema Conversion Test</title>
+</head>
+<body>
+    <h1>Schema Conversion Test</h1>
+    <div id="output"></div>
+
+    <script src="docs/cambria-browser.js"></script>
+    <script>
+        async function testConversion() {
+            const output = document.getElementById('output');
+            
+            // Load our local Murmurations profile
+            const response = await fetch('./profiles/murmurations/murm-person-dylan-tull.json');
+            const murmProfile = await response.json();
+            
+            output.innerHTML += '<h2>Original Murmurations Profile:</h2>';
+            output.innerHTML += '<pre>' + JSON.stringify(murmProfile, null, 2) + '</pre>';
+            
+            // Initialize Cambria
+            const cambria = new CambriaBrowser();
+            const cambriaReady = await cambria.initializeLenses();
+            
+            output.innerHTML += '<h2>Cambria Ready: ' + cambriaReady + '</h2>';
+            
+            if (cambriaReady) {
+                // Test conversion to unified
+                const unifiedProfile = await cambria.convertSchema(murmProfile, 'murmurations', 'unified');
+                output.innerHTML += '<h2>Converted to Unified:</h2>';
+                output.innerHTML += '<pre>' + JSON.stringify(unifiedProfile, null, 2) + '</pre>';
+                
+                // Test conversion to Schema.org
+                const schemaorgProfile = await cambria.convertSchema(murmProfile, 'murmurations', 'schemaorg');
+                output.innerHTML += '<h2>Converted to Schema.org:</h2>';
+                output.innerHTML += '<pre>' + JSON.stringify(schemaorgProfile, null, 2) + '</pre>';
+            }
+            
+            // Test what's in the Murmurations index and conversion
+            output.innerHTML += '<h2>Testing Murmurations Index and Conversion:</h2>';
+            try {
+                const indexResponse = await fetch('https://test-index.murmurations.network/v2/nodes?schema=people_schema-v0.1.0');
+                if (indexResponse.ok) {
+                    const indexData = await indexResponse.json();
+                    output.innerHTML += '<p>Found ' + (indexData.data?.length || 0) + ' total profiles in index</p>';
+                    
+                    // Look for our profiles
+                    const ourProfiles = indexData.data?.filter(node => 
+                        node.profile_url.includes('DarrenZal/RegenMapping')
+                    ) || [];
+                    
+                    output.innerHTML += '<p>Found ' + ourProfiles.length + ' of our profiles</p>';
+                    
+                    if (ourProfiles.length > 0) {
+                        const profile = ourProfiles[0]; // Test with first profile
+                        output.innerHTML += '<p>Testing with: ' + profile.profile_url + '</p>';
+                        
+                        // Fetch the actual profile
+                        try {
+                            const profileResponse = await fetch(profile.profile_url);
+                            if (profileResponse.ok) {
+                                const profileData = await profileResponse.json();
+                                output.innerHTML += '<h3>Original Murmurations Profile (' + profileData.name + '):</h3>';
+                                output.innerHTML += '<pre>' + JSON.stringify(profileData, null, 2) + '</pre>';
+                                
+                                // Test conversion to unified
+                                if (cambriaReady) {
+                                    const convertedUnified = await cambria.convertSchema(profileData, 'murmurations', 'unified');
+                                    output.innerHTML += '<h3>Converted to Unified (with lossless conversion):</h3>';
+                                    output.innerHTML += '<pre>' + JSON.stringify(convertedUnified, null, 2) + '</pre>';
+                                    
+                                    // Test conversion to schema.org
+                                    const convertedSchemaOrg = await cambria.convertSchema(profileData, 'murmurations', 'schemaorg');
+                                    output.innerHTML += '<h3>Converted to Schema.org:</h3>';
+                                    output.innerHTML += '<pre>' + JSON.stringify(convertedSchemaOrg, null, 2) + '</pre>';
+                                }
+                            }
+                        } catch (e) {
+                            output.innerHTML += '<p>Error fetching profile: ' + e.message + '</p>';
+                        }
+                    }
+                }
+            } catch (e) {
+                output.innerHTML += '<p>Error checking index: ' + e.message + '</p>';
+            }
+        }
+        
+        testConversion();
+    </script>
+</body>
+</html>

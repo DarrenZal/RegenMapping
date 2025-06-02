@@ -346,9 +346,6 @@
                 <li>
                     <button id="view-graph" class="active">Graph View</button>
                 </li>
-                <li>
-                    <button id="view-docs">Documentation</button>
-                </li>
                 
                 <li class="menu-section">Resources</li>
                 <li>
@@ -383,10 +380,6 @@
                 </div>
             </div>
 
-            <!-- Documentation View -->
-            <div class="docs-container" id="docs-view">
-                <iframe src="docs.html" title="Documentation"></iframe>
-            </div>
 
             <!-- Sidebar for Profile Details -->
             <div class="sidebar" id="sidebar">
@@ -415,25 +408,7 @@
         // View switching functionality
         document.addEventListener('DOMContentLoaded', function() {
             const graphView = document.getElementById('graph-view');
-            const docsView = document.getElementById('docs-view');
             const viewGraphBtn = document.getElementById('view-graph');
-            const viewDocsBtn = document.getElementById('view-docs');
-            
-            // Switch to graph view
-            viewGraphBtn.addEventListener('click', function() {
-                graphView.style.display = 'block';
-                docsView.style.display = 'none';
-                viewGraphBtn.classList.add('active');
-                viewDocsBtn.classList.remove('active');
-            });
-            
-            // Switch to docs view
-            viewDocsBtn.addEventListener('click', function() {
-                graphView.style.display = 'none';
-                docsView.style.display = 'block';
-                viewDocsBtn.classList.add('active');
-                viewGraphBtn.classList.remove('active');
-            });
         });
         
         // Sidebar functionality
