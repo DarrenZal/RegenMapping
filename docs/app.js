@@ -40,9 +40,15 @@ class RegenMappingApp {
             console.warn('Failed to load from Murmurations index:', error);
         }
 
-        // If no profiles loaded from Murmurations, try GitHub URLs as fallback
-        if (Object.keys(this.profiles).length === 0) {
-            console.log('📁 No profiles from Murmurations index, loading from GitHub...');
+        // Always try to load missing profiles from GitHub as fallback
+        const expectedProfiles = ['dylan-tull', 'dr-karen-obrien', 'global-regenerative-cooperative'];
+        const loadedProfiles = Object.keys(this.profiles);
+        const missingProfiles = expectedProfiles.filter(expected => 
+            !loadedProfiles.some(loaded => loaded.includes(expected.replace(/-/g, '')))
+        );
+        
+        if (missingProfiles.length > 0) {
+            console.log(`📁 Missing ${missingProfiles.length} profiles from Murmurations, loading from GitHub...`, missingProfiles);
             await this.loadFromGitHub();
         }
 
@@ -148,7 +154,13 @@ class RegenMappingApp {
                 const response = await fetch(url);
                 if (response.ok) {
                     const profile = await response.json();
-                    const id = this.extractProfileId(url);
+                    const id = this.generateProfileId(profile.name);
+                    
+                    // Skip if we already have this profile
+                    if (this.profiles[id]) {
+                        console.log(`⏭️ Skipping duplicate profile: ${profile.name}`);
+                        continue;
+                    }
                     
                     // Load pre-converted profiles instead of doing conversion
                     const unifiedProfile = await this.loadPreConvertedProfile(profile.name, 'unified');
@@ -348,9 +360,9 @@ class RegenMappingApp {
                         links.push({
                             source: profileId,
                             target: targetProfileId,
-                            type: rel.predicate_url ? 'knows' : (rel.type || 'connection'),
-                            description: rel.description || 'Connected',
-                            label: `Connected`
+                            type: rel.predicate_url || rel.type || 'connection',
+                            description: rel.description || `${rel.predicate_url || rel.type || 'Connected'}`,
+                            label: rel.predicate_url || rel.type || 'Connected'
                         });
                         
                         console.log(`✅ Created link: ${profileId} -> ${targetProfileId}`);
@@ -591,12 +603,20 @@ class RegenMappingApp {
 
         if (data.relationships && data.relationships.length > 0) {
             const relationshipsHtml = data.relationships.map((rel, index) => {
-                const targetName = rel.object_url || rel.target || 'Unknown';
-                const relationType = rel.predicate_url ? 'knows' : (rel.type || 'connected to');
+                const targetUrl = rel.object_url || rel.target || 'Unknown';
+                const relationType = rel.predicate_url || rel.type || 'connected to';
                 const description = rel.description || '';
                 
+                // Try to find the display name for the target
+                const targetProfile = Object.values(this.profiles).find(p => 
+                    p.murmurations.primary_url === targetUrl ||
+                    p.murmurations.name === targetUrl ||
+                    (targetUrl.startsWith('http') && p.murmurations.primary_url?.replace(/^https?:\/\/(www\.)?/, '') === targetUrl.replace(/^https?:\/\/(www\.)?/, ''))
+                );
+                const displayName = targetProfile?.murmurations.name || targetUrl;
+                
                 return `<div class="relationship-item">
-                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetName}">${targetName}</a>
+                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetUrl}">${displayName}</a>
                     ${description ? `<br><em>${description}</em>` : ''}
                 </div>`;
             }).join('');
@@ -703,12 +723,20 @@ class RegenMappingApp {
         // Relationships
         if (data.relationships && data.relationships.length > 0) {
             const relationshipsHtml = data.relationships.map(rel => {
-                const targetName = rel.object_url || rel.target || 'Unknown';
-                const relationType = rel.predicate_url ? 'knows' : (rel.type || 'connected to');
+                const targetUrl = rel.object_url || rel.target || 'Unknown';
+                const relationType = rel.predicate_url || rel.type || 'connected to';
                 const description = rel.description || '';
                 
+                // Try to find the display name for the target
+                const targetProfile = Object.values(this.profiles).find(p => 
+                    p.murmurations.primary_url === targetUrl ||
+                    p.murmurations.name === targetUrl ||
+                    (targetUrl.startsWith('http') && p.murmurations.primary_url?.replace(/^https?:\/\/(www\.)?/, '') === targetUrl.replace(/^https?:\/\/(www\.)?/, ''))
+                );
+                const displayName = targetProfile?.murmurations.name || targetUrl;
+                
                 return `<div class="relationship-item">
-                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetName}">${targetName}</a>
+                    <strong>${relationType}</strong>: <a href="#" class="profile-link" data-target="${targetUrl}">${displayName}</a>
                     ${description ? `<br><em>${description}</em>` : ''}
                 </div>`;
             }).join('');
@@ -1005,10 +1033,21 @@ class RegenMappingApp {
         );
         console.log('📋 Available profiles:', availableNames);
         
-        // Find the profile by name
-        const profileId = Object.keys(this.profiles).find(id => 
-            this.profiles[id].murmurations.name === profileName
-        );
+        // Find the profile by name or URL
+        const profileId = Object.keys(this.profiles).find(id => {
+            const profile = this.profiles[id].murmurations;
+            // Match by exact name
+            if (profile.name === profileName) return true;
+            // Match by primary URL
+            if (profile.primary_url === profileName) return true;
+            // Match by URL without protocol/www
+            if (profileName.startsWith('http')) {
+                const cleanUrl = profileName.replace(/^https?:\/\/(www\.)?/, '');
+                const cleanPrimaryUrl = profile.primary_url?.replace(/^https?:\/\/(www\.)?/, '');
+                if (cleanUrl === cleanPrimaryUrl) return true;
+            }
+            return false;
+        });
         
         console.log(`🎯 Found profile ID: ${profileId}`);
         
