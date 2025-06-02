@@ -198,6 +198,14 @@ This approach creates a "superset" relationship where our unified schemas extend
 
 ### Transformation Capabilities with Cambria Lenses
 
+**Complete Schema Interoperability System** - 12 comprehensive bidirectional transformations:
+
+✅ **All 6 Person Schema Conversions**: Murmurations ↔ Unified ↔ Schema.org (plus direct cross-conversions)
+✅ **All 6 Organization Schema Conversions**: Murmurations ↔ Unified ↔ Schema.org (plus direct cross-conversions)  
+✅ **Lossless Round-trip Conversion**: Preserves semantic meaning across transformation chains
+✅ **Enhanced Relationship Preservation**: Maintains connection types (member, collaboration, etc.)
+✅ **Pure Cambria Implementation**: No external post-processing required
+
 **Bidirectional Transformations** between:
 - **Schema.org** format (web standards compliance)
 - **Murmurations** format (regenerative economy discovery)  
@@ -208,16 +216,21 @@ This approach creates a "superset" relationship where our unified schemas extend
 - **People** - Individuals engaged in regenerative economy activities
 
 #### Cambria Lens Implementation ✅
-We use [Cambria](https://github.com/cambria-project/cambria) to handle schema transformations:
+We use an **enhanced version of [Cambria](https://github.com/cambria-project/cambria)** to handle schema transformations:
 
+- **Enhanced Array Transformations**: Custom improvements to support complex field operations within arrays
+- **Relationship Preservation**: Advanced `in` and `map` operations for relationship data transformation
 - **Lens Files**: Located in `/cambria-lenses/` directory
 - **Bidirectional Conversion**: Each schema pair has forward and reverse lenses
 - **Browser Integration**: Working in-browser implementation for live transformations
 - **CLI Support**: Command-line transformation capabilities for automation
+- **Pure Declarative Operations**: All transformations use Cambria lens operations without external post-processing
+
+**Enhanced Cambria Source**: Our improvements are available at [https://github.com/DarrenZal/cambria-project](https://github.com/DarrenZal/cambria-project)
 
 **Complete Lens Matrix**:
 
-We support full bidirectional conversion between all three schema formats:
+We support full bidirectional conversion between all three schema formats with **12 comprehensive lenses**:
 
 ```
 Unified Schema ←→ Murmurations ←→ Schema.org
@@ -232,17 +245,20 @@ Unified Schema ←→ Murmurations ←→ Schema.org
 | Murmurations | Unified | `murmurations-to-unified-person.lens.yml` | Transform Murmurations person to comprehensive unified format |
 | Unified | Murmurations | `unified-to-murmurations-person.lens.yml` | Clean unified person for Murmurations network publishing |
 | Schema.org | Unified | `schemaorg-to-unified-person.lens.yml` | Import standard Schema.org person data |
+| Unified | Schema.org | `unified-to-schemaorg-person.lens.yml` | Export to clean Schema.org format |
 | Murmurations | Schema.org | `murmurations-to-schemaorg-person.lens.yml` | Direct conversion to web standards format |
 | Schema.org | Murmurations | `schemaorg-to-murmurations-person.lens.yml` | Convert web data for network discovery |
-| Unified | Schema.org | `unified-to-schemaorg-person.lens.yml` | Export to clean Schema.org format |
 
-**Organization Schema Conversions (3 lenses)**:
+**Organization Schema Conversions (6 lenses)**:
 
 | From | To | Lens File | Purpose |
 |------|----|-----------| --------|
+| Murmurations | Unified | `murmurations-to-unified-organization.lens.yml` | Transform Murmurations org to comprehensive unified format |
 | Unified | Murmurations | `unified-to-murmurations-organization.lens.yml` | Publish organization to Murmurations network |
-| Murmurations | Unified | `murmurations-to-unified-organization.lens.yml` | Import Murmurations org to unified format |
+| Schema.org | Unified | `schemaorg-to-unified-organization.lens.yml` | Import standard Schema.org organization data |
 | Unified | Schema.org | `unified-to-schemaorg-organization.lens.yml` | Export organization to web standards |
+| Murmurations | Schema.org | `murmurations-to-schemaorg-organization.lens.yml` | Direct organization conversion to web standards |
+| Schema.org | Murmurations | `schemaorg-to-murmurations-organization.lens.yml` | Convert web organization data for network discovery |
 
 **Using Cambria CLI**:
 
