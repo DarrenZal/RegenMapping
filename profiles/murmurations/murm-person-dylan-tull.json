@@ -1,14 +1,58 @@
 {
-  "tags": [
+  "method_tags": [
+    "Permaculture",
+    "Doughnut Economics",
+    "Web3/DAO"
+  ],
+  "domain_tags": [
     "Regenerative Ag",
     "Post-capitalist Finance",
     "Distributed Governance"
   ],
-  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
+  "tags": [
+    "Regenerative Design",
+    "Post-capitalist Finance",
+    "Cooperative Economics"
+  ],
+  "relationships": [
+    {
+      "predicate_url": "https://schema.org/knows",
+      "object_url": "https://global-regenerative.coop"
+    },
+    {
+      "predicate_url": "https://schema.org/knows",
+      "object_url": "https://karenmobrien.com"
+    }
+  ],
+  "geolocation": {
+    "lat": 44.7631,
+    "lon": -85.6206
+  },
+  "linked_schemas": [
+    "people_schema-v0.1.0"
+  ],
+  "offers": [
+    "Strategic consulting",
+    "System architecture",
+    "Workshop facilitation"
+  ],
+  "needs": [
+    "Technical collaborators",
+    "Pilot communities",
+    "Impact investors"
+  ],
+  "skills": [
+    "Systems Design",
+    "Cooperative Economics",
+    "Blockchain Governance"
+  ],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-person-dylan-tull.jsonld",
   "name": "Dylan Tull",
   "primary_url": "https://dylantull.com",
   "locality": "Traverse City, Michigan",
   "region": "Michigan",
   "country_name": "United States",
-  "headline": "Regenerative Economy Researcher & Designer"
+  "bioregion": "Great Lakes",
+  "current_title": "Co-founder",
+  "current_org_id": "Global Regenerative Cooperative"
 }

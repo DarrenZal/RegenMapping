@@ -1,14 +1,55 @@
 {
-  "tags": [
+  "key_activities": [
+    "Regenerative Business Incubation",
+    "Cooperative Development",
+    "Climate Finance",
+    "Regenerative Agriculture"
+  ],
+  "sdg_focus": [
+    "SDG08",
+    "SDG11",
+    "SDG12",
+    "SDG13"
+  ],
+  "method_tags": [
+    "Platform Cooperativism",
+    "Doughnut Economics",
+    "Community Land Trust"
+  ],
+  "domain_tags": [
     "Regenerative Agriculture",
     "Circular Materials",
     "Post-capitalist Finance"
   ],
-  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
+  "tags": [
+    "Regenerative Economics",
+    "Cooperative",
+    "Climate Solutions",
+    "Circular Economy"
+  ],
+  "relationships": [
+    {
+      "predicate_url": "https://schema.org/knows",
+      "object_url": "https://dylantull.com"
+    },
+    {
+      "predicate_url": "https://schema.org/knows",
+      "object_url": "https://www.uio.no/english/"
+    }
+  ],
+  "geolocation": {
+    "lat": 40.7589,
+    "lon": -73.9851
+  },
+  "linked_schemas": [
+    "organizations_schema-v1.0.0"
+  ],
+  "source_url": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
   "name": "Global Regenerative Cooperative",
   "primary_url": "https://global-regenerative.coop",
   "locality": "New York, NY",
   "region": "New York",
   "country_name": "United States",
-  "tagline": "Building the regenerative economy, together"
+  "bioregion": "Hudson River",
+  "employee_range": "11-50"
 }
