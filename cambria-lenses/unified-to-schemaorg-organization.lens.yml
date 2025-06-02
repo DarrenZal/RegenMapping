@@ -1,16 +1,16 @@
-# Cambria lens to convert from Unified Person schema to Schema.org Person
+# Cambria lens to convert from Unified Organization schema to Schema.org Organization
 # This lens transforms the comprehensive unified format into standard Schema.org format
 
-schemaName: Person
+schemaName: Organization
 
 lens:
   # Remove unified-specific fields that shouldn't appear in Schema.org
   - remove: linked_schemas
   - remove: geolocation
   - remove: relationships
-  - remove: currentTitle
-  - remove: currentOrgId
-  - remove: displayHandle
+  - remove: organizationTypes
+  - remove: primaryActivities
+  - remove: targetAudiences
   - remove: domainTags
   - remove: methodTags
   - remove: theoryTags
@@ -21,12 +21,12 @@ lens:
       destination: "@context"
       value: "https://schema.org/"
   
-  # Set type to Person (should already be Person but ensure it's clean)
+  # Set type to Organization
   - add:
       destination: "@type"
-      value: "Person"
+      value: "Organization"
   
-  # Core person information - keep these fields as-is
+  # Core organization information
   - rename:
       source: name
       destination: name
@@ -36,8 +36,8 @@ lens:
       destination: url
   
   - rename:
-      source: headline
-      destination: jobTitle
+      source: tagline
+      destination: description
   
   # Location information using Schema.org structure
   - rename:
@@ -52,10 +52,10 @@ lens:
       source: country_name
       destination: addressCountry
   
-  # Map unified tags to Schema.org knowsAbout
+  # Map unified tags to Schema.org keywords
   - rename:
       source: tags
-      destination: knowsAbout
+      destination: keywords
   
   # Pass through source_url if it exists (for lossless conversion)
   - rename:
