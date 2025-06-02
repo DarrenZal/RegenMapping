@@ -1,56 +1,100 @@
 # Cambria lens to convert from Schema.org Person to Unified Person schema
-# This lens transforms standard Schema.org format into the comprehensive unified format
+# This lens transforms Schema.org format back to unified format with LOSSLESS recovery
 
 schemaName: Person
 
 lens:
   # Map Schema.org fields back to unified format
-  - optionalRename:
-      source: "url"
-      destination: "primary_url"
-  - optionalRename:
-      source: "jobTitle"
-      destination: "headline"
-  - optionalRename:
-      source: "addressLocality"
-      destination: "locality"
-  - optionalRename:
-      source: "addressRegion"
-      destination: "region"
-  - optionalRename:
-      source: "addressCountry"
-      destination: "country_name"
-  - optionalRename:
-      source: "knowsAbout"
-      destination: "domainTags"
+  - op: optionalRename
+    source: "url"
+    destination: "primary_url"
+  - op: optionalRename
+    source: "jobTitle"
+    destination: "headline"
+  - op: optionalRename
+    source: "addressLocality"
+    destination: "locality"
+  - op: optionalRename
+    source: "addressRegion"
+    destination: "region"
+  - op: optionalRename
+    source: "addressCountry"
+    destination: "country_name"
+  - op: optionalRename
+    source: "knowsAbout"
+    destination: "domainTags"
   
-  # Basic field mappings - only map fields that exist
-  - optionalRename:
-      source: "givenName"
-      destination: "schema:givenName"
-  - optionalRename:
-      source: "familyName"
-      destination: "schema:familyName"
-  - optionalRename:
-      source: "email"
-      destination: "schema:email"
+  # Restore unified-specific fields from extension properties
+  - op: optionalRename
+    source: "regen:currentTitle"
+    destination: "currentTitle"
+  - op: optionalRename
+    source: "regen:currentOrgId"
+    destination: "currentOrgId"
+  - op: optionalRename
+    source: "regen:displayHandle"
+    destination: "displayHandle"
+  - op: optionalRename
+    source: "regen:methodTags"
+    destination: "methodTags"
+  - op: optionalRename
+    source: "regen:theoryTags"
+    destination: "theoryTags"
+  - op: optionalRename
+    source: "regen:skills"
+    destination: "skills"
+  - op: optionalRename
+    source: "regen:needs"
+    destination: "needs"
+  - op: optionalRename
+    source: "regen:offers"
+    destination: "offers"
+  - op: optionalRename
+    source: "regen:bioregion"
+    destination: "bioregion"
+  - op: optionalRename
+    source: "regen:pronouns"
+    destination: "pronouns"
+  - op: optionalRename
+    source: "regen:lastUpdated"
+    destination: "lastUpdated"
+  - op: optionalRename
+    source: "regen:linked_schemas"
+    destination: "linked_schemas"
+  - op: optionalRename
+    source: "regen:geolocation"
+    destination: "geolocation"
+  - op: optionalRename
+    source: "regen:relationships"
+    destination: "relationships"
+  - op: optionalRename
+    source: "regen:tags"
+    destination: "tags"
+  - op: optionalRename
+    source: "regen:schema_version"
+    destination: "schema:version"
   
-  # Keep existing nested structures (only if they exist)
-  - optionalRename:
-      source: "homeLocation"
-      destination: "schema:homeLocation"
-  - optionalRename:
-      source: "worksFor"
-      destination: "schema:worksFor"
-  - optionalRename:
-      source: "alumniOf"
-      destination: "schema:alumniOf"
+  # Basic field mappings for standard Schema.org fields
+  - op: optionalRename
+    source: "givenName"
+    destination: "schema:givenName"
+  - op: optionalRename
+    source: "familyName"
+    destination: "schema:familyName"
+  - op: optionalRename
+    source: "email"
+    destination: "schema:email"
+  - op: optionalRename
+    source: "homeLocation"
+    destination: "schema:homeLocation"
+  - op: optionalRename
+    source: "worksFor"
+    destination: "schema:worksFor"
+  - op: optionalRename
+    source: "alumniOf"
+    destination: "schema:alumniOf"
   
-  # Set unified context
-  - setValue:
-      name: "@context"
-      value:
-        "@version": 1.1
-        "@vocab": "https://schema.org/"
-        "schema": "https://schema.org/"
-        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+  # Restore original context if available, otherwise use default unified context
+  - op: optionalRename
+    source: "regen:original_context"
+    destination: "@context"

@@ -1,69 +1,92 @@
 # Cambria lens to convert from Unified Person schema to Schema.org Person
-# This lens transforms the comprehensive unified format into standard Schema.org format
+# This lens transforms unified format to Schema.org while preserving ALL data for lossless conversion
 
 schemaName: Person
 
 lens:
   # Map fields to proper Schema.org structure
-  - optionalRename:
-      source: "domainTags"
-      destination: "knowsAbout"
-  - optionalRename:
-      source: "primary_url"
-      destination: "url"
-  - optionalRename:
-      source: "headline"
-      destination: "jobTitle"
-  - optionalRename:
-      source: "locality"
-      destination: "addressLocality"
-  - optionalRename:
-      source: "region"
-      destination: "addressRegion"
-  - optionalRename:
-      source: "country_name"
-      destination: "addressCountry"
+  - op: optionalRename
+    source: "domainTags"
+    destination: "knowsAbout"
+  - op: optionalRename
+    source: "primary_url"
+    destination: "url"
+  - op: optionalRename
+    source: "headline"
+    destination: "jobTitle"
+  - op: optionalRename
+    source: "locality"
+    destination: "addressLocality"
+  - op: optionalRename
+    source: "region"
+    destination: "addressRegion"
+  - op: optionalRename
+    source: "country_name"
+    destination: "addressCountry"
   
-  # Remove unified-specific fields that shouldn't appear in Schema.org
-  - remove:
-      name: "linked_schemas"
-  - remove:
-      name: "geolocation"
-  - remove:
-      name: "relationships"
-  - remove:
-      name: "currentTitle"
-  - remove:
-      name: "currentOrgId"
-  - remove:
-      name: "displayHandle"
-  - remove:
-      name: "methodTags"
-  - remove:
-      name: "theoryTags"
-  - remove:
-      name: "lastUpdated"
-  - remove:
-      name: "skills"
-  - remove:
-      name: "needs"
-  - remove:
-      name: "offers"
-  - remove:
-      name: "bioregion"
-  - remove:
-      name: "pronouns"
-  - remove:
-      name: "schema:version"
-  - remove:
-      name: "tags"
+  # Preserve unified-specific fields as extension properties (regen: namespace)
+  - op: optionalRename
+    source: "currentTitle"
+    destination: "regen:currentTitle"
+  - op: optionalRename
+    source: "currentOrgId"
+    destination: "regen:currentOrgId"
+  - op: optionalRename
+    source: "displayHandle"
+    destination: "regen:displayHandle"
+  - op: optionalRename
+    source: "methodTags"
+    destination: "regen:methodTags"
+  - op: optionalRename
+    source: "theoryTags"
+    destination: "regen:theoryTags"
+  - op: optionalRename
+    source: "skills"
+    destination: "regen:skills"
+  - op: optionalRename
+    source: "needs"
+    destination: "regen:needs"
+  - op: optionalRename
+    source: "offers"
+    destination: "regen:offers"
+  - op: optionalRename
+    source: "bioregion"
+    destination: "regen:bioregion"
+  - op: optionalRename
+    source: "pronouns"
+    destination: "regen:pronouns"
+  - op: optionalRename
+    source: "lastUpdated"
+    destination: "regen:lastUpdated"
+  - op: optionalRename
+    source: "linked_schemas"
+    destination: "regen:linked_schemas"
+  - op: optionalRename
+    source: "geolocation"
+    destination: "regen:geolocation"
+  - op: optionalRename
+    source: "relationships"
+    destination: "regen:relationships"
+  - op: optionalRename
+    source: "tags"
+    destination: "regen:tags"
+  - op: optionalRename
+    source: "schema:version"
+    destination: "regen:schema_version"
   
-  # Set Schema.org context (replacing the unified context)
-  - setValue:
-      name: "@context"
-      value: "https://schema.org/"
+  # Preserve the original @context as extension property for full recovery
+  - op: optionalRename
+    source: "@context"
+    destination: "regen:original_context"
   
-  # Set type to Person (should already be Person but ensure it's clean)
-  - setValue:
-      name: "@type"
-      value: "Person"
+  # Set Schema.org context 
+  - op: setValue
+    name: "@context"
+    value: 
+      "@vocab": "https://schema.org/"
+      "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+  
+  # Set type to Person
+  - op: setValue
+    name: "@type"
+    value: "Person"

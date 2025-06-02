@@ -7,46 +7,85 @@
     "regen": "https://darrenzal.github.io/RegenMapping/ontology/",
     "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    
     "Organization": "schema:Organization",
     "id": "@id",
     "type": "@type",
-    
-    "latitude": {"@id": "geo:lat", "@type": "xsd:decimal"},
-    "longitude": {"@id": "geo:long", "@type": "xsd:decimal"},
-    
+    "latitude": {
+      "@id": "geo:lat",
+      "@type": "xsd:decimal"
+    },
+    "longitude": {
+      "@id": "geo:long",
+      "@type": "xsd:decimal"
+    },
     "name": "schema:name",
     "legalName": "schema:legalName",
     "nickname": "murm:nickname",
-    "aka": {"@id": "schema:alternateName", "@container": "@set"},
+    "aka": {
+      "@id": "schema:alternateName",
+      "@container": "@set"
+    },
     "legalType": "regen:legalType",
-    "logo": {"@id": "schema:logo", "@type": "@id"},
-    
+    "logo": {
+      "@id": "schema:logo",
+      "@type": "@id"
+    },
     "tagline": "schema:slogan",
     "mission": "murm:mission",
     "missionStatement": "regen:missionStatement",
     "vision": "regen:visionStatement",
-    "coreValues": {"@id": "regen:coreValues", "@container": "@set"},
+    "coreValues": {
+      "@id": "regen:coreValues",
+      "@container": "@set"
+    },
     "description": "schema:description",
     "foundedYear": "regen:foundedYear",
-    "programAreas": {"@id": "regen:programAreas", "@container": "@set"},
-    
-    "tags": {"@id": "murm:tags", "@container": "@set"},
-    "keywords": {"@id": "schema:keywords", "@container": "@set"},
-    "keyWords": {"@id": "regen:keyWords", "@container": "@set"},
-    "domainTags": {"@id": "regen:domainTags", "@container": "@set"},
-    "methodTags": {"@id": "regen:methodTags", "@container": "@set"},
-    "industryCodes": {"@id": "schema:naics", "@container": "@set"},
-    "sdgFocus": {"@id": "regen:sdgFocus", "@container": "@set"},
-    "keyActivities": {"@id": "regen:keyActivities", "@container": "@set"},
+    "programAreas": {
+      "@id": "regen:programAreas",
+      "@container": "@set"
+    },
+    "tags": {
+      "@id": "murm:tags",
+      "@container": "@set"
+    },
+    "keywords": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+    "keyWords": {
+      "@id": "regen:keyWords",
+      "@container": "@set"
+    },
+    "domainTags": {
+      "@id": "regen:domainTags",
+      "@container": "@set"
+    },
+    "methodTags": {
+      "@id": "regen:methodTags",
+      "@container": "@set"
+    },
+    "industryCodes": {
+      "@id": "schema:naics",
+      "@container": "@set"
+    },
+    "sdgFocus": {
+      "@id": "regen:sdgFocus",
+      "@container": "@set"
+    },
+    "keyActivities": {
+      "@id": "regen:keyActivities",
+      "@container": "@set"
+    },
     "structureType": "regen:structureType",
     "beneficiaryType": "regen:beneficiaryType",
-    
     "geolocation": "murm:geolocation",
     "address": "schema:address",
     "fullAddress": "murm:full_address",
     "headquarters": "regen:headquarters",
-    "operatingRegions": {"@id": "regen:operatingRegions", "@container": "@set"},
+    "operatingRegions": {
+      "@id": "regen:operatingRegions",
+      "@container": "@set"
+    },
     "countryCode": "murm:country_iso_3166",
     "geographicScope": "murm:geographic_scope",
     "areaServed": "schema:areaServed",
@@ -54,103 +93,161 @@
     "locality": "schema:addressLocality",
     "region": "schema:addressRegion",
     "country_name": "schema:addressCountry",
-    
-    "relationships": {"@id": "murm:relationships", "@container": "@set"},
-    "memberOf": {"@id": "schema:memberOf", "@type": "@id"},
-    "parentOrganization": {"@id": "schema:parentOrganization", "@type": "@id"},
-    "subOrganization": {"@id": "schema:subOrganization", "@type": "@id", "@container": "@set"},
-    
+    "relationships": {
+      "@id": "murm:relationships",
+      "@container": "@set"
+    },
+    "memberOf": {
+      "@id": "schema:memberOf",
+      "@type": "@id"
+    },
+    "parentOrganization": {
+      "@id": "schema:parentOrganization",
+      "@type": "@id"
+    },
+    "subOrganization": {
+      "@id": "schema:subOrganization",
+      "@type": "@id",
+      "@container": "@set"
+    },
     "status": "murm:status",
     "foundingDate": "schema:foundingDate",
     "dissolutionDate": "schema:dissolutionDate",
-    "startsAt": {"@id": "murm:starts_at", "@type": "xsd:integer"},
-    "endsAt": {"@id": "murm:ends_at", "@type": "xsd:integer"},
-    
+    "startsAt": {
+      "@id": "murm:starts_at",
+      "@type": "xsd:integer"
+    },
+    "endsAt": {
+      "@id": "murm:ends_at",
+      "@type": "xsd:integer"
+    },
     "employeeRange": "regen:employeeRange",
     "numberOfEmployees": "schema:numberOfEmployees",
     "numEmployees": "regen:numEmployees",
     "revenueRange": "regen:revenueRangeUSD",
     "annualRevenue": "regen:annualRevenue",
     "volunteerCount": "regen:volunteerCount",
-    
-    "impactKPIs": {"@id": "regen:impactKPIs", "@container": "@set"},
-    "impactMetrics": {"@id": "regen:impactMetrics", "@container": "@set"},
-    "impactAssessments": {"@id": "regen:impactAssessments", "@container": "@set"},
-    "sdgContribution": {"@id": "regen:sdgContribution", "@container": "@set"},
+    "impactKPIs": {
+      "@id": "regen:impactKPIs",
+      "@container": "@set"
+    },
+    "impactMetrics": {
+      "@id": "regen:impactMetrics",
+      "@container": "@set"
+    },
+    "impactAssessments": {
+      "@id": "regen:impactAssessments",
+      "@container": "@set"
+    },
+    "sdgContribution": {
+      "@id": "regen:sdgContribution",
+      "@container": "@set"
+    },
     "socialApproach": "regen:socialApproach",
     "environmentalApproach": "regen:environmentalApproach",
     "economicApproach": "regen:economicApproach",
-    "hasCertification": {"@id": "schema:hasCertification", "@container": "@set"},
+    "hasCertification": {
+      "@id": "schema:hasCertification",
+      "@container": "@set"
+    },
     "bcorpScore": "regen:bcorpScore",
     "nonprofitStatus": "schema:nonprofitStatus",
-    
-    "fundingRounds": {"@id": "regen:fundingRounds", "@container": "@set"},
+    "fundingRounds": {
+      "@id": "regen:fundingRounds",
+      "@container": "@set"
+    },
     "fundingModel": "regen:fundingModel",
     "funding": "schema:funding",
     "funder": "schema:funder",
     "taxID": "schema:taxID",
-    
     "primaryUrl": "murm:primary_url",
-    "url": {"@id": "schema:url", "@type": "@id"},
-    "urls": {"@id": "murm:urls", "@container": "@set"},
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "urls": {
+      "@id": "murm:urls",
+      "@container": "@set"
+    },
     "rss": "murm:rss",
-    "socialMedia": {"@id": "regen:socialMedia", "@container": "@set"},
-    
+    "socialMedia": {
+      "@id": "regen:socialMedia",
+      "@container": "@set"
+    },
     "email": "schema:email",
     "telephone": "schema:telephone",
     "contactPoint": "schema:contactPoint",
     "contactDetails": "murm:contact_details",
-    
-    "knowsAbout": {"@id": "schema:knowsAbout", "@container": "@set"},
-    "skills": {"@id": "schema:skills", "@container": "@set"},
-    "openSourceRepos": {"@id": "regen:openSourceRepos", "@container": "@set"},
-    "flagshipProjects": {"@id": "regen:flagshipProjects", "@container": "@set"},
-    "patentIds": {"@id": "regen:patentIds", "@container": "@set"},
-    "datasets": {"@id": "regen:datasets", "@container": "@set"},
+    "knowsAbout": {
+      "@id": "schema:knowsAbout",
+      "@container": "@set"
+    },
+    "skills": {
+      "@id": "schema:skills",
+      "@container": "@set"
+    },
+    "openSourceRepos": {
+      "@id": "regen:openSourceRepos",
+      "@container": "@set"
+    },
+    "flagshipProjects": {
+      "@id": "regen:flagshipProjects",
+      "@container": "@set"
+    },
+    "patentIds": {
+      "@id": "regen:patentIds",
+      "@container": "@set"
+    },
+    "datasets": {
+      "@id": "regen:datasets",
+      "@container": "@set"
+    },
     "assetsUSD": "regen:assetsUSD",
-    "grantsReceived": {"@id": "regen:grantsReceived", "@container": "@set"},
-    "grantsGiven": {"@id": "regen:grantsGiven", "@container": "@set"},
+    "grantsReceived": {
+      "@id": "regen:grantsReceived",
+      "@container": "@set"
+    },
+    "grantsGiven": {
+      "@id": "regen:grantsGiven",
+      "@container": "@set"
+    },
     "iso14k": "regen:iso14k",
     "fairTrade": "regen:fairTrade",
     "scienceBasedTargets": "regen:scienceBasedTargets",
-    "boardMembers": {"@id": "regen:boardMembers", "@container": "@set"},
-    "execTeam": {"@id": "regen:execTeam", "@container": "@set"},
-    "eventSeries": {"@id": "regen:eventSeries", "@container": "@set"},
+    "boardMembers": {
+      "@id": "regen:boardMembers",
+      "@container": "@set"
+    },
+    "execTeam": {
+      "@id": "regen:execTeam",
+      "@container": "@set"
+    },
+    "eventSeries": {
+      "@id": "regen:eventSeries",
+      "@container": "@set"
+    },
     "daoTokenContract": "regen:daoTokenContract",
     "followersX": "regen:followersX",
     "followersLinkedIn": "regen:followersLinkedIn",
     "newsletterSubs": "regen:newsletterSubs",
-    
-    "dataSources": {"@id": "regen:dataSources", "@container": "@set"},
-    "lastUpdated": {"@id": "regen:lastUpdated", "@type": "xsd:dateTime"},
+    "dataSources": {
+      "@id": "regen:dataSources",
+      "@container": "@set"
+    },
+    "lastUpdated": {
+      "@id": "regen:lastUpdated",
+      "@type": "xsd:dateTime"
+    },
     "confidenceScore": "regen:confidenceScore",
     "linked_schemas": "murm:linked_schemas",
     "primary_url": "murm:primary_url"
   },
-  "@type": "Organization",
-  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
-  "schema:version": "1.0.0",
-  "linked_schemas": [
-    "organizations_schema-v1.0.0",
-    "regen-organization-schema-v1.0.0"
-  ],
-  "name": "Global Regenerative Cooperative",
-  "primary_url": "https://global-regenerative.coop",
   "tags": [
     "Regenerative Economics",
     "Cooperative",
     "Climate Solutions",
     "Circular Economy"
   ],
-  "geolocation": {
-    "latitude": 40.7589,
-    "longitude": -73.9851
-  },
-  "locality": "New York, NY",
-  "region": "New York",
-  "country_name": "United States",
-  "bioregion": "Hudson River",
-  "geographicScope": "Global",
   "relationships": [
     {
       "type": "member",
@@ -165,16 +262,12 @@
       "description": "Research partnership on regenerative systems"
     }
   ],
-  "tagline": "Building the regenerative economy, together",
-  "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
-  "legalType": "Cooperative",
-  "foundedYear": 2023,
-  "employeeRange": "11-50",
-  "sdgFocus": [
-    "SDG08",
-    "SDG11",
-    "SDG12",
-    "SDG13"
+  "geolocation": {
+    "latitude": 40.7589,
+    "longitude": -73.9851
+  },
+  "linked_schemas": [
+    "organizations_schema-v1.0.0"
   ],
   "keyActivities": [
     "Regenerative Business Incubation",
@@ -182,16 +275,37 @@
     "Climate Finance",
     "Regenerative Agriculture"
   ],
-  "domainTags": [
-    "Regenerative Agriculture",
-    "Circular Materials",
-    "Post-capitalist Finance"
+  "sdgFocus": [
+    "SDG08",
+    "SDG11",
+    "SDG12",
+    "SDG13"
   ],
   "methodTags": [
     "Platform Cooperativism",
     "Doughnut Economics",
     "Community Land Trust"
   ],
+  "domainTags": [
+    "Regenerative Agriculture",
+    "Circular Materials",
+    "Post-capitalist Finance"
+  ],
+  "@type": "Organization",
+  "@id": "https://raw.githubusercontent.com/DarrenZal/RegenMapping/main/profiles/unified/regen-organization-global-regenerative-cooperative.jsonld",
+  "schema:version": "1.0.0",
+  "name": "Global Regenerative Cooperative",
+  "primary_url": "https://global-regenerative.coop",
+  "locality": "New York, NY",
+  "region": "New York",
+  "country_name": "United States",
+  "bioregion": "Hudson River",
+  "geographicScope": "Global",
+  "tagline": "Building the regenerative economy, together",
+  "mission": "To accelerate the transition to a regenerative economy through cooperative ownership and governance",
+  "legalType": "Cooperative",
+  "foundedYear": 2023,
+  "employeeRange": "11-50",
   "status": "Active",
   "lastUpdated": "2025-05-30T12:00:00Z"
 }

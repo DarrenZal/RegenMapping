@@ -34,11 +34,34 @@ lens:
             source: "longitude"
             destination: "lon"
   
-  # Set correct linked_schemas for Murmurations
+  # Transform relationships array - rename target_url to object_url
+  - in:
+      name: "relationships"
+      lens:
+        - map:
+            lens:
+              # Rename target_url to object_url for Murmurations compatibility
+              - optionalRename:
+                  source: "target_url"
+                  destination: "object_url"
+              # Add predicate_url for Murmurations schema compatibility
+              - add:
+                  name: "predicate_url"
+                  type: "string" 
+                  default: "https://schema.org/knows"
+              # Remove unwanted fields from unified schema
+              - remove:
+                  name: "type"
+              - remove:
+                  name: "target" 
+              - remove:
+                  name: "description"
+  
+  # Set correct linked_schemas for Murmurations (overwrites existing)
   - setValue:
       name: "linked_schemas"
       value: ["people_schema-v0.1.0"]
-  
+
   # Remove ALL unwanted fields for clean Murmurations profile
   - remove:
       name: "@type"
@@ -46,8 +69,6 @@ lens:
       name: "@context"
   - remove:
       name: "schema:version"
-  - remove:
-      name: "relationships"
   - remove:
       name: "headline"
   - remove:

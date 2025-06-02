@@ -1,5 +1,5 @@
 # Cambria lens to convert from Unified Organization schema to Schema.org Organization
-# This lens transforms the comprehensive unified format into standard Schema.org format
+# This lens transforms unified format to Schema.org while preserving ALL data for lossless conversion
 
 schemaName: Organization
 
@@ -24,46 +24,70 @@ lens:
       source: "country_name"
       destination: "addressCountry"
   
-  # Remove unified-specific fields that shouldn't appear in Schema.org
-  - remove:
-      name: "linked_schemas"
-  - remove:
-      name: "geolocation"
-  - remove:
-      name: "relationships"
-  - remove:
-      name: "methodTags"
-  - remove:
-      name: "theoryTags"
-  - remove:
-      name: "lastUpdated"
-  - remove:
-      name: "bioregion"
-  - remove:
-      name: "geographicScope"
-  - remove:
-      name: "mission"
-  - remove:
-      name: "legalType"
-  - remove:
-      name: "foundedYear"
-  - remove:
-      name: "employeeRange"
-  - remove:
-      name: "sdgFocus"
-  - remove:
-      name: "keyActivities"
-  - remove:
-      name: "status"
-  - remove:
-      name: "schema:version"
-  - remove:
-      name: "tags"
+  # Preserve unified-specific fields as extension properties (regen: namespace)
+  - optionalRename:
+      source: "methodTags"
+      destination: "regen:methodTags"
+  - optionalRename:
+      source: "theoryTags"
+      destination: "regen:theoryTags"
+  - optionalRename:
+      source: "bioregion"
+      destination: "regen:bioregion"
+  - optionalRename:
+      source: "geographicScope"
+      destination: "regen:geographicScope"
+  - optionalRename:
+      source: "mission"
+      destination: "regen:mission"
+  - optionalRename:
+      source: "legalType"
+      destination: "regen:legalType"
+  - optionalRename:
+      source: "foundedYear"
+      destination: "regen:foundedYear"
+  - optionalRename:
+      source: "employeeRange"
+      destination: "regen:employeeRange"
+  - optionalRename:
+      source: "sdgFocus"
+      destination: "regen:sdgFocus"
+  - optionalRename:
+      source: "keyActivities"
+      destination: "regen:keyActivities"
+  - optionalRename:
+      source: "status"
+      destination: "regen:status"
+  - optionalRename:
+      source: "lastUpdated"
+      destination: "regen:lastUpdated"
+  - optionalRename:
+      source: "linked_schemas"
+      destination: "regen:linked_schemas"
+  - optionalRename:
+      source: "geolocation"
+      destination: "regen:geolocation"
+  - optionalRename:
+      source: "relationships"
+      destination: "regen:relationships"
+  - optionalRename:
+      source: "tags"
+      destination: "regen:tags"
+  - optionalRename:
+      source: "schema:version"
+      destination: "regen:schema_version"
   
-  # Set Schema.org context (replacing the unified context)
+  # Preserve the original @context as extension property for full recovery
+  - optionalRename:
+      source: "@context"
+      destination: "regen:original_context"
+  
+  # Set Schema.org context 
   - setValue:
       name: "@context"
-      value: "https://schema.org/"
+      value: 
+        "@vocab": "https://schema.org/"
+        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
   
   # Set type to Organization
   - setValue:

@@ -1,5 +1,5 @@
 # Cambria lens to convert from Schema.org Organization to Unified Organization schema
-# This lens transforms standard Schema.org format into the comprehensive unified format
+# This lens transforms Schema.org format back to unified format with LOSSLESS recovery
 
 schemaName: Organization
 
@@ -24,15 +24,66 @@ lens:
       source: "keywords"
       destination: "domainTags"
   
-  # Basic field mappings - only map fields that exist
+  # Restore unified-specific fields from extension properties
+  - optionalRename:
+      source: "regen:methodTags"
+      destination: "methodTags"
+  - optionalRename:
+      source: "regen:theoryTags"
+      destination: "theoryTags"
+  - optionalRename:
+      source: "regen:bioregion"
+      destination: "bioregion"
+  - optionalRename:
+      source: "regen:geographicScope"
+      destination: "geographicScope"
+  - optionalRename:
+      source: "regen:mission"
+      destination: "mission"
+  - optionalRename:
+      source: "regen:legalType"
+      destination: "legalType"
+  - optionalRename:
+      source: "regen:foundedYear"
+      destination: "foundedYear"
+  - optionalRename:
+      source: "regen:employeeRange"
+      destination: "employeeRange"
+  - optionalRename:
+      source: "regen:sdgFocus"
+      destination: "sdgFocus"
+  - optionalRename:
+      source: "regen:keyActivities"
+      destination: "keyActivities"
+  - optionalRename:
+      source: "regen:status"
+      destination: "status"
+  - optionalRename:
+      source: "regen:lastUpdated"
+      destination: "lastUpdated"
+  - optionalRename:
+      source: "regen:linked_schemas"
+      destination: "linked_schemas"
+  - optionalRename:
+      source: "regen:geolocation"
+      destination: "geolocation"
+  - optionalRename:
+      source: "regen:relationships"
+      destination: "relationships"
+  - optionalRename:
+      source: "regen:tags"
+      destination: "tags"
+  - optionalRename:
+      source: "regen:schema_version"
+      destination: "schema:version"
+  
+  # Basic field mappings for standard Schema.org fields
   - optionalRename:
       source: "email"
       destination: "schema:email"
   - optionalRename:
       source: "telephone"
       destination: "schema:telephone"
-  
-  # Keep existing nested structures (only if they exist)
   - optionalRename:
       source: "address"
       destination: "schema:address"
@@ -49,11 +100,7 @@ lens:
       source: "member"
       destination: "schema:member"
   
-  # Set unified context
-  - setValue:
-      name: "@context"
-      value:
-        "@version": 1.1
-        "@vocab": "https://schema.org/"
-        "schema": "https://schema.org/"
-        "regen": "https://darrenzal.github.io/RegenMapping/ontology/"
+  # Restore original context if available, otherwise use default unified context
+  - optionalRename:
+      source: "regen:original_context"
+      destination: "@context"

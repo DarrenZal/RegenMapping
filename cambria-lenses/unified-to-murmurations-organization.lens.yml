@@ -40,7 +40,27 @@ lens:
             source: "longitude"
             destination: "lon"
   
-  # Set linked_schemas to Murmurations schema
+  # Transform relationships array to Murmurations format BEFORE setValue
+  - in:
+      name: "relationships"
+      lens:
+        - map:
+            lens:
+              - rename:
+                  source: "target_url"
+                  destination: "object_url"
+              - add:
+                  name: "predicate_url"
+                  type: "string"
+                  default: "https://schema.org/knows"
+              - remove:
+                  name: "type"
+              - remove:
+                  name: "target"
+              - remove:
+                  name: "description"
+  
+  # Set linked_schemas to Murmurations schema (overwrites existing)
   - setValue:
       name: "linked_schemas"
       value: ["organizations_schema-v1.0.0"]
@@ -52,10 +72,8 @@ lens:
       name: "@context"
   - remove:
       name: "schema:version"
-  
+
   # Remove unwanted fields for clean Murmurations profile
-  - remove:
-      name: "relationships"
   - remove:
       name: "tagline"
   - remove:
@@ -66,3 +84,15 @@ lens:
       name: "foundedYear"
   - remove:
       name: "lastUpdated"
+  - remove:
+      name: "geographic_scope"  # Remove - values don't match Murmurations schema enum
+  
+  # Fix status field to use lowercase
+  - optionalRename:
+      source: "status"
+      destination: "_temp_status"
+  - setValue:
+      name: "status"
+      value: "active"
+  - remove:
+      name: "_temp_status"
