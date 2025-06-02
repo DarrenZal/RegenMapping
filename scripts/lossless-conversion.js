@@ -302,7 +302,7 @@ function createCleanMurmurationsProfile(profile) {
   delete cleanProfile['@reverse'];
   delete cleanProfile['profile_source'];
   delete cleanProfile['schema:isBasedOn'];
-  delete cleanProfile['source_url'];
+  // Note: source_url IS accepted by Murmurations validation, so we keep it for lossless conversion
   
   return cleanProfile;
 }

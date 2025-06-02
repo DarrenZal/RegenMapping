@@ -496,16 +496,18 @@ class RegenMappingApp {
     renderUnifiedFields(data) {
         let html = '';
         
-        if (data['murm:primary_url'] || data.url) {
-            const url = data['murm:primary_url'] || data.url;
-            html += this.renderField('Primary URL', `<a href="${url}" target="_blank">${url}</a>`);
+        // Handle URL field (unified schema uses primary_url)
+        if (data.primary_url) {
+            html += this.renderField('Primary URL', `<a href="${data.primary_url}" target="_blank">${data.primary_url}</a>`);
         }
         
-        if (data['regen:locality']) {
-            const location = [data['regen:locality'], data['regen:region'], data['regen:country']].filter(Boolean).join(', ');
+        // Location information
+        if (data.locality) {
+            const location = [data.locality, data.region, data.country_name].filter(Boolean).join(', ');
             html += this.renderField('Location', location);
         }
         
+        // Person-specific fields
         if (data.headline) {
             html += this.renderField('Headline', data.headline);
         }
@@ -518,8 +520,34 @@ class RegenMappingApp {
             html += this.renderField('Current Organization', data.currentOrgId);
         }
         
-        if (data['regen:domainTags'] && data['regen:domainTags'].length > 0) {
-            html += this.renderField('Domain Tags', data['regen:domainTags'].join(', '));
+        if (data.displayHandle) {
+            html += this.renderField('Handle', data.displayHandle);
+        }
+        
+        // Organization-specific fields
+        if (data.tagline) {
+            html += this.renderField('Tagline', data.tagline);
+        }
+        
+        if (data.mission) {
+            html += this.renderField('Mission', data.mission);
+        }
+        
+        if (data.legalType) {
+            html += this.renderField('Legal Type', data.legalType);
+        }
+        
+        if (data.foundedYear) {
+            html += this.renderField('Founded', data.foundedYear);
+        }
+        
+        if (data.employeeRange) {
+            html += this.renderField('Employee Range', data.employeeRange);
+        }
+        
+        // Tags and categories
+        if (data.tags && data.tags.length > 0) {
+            html += this.renderField('Tags', data.tags.join(', '));
         }
         
         if (data.domainTags && data.domainTags.length > 0) {
@@ -534,18 +562,42 @@ class RegenMappingApp {
             html += this.renderField('Theory Tags', data.theoryTags.join(', '));
         }
         
+        if (data.sdgFocus && data.sdgFocus.length > 0) {
+            html += this.renderField('SDG Focus', data.sdgFocus.join(', '));
+        }
+        
+        if (data.keyActivities && data.keyActivities.length > 0) {
+            html += this.renderField('Key Activities', data.keyActivities.join(', '));
+        }
+        
+        // Geographic information
+        if (data.geolocation) {
+            html += this.renderField('Coordinates', `${data.geolocation.latitude}, ${data.geolocation.longitude}`);
+        }
+        
+        // Schema information
         if (data['@type']) {
             html += this.renderField('Type', Array.isArray(data['@type']) ? data['@type'].join(', ') : data['@type']);
         }
-
-        if (data['regen:relationships'] && data['regen:relationships'].length > 0) {
-            const relationshipsHtml = data['regen:relationships'].map(rel => 
+        
+        if (data.linked_schemas && data.linked_schemas.length > 0) {
+            html += this.renderField('Linked Schemas', data.linked_schemas.join(', '));
+        }
+        
+        // Relationships
+        if (data.relationships && data.relationships.length > 0) {
+            const relationshipsHtml = data.relationships.map(rel => 
                 `<div class="relationship-item">
                     <strong>${rel.type}</strong>: <a href="#" class="profile-link" data-target="${rel.target}">${rel.target}</a>
                     <br><em>${rel.description}</em>
                 </div>`
             ).join('');
             html += this.renderField('Relationships', relationshipsHtml);
+        }
+        
+        // Metadata
+        if (data.lastUpdated) {
+            html += this.renderField('Last Updated', new Date(data.lastUpdated).toLocaleDateString());
         }
 
         // Add profile source link
@@ -561,6 +613,41 @@ class RegenMappingApp {
             html += this.renderField('URL', `<a href="${data.url}" target="_blank">${data.url}</a>`);
         }
         
+        // Person-specific fields
+        if (data.givenName) {
+            html += this.renderField('Given Name', data.givenName);
+        }
+        
+        if (data.familyName) {
+            html += this.renderField('Family Name', data.familyName);
+        }
+        
+        if (data.jobTitle) {
+            html += this.renderField('Job Title', data.jobTitle);
+        }
+        
+        if (data.email) {
+            html += this.renderField('Email', `<a href="mailto:${data.email}">${data.email}</a>`);
+        }
+        
+        // Organization-specific fields
+        if (data.legalName) {
+            html += this.renderField('Legal Name', data.legalName);
+        }
+        
+        if (data.foundingDate) {
+            html += this.renderField('Founding Date', data.foundingDate);
+        }
+        
+        if (data.numberOfEmployees) {
+            html += this.renderField('Number of Employees', data.numberOfEmployees);
+        }
+        
+        // Knowledge/interests
+        if (data.knowsAbout && data.knowsAbout.length > 0) {
+            html += this.renderField('Knows About', Array.isArray(data.knowsAbout) ? data.knowsAbout.join(', ') : data.knowsAbout);
+        }
+        
         // Handle both homeLocation (Person) and location (Organization)
         const locationData = data.homeLocation || data.location;
         if (locationData) {
@@ -573,8 +660,24 @@ class RegenMappingApp {
             html += this.renderField(locationLabel, locationStr);
         }
         
+        // Work/affiliation information
+        if (data.worksFor) {
+            const orgName = typeof data.worksFor === 'object' ? data.worksFor.name : data.worksFor;
+            html += this.renderField('Works For', orgName);
+        }
+        
+        if (data.alumniOf) {
+            const schoolName = typeof data.alumniOf === 'object' ? data.alumniOf.name : data.alumniOf;
+            html += this.renderField('Alumni Of', schoolName);
+        }
+        
         if (data['@type']) {
             html += this.renderField('Schema Type', data['@type']);
+        }
+        
+        // Show source_url if available (for debugging lossless conversion)
+        if (data.source_url) {
+            html += this.renderField('Source URL', `<a href="${data.source_url}" target="_blank" style="font-size: 0.8em;">View Original Unified Profile</a>`);
         }
 
         // Add profile source link

@@ -23,23 +23,6 @@ lens:
       source: headline
       destination: jobTitle
   
-  # Transform location from locality/region/country to homeLocation structure
-  - in:
-      name: "homeLocation"
-      lens:
-        - add:
-            destination: "@type"
-            value: "Place"
-        - rename:
-            source: "locality"
-            destination: "addressLocality"
-        - rename:
-            source: "region"
-            destination: "addressRegion"
-        - rename:
-            source: "country_name"
-            destination: "addressCountry"
-  
   # Set Schema.org context
   - add:
       destination: "@context"

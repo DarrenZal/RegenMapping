@@ -23,22 +23,18 @@ lens:
       source: headline
       destination: jobTitle
   
-  # Transform location from geolocation + locality/region/country to homeLocation structure
-  - in:
-      name: "homeLocation"
-      lens:
-        - add:
-            destination: "@type"
-            value: "Place"
-        - rename:
-            source: "locality"
-            destination: "addressLocality"
-        - rename:
-            source: "region"
-            destination: "addressRegion"
-        - rename:
-            source: "country_name"
-            destination: "addressCountry"
+  # Keep location fields simple for now (complex nested structure can be handled by fallback conversion)
+  - rename:
+      source: locality
+      destination: locality
+  
+  - rename:
+      source: region
+      destination: region
+  
+  - rename:
+      source: country_name
+      destination: country_name
   
   # Simplify context to just Schema.org
   - add:
