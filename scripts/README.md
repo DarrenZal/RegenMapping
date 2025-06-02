@@ -120,8 +120,19 @@ npm run update-and-publish
 - Runs `upload-profiles-new.js` to validate and submit profiles to Murmurations
 - Runs `test-queries.js` to verify that profiles are discoverable
 
-### 6. `lossless-conversion.js`
-Provides utilities for lossless round-trip conversion between unified schema profiles and Murmurations profiles using JSON-LD @reverse links.
+### 6. `cambria-conversion.js`
+Provides utilities for lossless round-trip conversion between unified schema profiles and Murmurations profiles using JSON-LD @reverse links. This script uses the Cambria library directly with our fixes for array handling.
+
+```bash
+# Convert all unified profiles to Murmurations format with @reverse links
+node scripts/cambria-conversion.js convert-all
+
+# Test round-trip conversion for a specific profile
+node scripts/cambria-conversion.js test-roundtrip profiles/unified/regen-person-dylan-tull.jsonld
+```
+
+### 7. `lossless-conversion.js` (Legacy)
+The original implementation of lossless conversion before the Cambria library fixes. This script is kept for reference but the `cambria-conversion.js` script should be used instead.
 
 ```bash
 # Convert all unified profiles to Murmurations format with @reverse links
