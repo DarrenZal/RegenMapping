@@ -216,7 +216,7 @@ This approach creates a "superset" relationship where our unified schemas extend
 - **People** - Individuals engaged in regenerative economy activities
 
 #### Cambria Lens Implementation ✅
-We use an **enhanced version of [Cambria](https://github.com/cambria-project/cambria)** to handle schema transformations:
+We use an **enhanced version of [Cambria](https://github.com/DarrenZal/cambria-project)** to handle schema transformations:
 
 - **Enhanced Array Transformations**: Custom improvements to support complex field operations within arrays
 - **Relationship Preservation**: Advanced `in` and `map` operations for relationship data transformation
