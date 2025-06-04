@@ -305,10 +305,33 @@ class RegenMappingApp {
                 node.fx = node.x;
                 node.fy = node.y;
                 node.fz = node.z;
+            })
+            .onEngineStop(() => {
+                // Fix all nodes in place once the simulation stabilizes
+                this.fixAllNodesInPlace();
             });
 
         // Set initial camera position (no auto-rotation)
         this.graph.cameraPosition({ z: 300 });
+        
+        // Stop the force simulation after a reasonable time
+        setTimeout(() => {
+            this.graph.d3Force('charge').strength(0);
+            this.graph.d3Force('link').strength(0);
+            this.fixAllNodesInPlace();
+        }, 3000);
+    }
+
+    fixAllNodesInPlace() {
+        // Fix all nodes at their current positions to prevent unwanted movement
+        const graphData = this.graph.graphData();
+        graphData.nodes.forEach(node => {
+            if (node.x !== undefined && node.y !== undefined && node.z !== undefined) {
+                node.fx = node.x;
+                node.fy = node.y;
+                node.fz = node.z;
+            }
+        });
     }
 
     setupGlobe() {
@@ -569,7 +592,12 @@ class RegenMappingApp {
             if (node.id === this.activeSchemaNode) {
                 return '#2ecc71'; // Green for active schema
             } else {
-                return '#bdc3c7'; // Light gray for inactive schemas
+                // Different colors for different schema types when inactive
+                if (node.schema === 'globegl') {
+                    return '#f39c12'; // Orange for Globe.gl
+                } else {
+                    return '#bdc3c7'; // Light gray for other inactive schemas
+                }
             }
         }
         
@@ -653,7 +681,7 @@ class RegenMappingApp {
         this.activeSchemaNode = `${node.id}-murmurations`;
         
         // Create schema nodes around the main node
-        const schemaTypes = ['murmurations', 'unified', 'schemaorg'];
+        const schemaTypes = ['murmurations', 'unified', 'schemaorg', 'globegl'];
         const radius = 30;
         
         schemaTypes.forEach((schema, index) => {
@@ -698,6 +726,24 @@ class RegenMappingApp {
                 target: `${node.id}-schemaorg`, 
                 type: 'lens',
                 label: 'lens: murmurations→schemaorg'
+            },
+            { 
+                source: `${node.id}-murmurations`, 
+                target: `${node.id}-globegl`, 
+                type: 'lens',
+                label: 'lens: murmurations→globe.gl'
+            },
+            { 
+                source: `${node.id}-unified`, 
+                target: `${node.id}-globegl`, 
+                type: 'lens',
+                label: 'lens: unified→globe.gl'
+            },
+            { 
+                source: `${node.id}-schemaorg`, 
+                target: `${node.id}-globegl`, 
+                type: 'lens',
+                label: 'lens: schemaorg→globe.gl'
             }
         ];
 
@@ -707,6 +753,15 @@ class RegenMappingApp {
             nodes: [...currentData.nodes, ...this.schemaNodes],
             links: [...currentData.links, ...schemaLinks, ...lensLinks]
         });
+        
+        // Fix the new schema nodes in place immediately
+        setTimeout(() => {
+            this.schemaNodes.forEach(node => {
+                node.fx = node.fx;
+                node.fy = node.fy;
+                node.fz = node.fz;
+            });
+        }, 100);
         
         // Update colors to show the default active schema
         this.updateGraphColors();
