@@ -4,10 +4,13 @@
 class RegenMappingApp {
     constructor() {
         this.graph = null;
+        this.globe = null;
+        this.currentView = 'graph';
         this.currentProfile = null;
         this.currentSchema = 'murmurations';
         this.expandedNode = null;
         this.profiles = {};
+        this.globePoints = [];
         this.schemaNodes = [];
         this.activeSchemaNode = null;
         this.cambria = new CambriaBrowser();
@@ -24,6 +27,7 @@ class RegenMappingApp {
             
             await this.loadProfiles();
             this.setupGraph();
+            this.setupGlobe();
             this.setupEventListeners();
             this.hideLoading();
         } catch (error) {
@@ -307,6 +311,192 @@ class RegenMappingApp {
         this.graph.cameraPosition({ z: 300 });
     }
 
+    setupGlobe() {
+        // Convert profiles to Globe.gl format
+        this.globePoints = this.convertProfilesToGlobeData();
+        
+        this.globe = Globe()
+            .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+            .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+            .backgroundColor('rgba(0,0,0,0)')
+            (document.getElementById('globe'));
+
+        // Add profile points
+        this.globe
+            .pointsData(this.globePoints)
+            .pointLat('lat')
+            .pointLng('lng')
+            .pointAltitude('altitude')
+            .pointRadius('radius')
+            .pointColor('color')
+            .pointLabel(point => `
+                <div style="
+                    padding: 8px 12px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    border-radius: 4px;
+                    font-family: sans-serif;
+                    max-width: 200px;
+                ">
+                    <strong>${point.name}</strong><br/>
+                    ${point.title ? `${point.title}<br/>` : ''}
+                    ${point.organization ? `${point.organization}<br/>` : ''}
+                    ${point.location ? `📍 ${point.location}` : ''}
+                </div>
+            `)
+            .onPointClick(this.handleGlobePointClick.bind(this));
+
+        // Add relationship arcs
+        const arcs = this.generateGlobeArcs();
+        this.globe
+            .arcsData(arcs)
+            .arcStartLat('startLat')
+            .arcStartLng('startLng')
+            .arcEndLat('endLat')
+            .arcEndLng('endLng')
+            .arcColor(() => 'rgba(255, 255, 255, 0.4)')
+            .arcStroke(1)
+            .arcAltitude(0.3)
+            .arcLabel('label')
+            .arcLabelColor(() => 'rgba(255, 255, 255, 0.8)')
+            .arcLabelResolution(2);
+
+        // Set initial camera position
+        this.globe.pointOfView({ lat: 20, lng: 0, altitude: 2 });
+    }
+
+    convertProfilesToGlobeData() {
+        const globePoints = [];
+        
+        Object.keys(this.profiles).forEach(profileId => {
+            const profile = this.profiles[profileId];
+            
+            // Convert Murmurations profile to Globe.gl format
+            const murmPoint = this.convertMurmurationsToGlobe(profile.murmurations, profileId);
+            if (murmPoint && murmPoint.lat && murmPoint.lng) {
+                globePoints.push(murmPoint);
+            }
+        });
+        
+        return globePoints;
+    }
+
+    convertMurmurationsToGlobe(murmProfile, profileId) {
+        // Manual conversion based on Cambria lens logic
+        if (!murmProfile.geolocation) return null;
+        
+        const isOrganization = murmProfile.linked_schemas && 
+            murmProfile.linked_schemas.some(schema => schema.includes('organizations_schema'));
+        
+        return {
+            lat: murmProfile.geolocation.lat,
+            lng: murmProfile.geolocation.lon,
+            name: murmProfile.name,
+            url: murmProfile.primary_url,
+            color: isOrganization ? '#e67e22' : '#3498db', // Orange for orgs, blue for people
+            altitude: 0.1,
+            radius: isOrganization ? 0.4 : 0.3,
+            title: murmProfile.current_title,
+            organization: murmProfile.current_org_id,
+            location: murmProfile.locality,
+            country: murmProfile.country_name,
+            bioregion: murmProfile.bioregion,
+            type: isOrganization ? 'organization' : 'person',
+            schemas: murmProfile.linked_schemas,
+            profileId: profileId,
+            originalProfile: murmProfile
+        };
+    }
+
+    generateGlobeArcs() {
+        const arcs = [];
+        const processedRelationships = new Set();
+        
+        this.globePoints.forEach(point => {
+            const profile = point.originalProfile;
+            const relationships = profile.relationships || [];
+            
+            relationships.forEach(rel => {
+                const targetUrl = rel.object_url || rel.target;
+                
+                // Find target point
+                const targetPoint = this.globePoints.find(p => {
+                    const targetProfile = p.originalProfile;
+                    return targetProfile.primary_url === targetUrl || 
+                           targetProfile.name === targetUrl;
+                });
+                
+                if (targetPoint) {
+                    const arcKey = [point.name, targetPoint.name].sort().join('-');
+                    if (!processedRelationships.has(arcKey)) {
+                        processedRelationships.add(arcKey);
+                        
+                        // Create a readable label for the relationship
+                        const relationType = rel.predicate_url || rel.type || 'connection';
+                        const label = this.formatRelationshipLabel(relationType, point.name, targetPoint.name);
+                        
+                        arcs.push({
+                            startLat: point.lat,
+                            startLng: point.lng,
+                            endLat: targetPoint.lat,
+                            endLng: targetPoint.lng,
+                            type: relationType,
+                            label: label,
+                            description: rel.description || ''
+                        });
+                    }
+                }
+            });
+        });
+        
+        return arcs;
+    }
+
+    formatRelationshipLabel(relationType, sourceName, targetName) {
+        // Create human-readable labels for different relationship types
+        const relationshipLabels = {
+            'member': 'Member of',
+            'collaboration': 'Collaborates with',
+            'advisor': 'Advises',
+            'partnership': 'Partners with',
+            'employment': 'Works for',
+            'funding': 'Funds',
+            'mentorship': 'Mentors',
+            'affiliation': 'Affiliated with',
+            'connection': 'Connected to'
+        };
+        
+        // Get readable label or fallback to the original type
+        const readableType = relationshipLabels[relationType.toLowerCase()] || 
+                           relationType.replace(/([A-Z])/g, ' $1').toLowerCase() || 
+                           'Connected to';
+        
+        // For shorter names, show the full relationship
+        const shortSource = sourceName.length > 15 ? sourceName.substring(0, 12) + '...' : sourceName;
+        const shortTarget = targetName.length > 15 ? targetName.substring(0, 12) + '...' : targetName;
+        
+        return `${shortSource} → ${readableType} → ${shortTarget}`;
+    }
+
+    handleGlobePointClick(point) {
+        // Find the full profile data
+        const fullProfile = this.profiles[point.profileId];
+        if (fullProfile) {
+            this.showProfile(fullProfile);
+        }
+    }
+
+    setCurrentView(view) {
+        this.currentView = view;
+        
+        if (view === 'globe' && this.globe) {
+            // Refresh globe when switching to it
+            setTimeout(() => {
+                this.globe.controls().autoRotate = false;
+            }, 100);
+        }
+    }
+
     generateGraphData() {
         const nodes = [];
         const links = [];
@@ -551,6 +741,10 @@ class RegenMappingApp {
 
     showProfile(profile) {
         this.currentProfile = profile;
+        // Add Globe.gl schema to the profile if it doesn't exist
+        if (!profile.globegl) {
+            profile.globegl = this.convertMurmurationsToGlobe(profile.murmurations, 'temp-id');
+        }
         this.displayProfile(profile, this.currentSchema);
         this.openSidebar();
     }
@@ -573,6 +767,8 @@ class RegenMappingApp {
             html += this.renderUnifiedFields(data);
         } else if (schema === 'schemaorg') {
             html += this.renderSchemaOrgFields(data);
+        } else if (schema === 'globegl') {
+            html += this.renderGlobeGlFields(data);
         }
 
         content.innerHTML = html;
@@ -1011,6 +1207,96 @@ class RegenMappingApp {
         return html;
     }
 
+    renderGlobeGlFields(data) {
+        let html = '';
+        
+        // Core geographic coordinates (required by Globe.gl)
+        if (data.lat !== undefined && data.lng !== undefined) {
+            html += this.renderField('Geographic Coordinates', `${data.lat}, ${data.lng}`);
+        }
+        
+        // Essential display information
+        if (data.name) {
+            html += this.renderField('Name', data.name);
+        }
+        
+        if (data.url) {
+            html += this.renderField('URL', `<a href="${data.url}" target="_blank">${data.url}</a>`);
+        }
+        
+        // Visual properties for Globe.gl
+        if (data.color) {
+            html += this.renderField('Marker Color', `<span style="display:inline-block;width:20px;height:20px;background:${data.color};border-radius:50%;margin-right:8px;vertical-align:middle;"></span>${data.color}`);
+        }
+        
+        if (data.altitude !== undefined) {
+            html += this.renderField('Altitude', data.altitude.toString());
+        }
+        
+        if (data.radius !== undefined) {
+            html += this.renderField('Marker Radius', data.radius.toString());
+        }
+        
+        // Profile metadata
+        if (data.title) {
+            html += this.renderField('Title', data.title);
+        }
+        
+        if (data.organization) {
+            html += this.renderField('Organization', data.organization);
+        }
+        
+        if (data.location) {
+            html += this.renderField('Location', data.location);
+        }
+        
+        if (data.country) {
+            html += this.renderField('Country', data.country);
+        }
+        
+        if (data.bioregion) {
+            html += this.renderField('Bioregion', data.bioregion);
+        }
+        
+        // Profile type indicator
+        if (data.type) {
+            const typeIcon = data.type === 'organization' ? '🏢' : '👤';
+            html += this.renderField('Type', `${typeIcon} ${data.type.charAt(0).toUpperCase() + data.type.slice(1)}`);
+        }
+        
+        // Schema information
+        if (data.schemas && data.schemas.length > 0) {
+            html += this.renderField('Source Schemas', data.schemas.join(', '));
+        }
+        
+        // Profile reference
+        if (data.profileId) {
+            html += this.renderField('Profile Source', data.profileId);
+        }
+        
+        // Technical information
+        html += `
+            <div class="field-group">
+                <div class="field-label">Globe.gl Schema Info</div>
+                <div class="field-value" style="font-family: monospace; font-size: 0.9em;">
+                    This format is optimized for 3D globe visualization.<br/>
+                    • <strong>lat/lng:</strong> Required coordinates<br/>
+                    • <strong>color:</strong> Marker appearance<br/>
+                    • <strong>altitude/radius:</strong> 3D positioning<br/>
+                    • <strong>Interactive:</strong> Click to view full profile
+                </div>
+            </div>
+        `;
+        
+        // Show conversion source
+        const conversionInfo = data.profileId === 'temp-id' ? 
+            'Real-time conversion from Murmurations schema' : 
+            'Converted via Cambria lens';
+        html += this.renderField('Conversion Method', conversionInfo);
+
+        return html;
+    }
+
     renderField(label, value) {
         return `
             <div class="field-group">
@@ -1217,9 +1503,14 @@ class RegenMappingApp {
     }
 
     hideLoading() {
-        const loading = document.querySelector('.loading');
-        if (loading) {
-            loading.style.display = 'none';
+        const graphLoading = document.querySelector('#graph .loading');
+        const globeLoading = document.querySelector('#globe .loading');
+        
+        if (graphLoading) {
+            graphLoading.style.display = 'none';
+        }
+        if (globeLoading) {
+            globeLoading.style.display = 'none';
         }
     }
 
@@ -1244,4 +1535,6 @@ let app;
 // Initialize the app when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     app = new RegenMappingApp();
+    // Make app globally available for view switching
+    window.app = app;
 });

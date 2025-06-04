@@ -309,6 +309,11 @@
             width: 100%;
             height: 100%;
         }
+        
+        #globe {
+            width: 100%;
+            height: 100%;
+        }
 
         .loading {
             position: absolute;
@@ -346,6 +351,9 @@
                 <li>
                     <button id="view-graph" class="active">Graph View</button>
                 </li>
+                <li>
+                    <button id="view-globe">Globe View</button>
+                </li>
                 
                 <li class="menu-section">Resources</li>
                 <li>
@@ -380,6 +388,31 @@
                 </div>
             </div>
 
+            <!-- Globe View -->
+            <div class="graph-container" id="globe-view" style="display: none;">
+                <div class="header">
+                    <h1>🌍 Globe View</h1>
+                    <p>Geographic visualization of regenerative organizations and people worldwide</p>
+                </div>
+
+                <div class="instructions">
+                    <h3>How to Use</h3>
+                    <ul>
+                        <li>Click markers to view profiles</li>
+                        <li>Rotate globe by dragging</li>
+                        <li>Zoom with mouse wheel</li>
+                        <li>Lines show relationships</li>
+                    </ul>
+                </div>
+
+                <div id="globe">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading globe...</p>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Sidebar for Profile Details -->
             <div class="sidebar" id="sidebar">
@@ -391,6 +424,7 @@
                         <button class="schema-btn" data-schema="unified">Unified</button>
                         <button class="schema-btn active" data-schema="murmurations">Murmurations</button>
                         <button class="schema-btn" data-schema="schemaorg">Schema.org</button>
+                        <button class="schema-btn" data-schema="globegl">Globe.gl</button>
                     </div>
                 </div>
 
@@ -402,13 +436,38 @@
     </div>
 
     <script src="https://unpkg.com/3d-force-graph"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
     <script src="cambria-browser.js"></script>
     <script src="app.js"></script>
     <script>
         // View switching functionality
         document.addEventListener('DOMContentLoaded', function() {
             const graphView = document.getElementById('graph-view');
+            const globeView = document.getElementById('globe-view');
             const viewGraphBtn = document.getElementById('view-graph');
+            const viewGlobeBtn = document.getElementById('view-globe');
+            
+            // Graph view button
+            viewGraphBtn.addEventListener('click', function() {
+                graphView.style.display = 'flex';
+                globeView.style.display = 'none';
+                viewGraphBtn.classList.add('active');
+                viewGlobeBtn.classList.remove('active');
+                if (window.app) {
+                    window.app.setCurrentView('graph');
+                }
+            });
+            
+            // Globe view button
+            viewGlobeBtn.addEventListener('click', function() {
+                graphView.style.display = 'none';
+                globeView.style.display = 'flex';
+                viewGlobeBtn.classList.add('active');
+                viewGraphBtn.classList.remove('active');
+                if (window.app) {
+                    window.app.setCurrentView('globe');
+                }
+            });
         });
         
         // Sidebar functionality

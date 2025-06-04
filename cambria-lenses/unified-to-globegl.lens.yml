@@ -1,0 +1,91 @@
+# Convert Unified profiles to Globe.gl data format
+# Maps geolocation and essential fields for 3D globe visualization
+
+schemaName: GlobePoint
+
+lens:
+  # Core geographic coordinates (required by Globe.gl)
+  - in:
+      name: "geolocation"
+      lens:
+        - optionalRename:
+            source: "latitude"
+            destination: "lat"
+        - optionalRename:
+            source: "longitude"
+            destination: "lng"
+  
+  # Essential display information
+  - optionalRename:
+      source: "name"
+      destination: "name"
+  
+  - optionalRename:
+      source: "primary_url"
+      destination: "url"
+  
+  # Visual properties for Globe.gl
+  - add:
+      property: "color"
+      value: "#2ecc71"  # Green for unified schema
+  
+  - add:
+      property: "altitude"
+      value: 0.12  # Slightly higher altitude
+  
+  - add:
+      property: "radius"
+      value: 0.35  # Slightly larger radius
+  
+  # Profile metadata for interactivity
+  - optionalRename:
+      source: "currentTitle"
+      destination: "title"
+  
+  - optionalRename:
+      source: "currentOrgId"
+      destination: "organization"
+  
+  - optionalRename:
+      source: "locality"
+      destination: "location"
+  
+  - optionalRename:
+      source: "country_name"
+      destination: "country"
+  
+  - optionalRename:
+      source: "bioregion"
+      destination: "bioregion"
+  
+  # Organization-specific fields
+  - optionalRename:
+      source: "tagline"
+      destination: "tagline"
+  
+  - optionalRename:
+      source: "mission"
+      destination: "mission"
+  
+  - optionalRename:
+      source: "legalType"
+      destination: "legalType"
+  
+  # Determine profile type based on @type field
+  - map:
+      sourceProperty: "@type"
+      destinationProperty: "type"
+      mapping:
+        "Person": "person"
+        "Organization": "organization"
+        default: "entity"
+  
+  # Schema information
+  - optionalRename:
+      source: "linked_schemas"
+      destination: "schemas"
+  
+  # Original data reference for full profile access
+  - add:
+      property: "profileId"
+      value: "unified"

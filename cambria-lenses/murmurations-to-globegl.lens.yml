@@ -1,0 +1,74 @@
+# Convert Murmurations profiles to Globe.gl data format
+# Maps geolocation and essential fields for 3D globe visualization
+
+schemaName: GlobePoint
+
+lens:
+  # Core geographic coordinates (required by Globe.gl)
+  - in:
+      name: "geolocation"
+      lens:
+        - optionalRename:
+            source: "lat"
+            destination: "lat"
+        - optionalRename:
+            source: "lon"
+            destination: "lng"
+  
+  # Essential display information
+  - optionalRename:
+      source: "name"
+      destination: "name"
+  
+  - optionalRename:
+      source: "primary_url"
+      destination: "url"
+  
+  # Visual properties for Globe.gl
+  - add:
+      property: "color"
+      value: "#3498db"  # Default blue color
+  
+  - add:
+      property: "altitude"
+      value: 0.1  # Default altitude
+  
+  - add:
+      property: "radius"
+      value: 0.3  # Default marker size
+  
+  # Profile metadata for interactivity
+  - optionalRename:
+      source: "current_title"
+      destination: "title"
+  
+  - optionalRename:
+      source: "current_org_id"
+      destination: "organization"
+  
+  - optionalRename:
+      source: "locality"
+      destination: "location"
+  
+  - optionalRename:
+      source: "country_name"
+      destination: "country"
+  
+  - optionalRename:
+      source: "bioregion"
+      destination: "bioregion"
+  
+  # Profile type indicator
+  - add:
+      property: "type"
+      value: "person"
+  
+  # Schema information
+  - optionalRename:
+      source: "linked_schemas"
+      destination: "schemas"
+  
+  # Original data reference for full profile access
+  - add:
+      property: "profileId"
+      value: "murmurations"

@@ -1,0 +1,92 @@
+# Convert Schema.org profiles to Globe.gl data format
+# Maps geographic coordinates and essential fields for 3D globe visualization
+
+schemaName: GlobePoint
+
+lens:
+  # Core geographic coordinates (required by Globe.gl)
+  # Handle both nested geolocation and flat address fields
+  - in:
+      name: "regen:geolocation"
+      lens:
+        - optionalRename:
+            source: "latitude"
+            destination: "lat"
+        - optionalRename:
+            source: "longitude"
+            destination: "lng"
+  
+  # Essential display information
+  - optionalRename:
+      source: "name"
+      destination: "name"
+  
+  - optionalRename:
+      source: "url"
+      destination: "url"
+  
+  # Visual properties for Globe.gl
+  - add:
+      property: "color"
+      value: "#e74c3c"  # Red for Schema.org
+  
+  - add:
+      property: "altitude"
+      value: 0.08  # Lower altitude
+  
+  - add:
+      property: "radius"
+      value: 0.25  # Smaller radius
+  
+  # Profile metadata for interactivity
+  - optionalRename:
+      source: "jobTitle"
+      destination: "title"
+  
+  - optionalRename:
+      source: "regen:currentTitle"
+      destination: "title"
+  
+  - optionalRename:
+      source: "regen:currentOrgId"
+      destination: "organization"
+  
+  - optionalRename:
+      source: "addressLocality"
+      destination: "location"
+  
+  - optionalRename:
+      source: "addressCountry"
+      destination: "country"
+  
+  - optionalRename:
+      source: "regen:bioregion"
+      destination: "bioregion"
+  
+  # Organization-specific fields
+  - optionalRename:
+      source: "legalName"
+      destination: "legalName"
+  
+  - optionalRename:
+      source: "foundingDate"
+      destination: "foundingDate"
+  
+  # Profile type from Schema.org @type
+  - map:
+      sourceProperty: "@type"
+      destinationProperty: "type"
+      mapping:
+        "Person": "person"
+        "Organization": "organization"
+        default: "entity"
+  
+  # Schema information
+  - optionalRename:
+      source: "regen:linked_schemas"
+      destination: "schemas"
+  
+  # Original data reference for full profile access
+  - add:
+      property: "profileId"
+      value: "schemaorg"
