@@ -357,9 +357,7 @@ class RegenMappingApp {
             .arcColor(() => 'rgba(255, 255, 255, 0.4)')
             .arcStroke(1)
             .arcAltitude(0.3)
-            .arcLabel('label')
-            .arcLabelColor(() => 'rgba(255, 255, 255, 0.8)')
-            .arcLabelResolution(2);
+            .arcLabel('label');
 
         // Set initial camera position
         this.globe.pointOfView({ lat: 20, lng: 0, altitude: 2 });
@@ -419,7 +417,7 @@ class RegenMappingApp {
             relationships.forEach(rel => {
                 const targetUrl = rel.object_url || rel.target;
                 
-                // Find target point
+                // Find target point  
                 const targetPoint = this.globePoints.find(p => {
                     const targetProfile = p.originalProfile;
                     return targetProfile.primary_url === targetUrl || 
@@ -538,9 +536,8 @@ class RegenMappingApp {
                     return targetProfile.name === targetUrl;
                 });
                 
-                console.log(`🎯 Looking for target: ${targetUrl}, found profile: ${targetProfileId}`);
-                
                 if (targetProfileId) {
+                    console.log(`✅ Found relationship target: ${targetUrl} -> ${targetProfileId}`);
                     // Create a unique key for this relationship to avoid duplicates
                     const relationshipKey = [profileId, targetProfileId].sort().join('-');
                     
@@ -558,7 +555,7 @@ class RegenMappingApp {
                         console.log(`✅ Created link: ${profileId} -> ${targetProfileId}`);
                     }
                 } else {
-                    console.log(`⚠️ Target profile not found for: ${targetUrl}`);
+                    console.log(`⚠️ Target profile not found for: ${targetUrl} (this is normal for external references)`);
                 }
             });
         });
